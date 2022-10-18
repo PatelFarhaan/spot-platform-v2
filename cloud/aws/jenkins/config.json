@@ -1,0 +1,10 @@
+{
+  "ami_id": "ami-09e67e426f25ce0d7",
+  "instance_type": "t2.micro",
+  "name": "jenkins-mcp",
+  "aws_region": "us-east-1",
+  "env": "development",
+  "vpc_id": "vpc-08da13046fc0ea8fc",
+  "dns": "jenkins.biosapplication.com",
+  "tags": {}
+}
