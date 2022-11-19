@@ -2,7 +2,7 @@
 resource "aws_route53_record" "dualstack_alias" {
   type    = "A"
   zone_id = "Z1023527RS6FKHEBV4ZZ"
-  name    = "www.jenkins.***REMOVED***"
+  name    = "www.adan.***REMOVED***"
 
   alias {
     evaluate_target_health = false
@@ -16,7 +16,7 @@ resource "aws_route53_record" "dualstack_alias" {
 resource "aws_route53_record" "www_redirect" {
   type    = "A"
   zone_id = "Z1023527RS6FKHEBV4ZZ"
-  name    = "jenkins.***REMOVED***"
+  name    = "adan.***REMOVED***"
 
   alias {
     evaluate_target_health = false
