@@ -1,0 +1,116 @@
+{
+  "env": "production",
+  "company": "redflag",
+  "platform": "rfmesh",
+  "ebs_volume_size": 8,
+  "prefix_name": "spot-",
+  "vpc_id": "vpc-8d6cc4f6",
+  "aws_region": "us-east-1",
+  "ssh_key_name": "redflag_ec2",
+  "iam_role": "r-aws-manager-role",
+  "app_name": "redflag-api-lookup",
+  "ami_id": "ami-0790bddfe9eb56fe6",
+  "aws_ecr_acc_id": "474661252468.dkr.ecr.us-east-1.amazonaws.com",
+  "acm_certificate": "arn:aws:acm:us-east-1:474661252468:certificate/e86bc151-25dd-4c01-9934-aa8854f5b52c",
+  "cooldown_and_deregistration_metadata": {},
+  "security_groups": {
+    "alb": {
+      "ingress": [
+        {
+          "to_port": 80,
+          "from_port": 80,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "HTTP from VPC"
+        },
+        {
+          "to_port": 443,
+          "from_port": 443,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "TLS from VPC"
+        }
+      ]
+    },
+    "instance": {
+      "ingress": {
+        "cidr": [
+          {
+            "to_port": 22,
+            "from_port": 22,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "description": "SSH"
+          }
+        ],
+        "sg": [
+          {
+            "to_port": 0,
+            "from_port": 0,
+            "protocol": "-1",
+            "description": "MCP Private Instance Connect",
+            "security_groups": [
+              "sg-016d6adc3830261ae"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "sns_subscriptions_metadata": [],
+  "tags": {
+    "MCP_SD": true,
+    "Owner": "RedFlag",
+    "Developer": "Farhaan",
+    "Environment": "production",
+    "Provisioner": "Terraform",
+    "Name": "spot-redflag-api-lookup",
+    "Application": "redflag-api-lookup"
+  },
+  "availability_zones": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1f"
+  ],
+  "subnet_ids": [
+    "subnet-2ea78701",
+    "subnet-2a391f77",
+    "subnet-4f6bb440",
+    "subnet-73a14b39",
+    "subnet-c4414da0",
+    "subnet-4f6bb440"
+  ],
+  "od_config": {
+    "instance_type": "c6a.xlarge",
+    "auto_scaling_group": {
+      "min_instances": 0,
+      "max_instances": 50,
+      "desired_instances": 0
+    }
+  },
+  "spot_config": {
+    "instance_type": [
+      "c6a.xlarge",
+      "c6id.xlarge",
+      "inf1.xlarge",
+      "c6i.xlarge",
+      "c5a.xlarge",
+      "c5ad.xlarge",
+      "c5d.xlarge",
+      "c5.xlarge"
+    ],
+    "auto_scaling_group": {
+      "min_instances": 0,
+      "max_instances": 50,
+      "desired_instances": 3
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "alertmanager": {
+    "slack_api_url": "https://hooks.slack.com/services/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",
+    "channel": "#alerts"
+  },
+  "loki": {
+    "index_period": "24h",
+    "max_concurrent": 2048,
+    "ingestion_rate_mb": 1024,
+    "retention_period": "168h",
+    "ingestion_burst_size_mb": 1024
+  },
+  "prometheus": {
+    "scrape_timeout": "10s",
+    "scrape_interval": "30s",
+    "evaluation_interval": "30s"
+  },
+  "promtail": {
+    "url": "http://mcp.biosapplication.com/loki/api/v1/push"
+  }
+}
