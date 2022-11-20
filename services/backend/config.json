@@ -1,6 +1,6 @@
 {
-  "app": "apis",
-  "name": "apis",
+  "app": "backend",
+  "name": "backend",
   "env": "development",
   "region": "us-east-1",
   "key_name": "bios-new",
@@ -24,9 +24,9 @@
   "tags": {
     "MCP_SD": true,
     "Owner": "Bios",
-    "Application": "auth",
-    "Name": "biosmesh-apis",
     "Developer": "Farhaan",
+    "Application": "backend",
+    "Name": "biosmesh-backend",
     "Provisioner": "Terraform",
     "Environment": "development"
   }
