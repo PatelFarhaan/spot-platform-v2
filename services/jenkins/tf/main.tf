@@ -1,10 +1,13 @@
 // Defining the provider
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
+  required_version = "~> 1.3.2"
+
+  backend "s3" {
+    encrypt        = true
+    region         = "us-east-1"
+    bucket         = "bios-tfstates-bucket"
+    key            = "jenkins/terraform.tfstate"
+    dynamodb_table = "mcp-terraform-state-lock"
   }
 }
 

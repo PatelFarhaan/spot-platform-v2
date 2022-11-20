@@ -6,7 +6,7 @@ terraform {
     encrypt        = true
     region         = "us-east-1"
     bucket         = "bios-tfstates-bucket"
-    key            = "mcp/terraform.tfstate"
+    key            = "backend/terraform.tfstate"
     dynamodb_table = "mcp-terraform-state-lock"
   }
 }
