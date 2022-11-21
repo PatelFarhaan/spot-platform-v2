@@ -17,6 +17,8 @@ resource "aws_lb_target_group" "target_group" {
     matcher             = "404"
     protocol            = "HTTP"
   }
+
+  tags = local.config_data.tags
 }
 
 // register instance for target group
