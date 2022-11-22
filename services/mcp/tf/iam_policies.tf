@@ -1,6 +1,6 @@
 // SES Policy
 resource "aws_iam_policy" "ec2_read_only" {
-  description = "Full access to SES"
+  description = "EC2 Read only access"
   name        = "ec2ro-${local.config_data.name}-${local.config_data.env}"
   path        = "/${local.config_data.name}/${local.config_data.env}/"
 
