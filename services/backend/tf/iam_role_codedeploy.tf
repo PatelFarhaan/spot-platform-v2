@@ -8,7 +8,10 @@ resource "aws_iam_role" "iam_role_for_codedeploy" {
         "Sid" : "",
         "Effect" : "Allow",
         "Principal" : {
-          "Service" : "codedeploy.amazonaws.com"
+          "Service" : [
+            "ec2.amazonaws.com",
+            "codedeploy.${local.config_data.region}.amazonaws.com"
+          ]
         },
         "Action" : "sts:AssumeRole"
       }
