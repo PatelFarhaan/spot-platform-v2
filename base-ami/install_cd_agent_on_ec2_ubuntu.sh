@@ -18,12 +18,3 @@ sudo dpkg -i codedeploy-agent_1.3.2-1902_ubuntu22.deb
 sudo systemctl list-units --type=service | grep codedeploy
 
 sudo service codedeploy-agent status
-
-
-IF (EXISTS (SELECT *
-                 FROM INFORMATION_SCHEMA.TABLES
-                 WHERE TABLE_SCHEMA = 'harvest_engine'
-                 AND  TABLE_NAME = 'connection_t'))
-BEGIN
-    --Do Stuff
-END
