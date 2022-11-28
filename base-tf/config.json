@@ -1,0 +1,12 @@
+{
+  "s3_bucket_name": "bios-apps-tf-state",
+  "dynamodb_name": "bios-dynamodb-tflock-state",
+  "tags": {
+    "Owner": "Bios",
+    "Developer": "Farhaan",
+    "Application": "mcp-init",
+    "Provisioner": "Terraform",
+    "Name": "biosmesh-mcp-init",
+    "Environment": "production"
+  }
+}
