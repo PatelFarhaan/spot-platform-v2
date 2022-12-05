@@ -1,0 +1,105 @@
+{
+  "service": "s1",
+  "app": "backend",
+  "env": "development",
+  "ebs_volume_size": 8,
+  "region": "us-east-1",
+  "prefix_name": "spot-",
+  "ssh_key_name": "bios-new",
+  "instance_type": "t2.large",
+  "ami_id": "ami-08c40ec9ead489470",
+  "zone_id": "Z1023527RS6FKHEBV4ZZ",
+  "vpc_id": "vpc-08da13046fc0ea8fc",
+  "lb_algorithm_type": "round_robin",
+  "mcp_sg_id": "sg-021cc10f9ec69aed9",
+  "private_key_name_path": "bios-new.pem",
+  "cooldown_and_deregistration_metadata": {},
+  "dns_name": "development.biosapplication.com",
+  "aws_ecr_acc_id": "474661252468.dkr.ecr.us-east-1.amazonaws.com",
+  "acm_certificate_arn": "arn:aws:acm:us-east-1:774723060820:certificate/c0a02c3a-a1d3-4194-99e4-b656f0fa4af6",
+  "sns_subscriptions_metadata": [
+    {
+      "protocol": "email",
+      "endpoint": "alerts-aaaah47nucbqcucr6ihs3drml4@biosdevelopment.slack.com"
+    }
+  ],
+  "security_groups": {
+    "alb": {
+      "ingress": [
+        {
+          "to_port": 80,
+          "from_port": 80,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "HTTP from VPC"
+        },
+        {
+          "to_port": 443,
+          "from_port": 443,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "TLS from VPC"
+        }
+      ]
+    },
+    "instance": {
+      "ingress": {
+      }
+    }
+  },
+  "subnet_ids": [
+    "subnet-00559225548afa7d4",
+    "subnet-078d8ce666dcbd6ba",
+    "subnet-0c73f4d65aef7adf4",
+    "subnet-0e3597bed0f180f79",
+    "subnet-0d75bad323fdb2481",
+    "subnet-0c26209bd1cfeeac6"
+  ],
+  "availability_zones": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1f"
+  ],
+  "tags": {
+    "Code": "pasx",
+    "MCP_SD": true,
+    "Owner": "Bios",
+    "Platform": "biosmesh",
+    "Developer": "Farhaan",
+    "Application": "backend",
+    "Name": "biosmesh-backend",
+    "Provisioner": "Terraform",
+    "Environment": "development"
+  },
+  "od_config": {
+    "instance_type": "t2.large",
+    "auto_scaling_group": {
+      "min_instances": 0,
+      "max_instances": 1,
+      "desired_instances": 1
+    }
+  },
+  "spot_config": {
+    "instance_type": [
+      "inf1.2xlarge",
+      "c6id.2xlarge",
+      "c6a.2xlarge",
+      "c5a.2xlarge",
+      "c5.2xlarge",
+      "c5ad.2xlarge",
+      "c5d.2xlarge",
+      "c6i.2xlarge"
+    ],
+    "auto_scaling_group": {
+      "min_instances": 0,
+      "max_instances": 0,
+      "desired_instances": 0
+    }
+  }
+}
