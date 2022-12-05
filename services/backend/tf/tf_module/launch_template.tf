@@ -3,17 +3,17 @@ resource "aws_launch_template" "spot_launch_template" {
   update_default_version = true
   ebs_optimized          = false
   image_id               = var.ami_id
+  key_name               = var.key_name
   name_prefix            = var.prefix_name
-  key_name               = var.ssh_key_name
-  vpc_security_group_ids = [aws_security_group.instance_security_group.id]
-  user_data              = base64encode(data.template_file.spotops_user_data.rendered)
+  vpc_security_group_ids = [aws_security_group.app_sg.id]
+#  user_data              = base64encode(data.template_file.spotops_user_data.rendered)
 
   monitoring {
     enabled = false
   }
 
   iam_instance_profile {
-    name = var.iam_role
+    name = aws_iam_role.iam_role_for_ec2_service.name
   }
 
   metadata_options {

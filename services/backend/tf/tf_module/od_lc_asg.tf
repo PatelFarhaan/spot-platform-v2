@@ -2,11 +2,11 @@
 resource "aws_launch_configuration" "on_demand_launch_configuration" {
   name_prefix          = "od-"
   image_id             = var.ami_id
-  key_name             = var.ssh_key_name
+  key_name             = var.key_name
   instance_type        = var.od_instance_type
-  security_groups      = [aws_security_group.instance_security_group.id]
-  user_data            = base64encode(data.template_file.spotops_user_data.rendered)
-  iam_instance_profile = var.iam_role
+  security_groups      = [aws_security_group.app_sg.id]
+  #  user_data            = base64encode(data.template_file.spotops_user_data.rendered)
+  iam_instance_profile = aws_iam_role.iam_role_for_ec2_service.name
 
   root_block_device {
     delete_on_termination = true
@@ -22,12 +22,12 @@ resource "aws_launch_configuration" "on_demand_launch_configuration" {
 // Creating the ASG for OnDemand instances
 resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
   name_prefix          = "od-"
-  vpc_zone_identifier  = var.subnet_ids
+  vpc_zone_identifier  = var.subnets
   min_size             = var.od_asg_min_instances
   max_size             = var.od_asg_max_instances
   termination_policies = ["ClosestToNextInstanceHour"]
   desired_capacity     = var.od_asg_desired_instances
-  target_group_arns    = [aws_alb_target_group.alb_target_group.arn]
+  target_group_arns    = [aws_lb_target_group.target_group.arn]
   launch_configuration = aws_launch_configuration.on_demand_launch_configuration.name
 
   default_cooldown          = 15
@@ -50,13 +50,13 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
 
   tags = concat(
     [
-    for key, value in var.tags :
-    {
-      key                 = key
-      value               = value
-      propagate_at_launch = true
-    }
-    if key != "Name"
+      for key, value in var.tags :
+      {
+        key                 = key
+        value               = value
+        propagate_at_launch = true
+      }
+      if key != "Name"
     ],
     [
       {
@@ -66,7 +66,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
       },
       {
         key                 = "Name"
-        value               = "${var.platform}-od-${var.app_name}"
+        value               = "${var.name}-od"
         propagate_at_launch = true
       }
     ]

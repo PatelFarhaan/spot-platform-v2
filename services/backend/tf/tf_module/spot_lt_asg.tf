@@ -1,12 +1,12 @@
 // Creating the ASG for Spot instances
 resource "aws_autoscaling_group" "spot_autoscaling_group" {
-  vpc_zone_identifier  = var.subnet_ids
+  vpc_zone_identifier  = var.subnets
   name_prefix          = var.prefix_name
   termination_policies = ["OldestInstance"]
   min_size             = var.spot_asg_min_instances
   max_size             = var.spot_asg_max_instances
   desired_capacity     = var.spot_asg_desired_instances
-  target_group_arns    = [aws_alb_target_group.alb_target_group.arn]
+  target_group_arns    = [aws_lb_target_group.target_group.arn]
 
   mixed_instances_policy {
     instances_distribution {
@@ -51,13 +51,13 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
 
   tags = concat(
     [
-    for key, value in var.tags :
-    {
-      key                 = key
-      value               = value
-      propagate_at_launch = true
-    }
-    if key != "Name"
+      for key, value in var.tags :
+      {
+        key                 = key
+        value               = value
+        propagate_at_launch = true
+      }
+      if key != "Name"
     ],
     [
       {
@@ -67,7 +67,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
       },
       {
         key                 = "Name"
-        value               = "${var.platform}-spot-${var.app_name}"
+        value               = "${var.name}-spot"
         propagate_at_launch = true
       }
     ]
