@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+    }
+
+    environment {
+        aws_region="us-east-1"
+        aws_profile_name="spot-platform"
+        ami_name = 'spot-platform-custom-backed-ami'
+    }
+
+    stages {
+        stage("Testing") {
+            steps {
+                script {
+                    sh """
+                        echo "Alhamdulillah!!!"
+                    """
+                }
+            }
+        }
+    }
+}
