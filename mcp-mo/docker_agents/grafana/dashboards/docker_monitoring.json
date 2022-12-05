@@ -26,8 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 193,
   "graphTooltip": 1,
-  "id": 34,
-  "iteration": 1653782366864,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -92,7 +91,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -172,7 +171,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -252,7 +251,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "targets": [
         {
           "datasource": {
@@ -314,7 +313,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -412,7 +411,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -509,7 +508,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -549,7 +548,7 @@
       "yaxes": [
         {
           "$$hashKey": "object:511",
-          "format": "Bps",
+          "format": "KBs",
           "logBase": 1,
           "show": true
         },
@@ -604,7 +603,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.0",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -643,7 +642,7 @@
       "yaxes": [
         {
           "$$hashKey": "object:594",
-          "format": "Bps",
+          "format": "KBs",
           "logBase": 1,
           "show": true
         },
@@ -660,7 +659,7 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "docker"
@@ -688,8 +687,8 @@
       {
         "current": {
           "selected": false,
-          "text": "redflag-api-lookup",
-          "value": "redflag-api-lookup"
+          "text": "backend",
+          "value": "backend"
         },
         "datasource": {
           "type": "prometheus",
@@ -714,9 +713,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "staging",
-          "value": "staging"
+          "selected": false,
+          "text": "development",
+          "value": "development"
         },
         "datasource": {
           "type": "prometheus",
@@ -800,6 +799,6 @@
   "timezone": "browser",
   "title": "Docker monitoring",
   "uid": "Joxx9wu7z",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }
