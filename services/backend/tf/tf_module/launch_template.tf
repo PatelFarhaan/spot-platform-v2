@@ -6,7 +6,7 @@ resource "aws_launch_template" "spot_launch_template" {
   key_name               = var.key_name
   name_prefix            = var.prefix_name
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-#  user_data              = base64encode(data.template_file.spotops_user_data.rendered)
+  user_data              = base64encode(data.template_file.spotops_user_data.rendered)
 
   monitoring {
     enabled = false

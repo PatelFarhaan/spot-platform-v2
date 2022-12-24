@@ -1,6 +1,3 @@
-// User data for Spot and OD
-data "template_file" "spotops_user_data" {
-  template = <<EOF
 #!/bin/bash
 
 set -e -x
@@ -46,6 +43,3 @@ create_app() {
 process_worker_files
 process_application_files
 create_app
-
-EOF
-}

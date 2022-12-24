@@ -23,6 +23,6 @@ resource "aws_iam_role" "iam_role_for_ec2_service" {
 
 // Creating IAM Profile to be associated with EC2
 resource "aws_iam_instance_profile" "iam_profile_for_service" {
-  name = "instance-profile"
+  name = "${var.env}_${var.app}"
   role = aws_iam_role.iam_role_for_ec2_service.name
 }

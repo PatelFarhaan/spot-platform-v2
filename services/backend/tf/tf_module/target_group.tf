@@ -26,10 +26,10 @@ resource "aws_lb_target_group" "target_group" {
 
   tags = var.tags
 }
-
-// register instance for target group
-resource "aws_lb_target_group_attachment" "register_instance" {
-  port             = 80
-  target_id        = aws_instance.ec2_instance.id
-  target_group_arn = aws_lb_target_group.target_group.arn
-}
+#
+#// register instance for target group
+#resource "aws_lb_target_group_attachment" "register_instance" {
+#  port             = 80
+#  target_id        = aws_instance.ec2_instance.id
+#  target_group_arn = aws_lb_target_group.target_group.arn
+#}
