@@ -1,6 +1,6 @@
 // Creating an S3 bucket for storing TF state files
 resource "aws_s3_bucket" "tfstate_bucket" {
-  bucket = local.config_data.s3_bucket_name
+  bucket = local.config_data.s3_tfstate_bucket_name
 
   tags = local.config_data.tags
 }

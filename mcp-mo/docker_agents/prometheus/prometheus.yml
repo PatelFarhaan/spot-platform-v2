@@ -56,3 +56,20 @@ scrape_configs:
         port: 8080
       - region: us-east-1
         port: 9113
+
+  - job_name: jenkins
+    scheme: http
+    metrics_path: /prometheus
+    basic_auth:
+      username: 'pD7Dt2zw3yt56MYFIBoCkzG51UeGyPTY'
+      password: 'YR2CzkIlOeFYZA385PG3BdHJH3vhWw45IglxiTOwYF4s4nrOukZQvuvOrMsxq3ahK'
+    static_configs:
+      - targets:
+          - 'beta.biosapplication.com:8081'
+
+  - job_name: mongo_exporter
+    scheme: http
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+          - '3.216.164.33:9216'

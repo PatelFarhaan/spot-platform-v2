@@ -15,3 +15,6 @@ Todo:
 2. Make sure R53 names are region based
 3. Checkin issue with Instance Profile name
 4. Integrate SPOT LC with current TF module
+
+
+WORK ON STS APPS: CRONJON: LOOK AT THE ENV VARS

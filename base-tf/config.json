@@ -1,6 +1,9 @@
 {
-  "s3_bucket_name": "bios-apps-tf-state",
+  "ecr_name": "biosmesh-all-apps",
+  "s3_mcp_bucket_name": "biosmesh-spot-plane",
   "dynamodb_name": "bios-dynamodb-tflock-state",
+  "s3_tfstate_bucket_name": "bios-apps-tf-state",
+  "s3_worker_bucket_name": "biosmesh-apps-config",
   "tags": {
     "Owner": "Bios",
     "Developer": "Farhaan",
