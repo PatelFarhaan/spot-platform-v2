@@ -36,15 +36,8 @@ sudo systemctl restart docker.socket docker.service &&
 sudo usermod -aG docker ${USER}
 sudo su - ${USER}
 
-echo "Installing S3-Fuse"
-sudo apt install automake autotools-dev fuse g++ git libcurl4-gnutls-dev libfuse-dev libssl-dev libxml2-dev make pkg-config -y
-git clone https://github.com/s3fs-fuse/s3fs-fuse.git &&
-cd s3fs-fuse &&
-./autogen.sh
-./configure --prefix=/usr --with-openssl
-make
-sudo make install
-cd ./../ && sudo rm -rf ./s3fs-fuse
+echo "Installing Python Nginx Client"
+sudo pip3 install python-nginx
 
 echo "Sourcing cloud-init-script"
 sudo chmod +x ./spotops_cloud_init.sh

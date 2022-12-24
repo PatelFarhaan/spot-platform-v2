@@ -1,12 +1,11 @@
 # <==================================================================================================>
 #                                          IMPORTS
 # <==================================================================================================>
-import shutil
 import sys
-from datetime import datetime
+import shutil
+from aws import AWS
 from os import environ
-
-from .aws import AWS
+from datetime import datetime
 
 
 # <==================================================================================================>

@@ -144,7 +144,7 @@ services:
     expose:
       - ${CLIENT_APP_PORT}
     env_file:
-      - ./app_config/app.env
+      - app.env
     networks:
       - spotops_monitoring
     deploy:

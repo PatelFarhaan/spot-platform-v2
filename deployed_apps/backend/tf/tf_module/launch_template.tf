@@ -13,7 +13,7 @@ resource "aws_launch_template" "spot_launch_template" {
   }
 
   iam_instance_profile {
-    name = aws_iam_role.iam_role_for_ec2_service.name
+    name = aws_iam_instance_profile.iam_profile_for_application.name
   }
 
   metadata_options {

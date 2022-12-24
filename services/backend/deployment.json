@@ -1,9 +1,0 @@
-{
-  "SCALEUP_WHEN_IN_GB": 1,
-  "CLIENT_APP_PORT": 5000,
-  "DONT_SCALE_WHEN_REACHED_IN_GB": 50,
-  "AWS_ECR_REPO_NAME": "biosmesh-all-apps",
-  "AWS_ECR_ID": "***REMOVED***.dkr.ecr.us-east-1.amazonaws.com",
-  "LOKI_URL": "https://mcp.***REMOVED***/loki/api/v1/push",
-  "CLIENT_APP_IMAGE": "development-backend-25110d5dbb98fb0f21676ee964ddac5f3ab782be"
-}
