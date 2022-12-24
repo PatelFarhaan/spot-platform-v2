@@ -27,8 +27,8 @@ process_application_files() {
   app_config_path="$env/$application"
   aws s3 cp "s3://$apps_s3_bucket_name/$app_config_path/" /var/opt/spotops/agents/ --recursive
 
-  cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }' > deployment.json
-  cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }' > deployment.json
+  echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') > deployment.json
+  echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') > deployment.json
   python3 create_deployment_script.py
   move_file_to_profiled "deployment.sh"
   sudo rm -rf deployment.json

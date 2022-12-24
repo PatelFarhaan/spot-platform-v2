@@ -18,3 +18,11 @@ Todo:
 
 
 WORK ON STS APPS: CRONJON: LOOK AT THE ENV VARS
+
+
+
+Current:
+1. Terminal repeated commands
+2. IAM Role policy issue fix
+3. Restrict policy for S3 and CD
+4. Check for ping response for autoscaling or create a flask endpoint
