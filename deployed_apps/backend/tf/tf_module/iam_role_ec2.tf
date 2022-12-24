@@ -1,6 +1,9 @@
 // Creating a IAM Role with all policies
-resource "aws_iam_role" "iam_role_for_ec2_service" {
-  name = "${var.name}-${var.region}-ec2"
+resource "aws_iam_role" "iam_role_for_ec2_application" {
+  name                = "${var.name}-${var.region}-ec2"
+  managed_policy_arns = [
+    aws_iam_policy.ec2_spotops_policy.arn
+  ]
 
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
@@ -24,5 +27,5 @@ resource "aws_iam_role" "iam_role_for_ec2_service" {
 // Creating IAM Profile to be associated with EC2
 resource "aws_iam_instance_profile" "iam_profile_for_application" {
   name = "${var.env}_${var.app}"
-  role = aws_iam_role.iam_role_for_ec2_service.name
+  role = aws_iam_role.iam_role_for_ec2_application.name
 }

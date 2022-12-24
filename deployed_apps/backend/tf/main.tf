@@ -17,7 +17,7 @@ locals {
   config_data = jsondecode(file("./../config.json"))
 }
 
-module "s1-backend-us-east-1" {
+module "backend-us-east-1" {
   source = "./tf_module"
 
   app                = local.config_data.app
