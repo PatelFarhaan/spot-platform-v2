@@ -6,7 +6,7 @@ resource "aws_launch_configuration" "on_demand_launch_configuration" {
   instance_type        = var.od_instance_type
   security_groups      = [aws_security_group.app_sg.id]
   user_data            = base64encode(data.template_file.spotops_user_data.rendered)
-  iam_instance_profile = aws_iam_role.iam_role_for_ec2_service.name
+  iam_instance_profile = aws_iam_instance_profile.iam_profile_for_application.name
 
   root_block_device {
     delete_on_termination = true

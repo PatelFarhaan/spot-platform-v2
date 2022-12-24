@@ -1,5 +1,5 @@
 # <==================================================================================================>
-#                                             IMPORTS
+#                                          IMPORTS
 # <==================================================================================================>
 import requests
 from boto3 import client, resource
@@ -19,12 +19,10 @@ class AWS(object):
     def get_boto3_resource(self, service_name: str) -> resource:
         return resource(service_name, region_name=self.region)
 
-    @staticmethod
     def get_aws_region(self):
         url = "http://169.254.169.254/latest/meta-data/placement/region"
         return requests.get(url).text
 
-    @staticmethod
     def get_instance_id(self):
         url = "http://169.254.169.254/latest/meta-data/instance-id"
         return requests.get(url).text
