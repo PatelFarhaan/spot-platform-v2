@@ -16,7 +16,6 @@ variable "dns_name" {}
 variable "key_name" {}
 variable "mcp_sg_id" {}
 variable "prefix_name" {}
-variable "certificate_arn" {}
 variable "ebs_volume_size" {}
 variable "sns_subscriptions" {
   type = list(map(string))
