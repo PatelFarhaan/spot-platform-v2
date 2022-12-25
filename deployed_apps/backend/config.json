@@ -9,12 +9,11 @@
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "vpc_id": "vpc-08da13046fc0ea8fc",
   "lb_algorithm_type": "round_robin",
-  "internal_mcp_sg_id": "sg-021cc10f9ec69aed9",
   "cooldown_and_deregistration_metadata": {},
+  "internal_mcp_sg_id": "sg-021cc10f9ec69aed9",
   "dns_name": "development.biosapplication.com",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
-  "acm_certificate_arn": "arn:aws:acm:us-east-1:774723060820:certificate/c0a02c3a-a1d3-4194-99e4-b656f0fa4af6",
   "client_defined_policies": [
     {
       "Resource": "*",

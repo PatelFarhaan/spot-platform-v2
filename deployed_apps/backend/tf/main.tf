@@ -35,7 +35,6 @@ module "backend-us-east-1" {
   sns_subscriptions             = local.config_data.sns_subscriptions
   lb_algorithm_type             = local.config_data.lb_algorithm_type
   mcp_sg_id                     = local.config_data.internal_mcp_sg_id
-  certificate_arn               = local.config_data.acm_certificate_arn
   client_defined_policies       = local.config_data.client_defined_policies
   internal_s3_worker_bucket     = local.config_data.internal_s3_worker_bucket
   alb_security_group            = local.config_data.security_groups.alb.ingress
