@@ -1,4 +1,4 @@
-// create a public listner on port 80
+// Public listener on port 80
 resource "aws_lb_listener" "port_80" {
   port              = 80
   protocol          = "HTTP"
@@ -21,14 +21,18 @@ resource "aws_lb_listener" "port_80" {
 }
 
 
-// create a secure listner on port 443
+// Secure listener on port 443
 resource "aws_lb_listener" "port_443" {
   port              = 443
   protocol          = "HTTPS"
   load_balancer_arn = aws_lb.load_balancer.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = aws_acm_certificate.application_specific_certs.arn
-  depends_on        = [aws_acm_certificate.application_specific_certs]
+
+  depends_on = [
+    aws_route53_record.application_acm_records,
+    aws_acm_certificate.application_specific_certs
+  ]
 
   default_action {
     type             = "forward"
