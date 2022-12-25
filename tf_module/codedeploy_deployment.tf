@@ -2,8 +2,8 @@
 resource "aws_codedeploy_deployment_group" "application_deployment_group" {
   deployment_group_name  = var.env
   deployment_config_name = "CodeDeployDefault.OneAtATime"
+  app_name               = aws_codedeploy_app.app_codedeploy.name
   service_role_arn       = aws_iam_role.iam_role_for_codedeploy.arn
-  app_name               = aws_codedeploy_app.service_codedeploy_app.name
 
   deployment_style {
     deployment_type   = "IN_PLACE"

@@ -5,16 +5,35 @@
   "region": "us-east-1",
   "prefix_name": "spot-",
   "ssh_key_name": "bios-new",
-  "instance_type": "t2.large",
   "ami_id": "ami-0fbf45d0b1fef0326",
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "vpc_id": "vpc-08da13046fc0ea8fc",
   "lb_algorithm_type": "round_robin",
-  "mcp_sg_id": "sg-021cc10f9ec69aed9",
+  "internal_mcp_sg_id": "sg-021cc10f9ec69aed9",
   "cooldown_and_deregistration_metadata": {},
   "dns_name": "development.biosapplication.com",
-  "aws_ecr_acc_id": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
+  "internal_s3_worker_bucket": "biosmesh-apps-config",
+  "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
   "acm_certificate_arn": "arn:aws:acm:us-east-1:774723060820:certificate/c0a02c3a-a1d3-4194-99e4-b656f0fa4af6",
+  "client_defined_policies": [
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": "ec2:DescribeTags",
+      "Condition": {
+        "StringEquals": {
+          "ec2:ResourceTag/nullKey": "Base Client Default Policy"
+        }
+      }
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ses:*"
+      ]
+    }
+  ],
   "sns_subscriptions": [
     {
       "protocol": "email",
@@ -80,7 +99,7 @@
     "auto_scaling_group": {
       "min_instances": 0,
       "max_instances": 1,
-      "desired_instances": 1
+      "desired_instances": 0
     }
   },
   "spot_config": {
@@ -96,8 +115,8 @@
     ],
     "auto_scaling_group": {
       "min_instances": 0,
-      "max_instances": 0,
-      "desired_instances": 0
+      "max_instances": 1,
+      "desired_instances": 1
     }
   }
 }

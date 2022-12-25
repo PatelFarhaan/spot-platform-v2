@@ -16,7 +16,6 @@ variable "dns_name" {}
 variable "key_name" {}
 variable "mcp_sg_id" {}
 variable "prefix_name" {}
-variable "instance_type" {}
 variable "certificate_arn" {}
 variable "ebs_volume_size" {}
 variable "sns_subscriptions" {
@@ -27,6 +26,9 @@ variable "spot_instance_type" {
 }
 variable "lb_algorithm_type" {}
 variable "alb_security_group" {}
+variable "client_defined_policies" {}
+variable "internal_s3_worker_bucket" {}
+variable "internal_s3_spot_plane_bucket" {}
 
 # OD vars
 variable "od_instance_type" {}
