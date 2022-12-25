@@ -2,7 +2,8 @@
 resource "aws_iam_role" "iam_role_for_ec2_application" {
   name                = "${var.name}-${var.region}-ec2"
   managed_policy_arns = [
-    aws_iam_policy.ec2_spotops_policy.arn
+    aws_iam_policy.ec2_spotops_policy.arn,
+    aws_iam_policy.client_defined_policies.arn
   ]
 
   assume_role_policy = jsonencode({

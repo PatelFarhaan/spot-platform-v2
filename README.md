@@ -17,7 +17,7 @@ Todo:
 4. Integrate SPOT LC with current TF module
 
 
-WORK ON STS APPS: CRONJON: LOOK AT THE ENV VARS
+WORK ON STS APPS: CRONJOB: LOOK AT THE ENV VARS
 
 
 
@@ -26,3 +26,9 @@ Current:
 2. IAM Role policy issue fix
 3. Restrict policy for S3 and CD
 4. Check for ping response for autoscaling or create a flask endpoint
+5. Making Code deploy work
+6. Change naming to <dev>:<app>
+7. Make ports more secure to block all other vulnerable traffic
+
+
+DUPLICATE ENV AND DEPLOY SAME CONTAINER!!!

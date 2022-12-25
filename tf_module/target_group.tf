@@ -3,8 +3,8 @@ resource "aws_lb_target_group" "target_group" {
   port                          = 80
   deregistration_delay          = 10
   protocol                      = "HTTP"
-  target_type                   = "instance"
   name                          = var.name
+  target_type                   = "instance"
   vpc_id                        = var.vpc_id
   load_balancing_algorithm_type = var.lb_algorithm_type
 
@@ -20,16 +20,9 @@ resource "aws_lb_target_group" "target_group" {
     enabled             = true
     matcher             = "200"
     protocol            = "HTTP"
-    path                = "/ping"
-    port                = "traffic-port"
+    port                = "9999"
+    path                = "/internal/spotops/health"
   }
 
   tags = var.tags
 }
-#
-#// register instance for target group
-#resource "aws_lb_target_group_attachment" "register_instance" {
-#  port             = 80
-#  target_id        = aws_instance.ec2_instance.id
-#  target_group_arn = aws_lb_target_group.target_group.arn
-#}

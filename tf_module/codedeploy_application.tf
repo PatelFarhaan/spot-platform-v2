@@ -1,5 +1,5 @@
 // Defininf application for CodeDeploy
-resource "aws_codedeploy_app" "service_codedeploy_app" {
+resource "aws_codedeploy_app" "app_codedeploy" {
   name = var.name
 
   tags = var.tags
