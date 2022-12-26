@@ -29,6 +29,3 @@ Current:
 5. Making Code deploy work
 6. Change naming to <dev>:<app>
 7. Make ports more secure to block all other vulnerable traffic
-
-
-DUPLICATE ENV AND DEPLOY SAME CONTAINER!!!
