@@ -67,7 +67,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
       },
       {
         key                 = "Name"
-        value               = "${var.name}-spot"
+        value               = "${var.tags["Name"]}-${var.env}-spot"
         propagate_at_launch = true
       }
     ]

@@ -66,7 +66,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
       },
       {
         key                 = "Name"
-        value               = "${var.name}-od"
+        value               = "${var.tags["Name"]}-${var.env}-od"
         propagate_at_launch = true
       }
     ]
