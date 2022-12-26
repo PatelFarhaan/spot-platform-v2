@@ -26,6 +26,13 @@ resource "aws_security_group" "app_sg" {
   }
 
   ingress {
+    from_port       = 9113
+    to_port         = 9113
+    protocol        = "tcp"
+    security_groups = [var.mcp_sg_id]
+  }
+
+  ingress {
     from_port       = 9999
     to_port         = 9999
     protocol        = "tcp"
