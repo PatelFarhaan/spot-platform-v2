@@ -1,6 +1,6 @@
-// Creating a deployment group
-resource "aws_codedeploy_deployment_group" "application_deployment_group" {
-  deployment_group_name  = var.env
+// Creating a deployment group for SPOT instances
+resource "aws_codedeploy_deployment_group" "spot_application_deployment_group" {
+  deployment_group_name  = "${var.env}-spot"
   deployment_config_name = "CodeDeployDefault.OneAtATime"
   app_name               = aws_codedeploy_app.app_codedeploy.name
   service_role_arn       = aws_iam_role.iam_role_for_codedeploy.arn
@@ -17,8 +17,7 @@ resource "aws_codedeploy_deployment_group" "application_deployment_group" {
   }
 
   autoscaling_groups = [
-    aws_autoscaling_group.spot_autoscaling_group.name,
-    aws_autoscaling_group.on_demand_autoscaling_group.name
+    aws_autoscaling_group.spot_autoscaling_group.name
   ]
 
   trigger_configuration {
