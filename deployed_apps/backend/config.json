@@ -5,6 +5,7 @@
   "region": "us-east-1",
   "prefix_name": "spot-",
   "ssh_key_name": "bios-new",
+  "internal_platform": "biosmesh",
   "ami_id": "ami-0fbf45d0b1fef0326",
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "vpc_id": "vpc-08da13046fc0ea8fc",
@@ -89,32 +90,26 @@
     "Platform": "biosmesh",
     "Developer": "Farhaan",
     "Application": "backend",
-    "Name": "biosmesh-backend",
     "Provisioner": "Terraform",
     "Environment": "development"
   },
   "od_config": {
-    "instance_type": "t2.large",
+    "instance_type": "t2.small",
     "auto_scaling_group": {
       "min_instances": 0,
       "max_instances": 1,
-      "desired_instances": 0
+      "desired_instances": 1
     }
   },
   "spot_config": {
     "instance_type": [
-      "inf1.2xlarge",
-      "c6id.2xlarge",
-      "c6a.2xlarge",
-      "c5a.2xlarge",
-      "c5.2xlarge",
-      "c5ad.2xlarge",
-      "c5d.2xlarge",
-      "c6i.2xlarge"
+      "t2.small",
+      "t2.medium",
+      "t2.large"
     ],
     "auto_scaling_group": {
       "min_instances": 0,
-      "max_instances": 1,
+      "max_instances": 2,
       "desired_instances": 1
     }
   }

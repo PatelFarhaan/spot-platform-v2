@@ -1,7 +1,7 @@
 // Creating the ASG for Spot instances
 resource "aws_autoscaling_group" "spot_autoscaling_group" {
   vpc_zone_identifier  = var.subnets
-  name_prefix          = var.prefix_name
+  name                 = "${var.name}-spot"
   termination_policies = ["OldestInstance"]
   min_size             = var.spot_asg_min_instances
   max_size             = var.spot_asg_max_instances
@@ -43,11 +43,14 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
   instance_refresh {
     triggers = ["tag"]
     strategy = "Rolling"
+
     preferences {
       checkpoint_delay       = 15
       min_healthy_percentage = 90
     }
   }
+
+  # TODO: Make this dynamic
 
   tags = concat(
     [
@@ -57,18 +60,17 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
         value               = value
         propagate_at_launch = true
       }
-      if key != "Name"
     ],
     [
       {
+        propagate_at_launch = true
         key                 = "Type"
         value               = "Spot"
-        propagate_at_launch = true
       },
       {
-        key                 = "Name"
-        value               = "${var.tags["Name"]}-${var.env}-spot"
         propagate_at_launch = true
+        key                 = "Name"
+        value               = "${var.name}-spot"
       }
     ]
   )

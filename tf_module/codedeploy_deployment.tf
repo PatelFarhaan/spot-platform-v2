@@ -16,13 +16,10 @@ resource "aws_codedeploy_deployment_group" "application_deployment_group" {
     }
   }
 
-  ec2_tag_set {
-    ec2_tag_filter {
-      key   = "Name"
-      type  = "KEY_AND_VALUE"
-      value = var.tags["Name"]
-    }
-  }
+  autoscaling_groups = [
+    aws_autoscaling_group.spot_autoscaling_group.name,
+    aws_autoscaling_group.on_demand_autoscaling_group.name
+  ]
 
   trigger_configuration {
     trigger_name       = var.name

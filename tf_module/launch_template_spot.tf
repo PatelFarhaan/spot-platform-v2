@@ -4,7 +4,7 @@ resource "aws_launch_template" "spot_launch_template" {
   ebs_optimized          = false
   image_id               = var.ami_id
   key_name               = var.key_name
-  name_prefix            = var.prefix_name
+  name_prefix            = "${var.name}-spot-"
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   user_data              = base64encode(data.template_file.spotops_user_data.rendered)
 
@@ -25,8 +25,8 @@ resource "aws_launch_template" "spot_launch_template" {
     device_name = "/dev/sda1"
 
     ebs {
+      delete_on_termination = true
       volume_type           = "gp2"
-      delete_on_termination = "true"
       volume_size           = var.ebs_volume_size
     }
   }
@@ -42,6 +42,13 @@ resource "aws_launch_template" "spot_launch_template" {
 
   tag_specifications {
     resource_type = "volume"
-    tags = var.tags
+    tags          = merge(
+      var.tags,
+      {
+        "Name" : "${var.name}-spot"
+      }
+    )
   }
+
+  tags = var.tags
 }

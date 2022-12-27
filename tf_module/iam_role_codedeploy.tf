@@ -1,5 +1,5 @@
 resource "aws_iam_role" "iam_role_for_codedeploy" {
-  name = "${var.name}-${var.region}-cd"
+  name = "${var.global_name}-codedeploy"
 
   managed_policy_arns = [
     aws_iam_policy.codedeploy_spotops_policy.arn

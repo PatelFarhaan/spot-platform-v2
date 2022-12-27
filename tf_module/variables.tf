@@ -15,6 +15,7 @@ variable "zone_id" {}
 variable "dns_name" {}
 variable "key_name" {}
 variable "mcp_sg_id" {}
+variable "global_name" {}
 variable "prefix_name" {}
 variable "ebs_volume_size" {}
 variable "sns_subscriptions" {

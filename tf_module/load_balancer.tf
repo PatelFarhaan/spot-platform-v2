@@ -9,7 +9,5 @@ resource "aws_lb" "load_balancer" {
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.lb_security_group.id]
 
-  tags = merge(var.tags, {
-    "Name" = "${var.name}-lb"
-  })
+  tags = var.tags
 }
