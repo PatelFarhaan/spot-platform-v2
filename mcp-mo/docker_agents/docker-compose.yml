@@ -136,6 +136,8 @@ services:
     image: nginx/nginx-prometheus-exporter:0.10.0
     container_name: nginx_exporter
     restart: always
+    depends_on:
+      - nginx
     command:
       -nginx.scrape-uri=http://nginx:8080/stub_status
     ports:
@@ -151,10 +153,17 @@ services:
       - /mnt/nginxlogs/_data/access.log
     volumes:
       - spotops-nginx-logs:/mnt/nginxlogs:ro
-    depends_on:
-      - nginx
     ports:
       - "4040:4040"
+    networks:
+      - spotops_monitoring
+
+  fortio:
+    restart: always
+    image: fortio/fortio
+    container_name: fortio
+    expose:
+      - 8080
     networks:
       - spotops_monitoring
 
