@@ -39,7 +39,10 @@ module "backend-us-east-1" {
   internal_s3_worker_bucket     = local.config_data.internal_s3_worker_bucket
   alb_security_group            = local.config_data.security_groups.alb.ingress
   internal_s3_spot_plane_bucket = local.config_data.internal_s3_spot_plane_bucket
-  name                          = "${local.config_data.env}-${local.config_data.app}"
+  name                          = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
+  .app}"
+  global_name = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
+  .app}-${local.config_data.region}"
 
   od_instance_type         = local.config_data.od_config.instance_type
   od_asg_min_instances     = local.config_data.od_config.auto_scaling_group.min_instances

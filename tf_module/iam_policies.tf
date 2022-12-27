@@ -1,7 +1,11 @@
 // Spot Plane Custom Policies for Instances
 resource "aws_iam_policy" "ec2_spotops_policy" {
   description = "Additional policies for spotop instances"
-  name        = "${var.env}-${var.app}-spotops-policies-for-ec2"
+  name        = "${var.global_name}-spotops-policies-for-ec2"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -52,7 +56,11 @@ resource "aws_iam_policy" "ec2_spotops_policy" {
 // Spot Plane Custom Policies for Code Deploy
 resource "aws_iam_policy" "codedeploy_spotops_policy" {
   description = "Additional policies for spotops CD"
-  name        = "${var.env}-${var.app}-spotops-policy-for-codedeploy"
+  name        = "${var.global_name}-spotops-policy-for-codedeploy"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 
   policy = jsonencode({
     "Version" : "2012-10-17",

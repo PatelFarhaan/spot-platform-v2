@@ -54,7 +54,12 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      "Name": "${var.name}-app-sg"
+    }
+  )
 }
 
 
@@ -82,5 +87,10 @@ resource "aws_security_group" "lb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      "Name": "${var.name}-lb-sg"
+    }
+  )
 }
