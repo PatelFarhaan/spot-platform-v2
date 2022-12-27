@@ -1,7 +1,8 @@
 // creating a Target Group
 resource "aws_lb_target_group" "target_group" {
   port                          = 80
-  deregistration_delay          = 10
+  default_instance_warmup       = 30
+  deregistration_delay          = 1200
   protocol                      = "HTTP"
   name                          = var.name
   target_type                   = "instance"
