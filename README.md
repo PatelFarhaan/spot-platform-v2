@@ -29,3 +29,25 @@ Current:
 5. Making Code deploy work
 6. Change naming to <dev>:<app>
 7. Make ports more secure to block all other vulnerable traffic
+
+
+
+
+Volume Automation
+Make new VPC's
+Deploy everything in a private subnet
+Create Jenkins job for creating base AMI
+Create Webapp to create Jenkins CICD from api call
+Create env and secrets to store in db through api
+Make sure CD works
+Collect metrics from grafana/prometheus for each app for scaling
+Create a custom auto scalar app
+Support for cluster turn off and turn on automatically
+
+
+webapp for spot pricing:
+    simple 2 to 4 apis
+        original cost, spot price, cost difference percentage -> based on cpu, mem and storage
+
+cli: aws ec2 describe-instance-*
+cli aws ec2   describe-spot-price-history

@@ -26,7 +26,7 @@ resource "aws_launch_template" "spot_launch_template" {
 
     ebs {
       delete_on_termination = true
-      volume_type           = "gp2"
+      volume_type           = var.volume_type
       volume_size           = var.ebs_volume_size
     }
   }
@@ -37,17 +37,20 @@ resource "aws_launch_template" "spot_launch_template" {
 
   tag_specifications {
     resource_type = "instance"
-    tags = var.tags
+    tags          = var.tags
   }
 
-  tag_specifications {
-    resource_type = "volume"
-    tags          = merge(
-      var.tags,
-      {
-        "Name" : "${var.name}-spot"
-      }
-    )
+  dynamic "tag_specifications" {
+    for_each = toset(local.resources)
+    content {
+      resource_type = tag_specifications.key
+      tags          = merge(
+        var.tags,
+        {
+          "Name" : "${var.name}-spot"
+        }
+      )
+    }
   }
 
   tags = var.tags
