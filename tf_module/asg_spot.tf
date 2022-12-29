@@ -33,6 +33,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
   }
 
   default_cooldown          = 15
+  default_instance_warmup   = 30
   health_check_grace_period = 120
   capacity_rebalance        = true
   health_check_type         = "ELB"

@@ -1,6 +1,7 @@
 {
   "app": "backend",
   "env": "development",
+  "volume_type": "gp3",
   "ebs_volume_size": 8,
   "region": "us-east-1",
   "prefix_name": "spot-",
@@ -11,7 +12,7 @@
   "vpc_id": "vpc-08da13046fc0ea8fc",
   "lb_algorithm_type": "round_robin",
   "cooldown_and_deregistration_metadata": {},
-  "internal_mcp_sg_id": "sg-021cc10f9ec69aed9",
+  "internal_mcp_sg_id": "sg-07a203852bfdab28d",
   "dns_name": "development.biosapplication.com",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
@@ -113,7 +114,7 @@
     ],
     "auto_scaling_group": {
       "min_instances": 0,
-      "max_instances": 2,
+      "max_instances": 1,
       "desired_instances": 1
     }
   }

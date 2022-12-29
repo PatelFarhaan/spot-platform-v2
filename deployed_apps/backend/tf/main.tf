@@ -29,6 +29,7 @@ module "backend-us-east-1" {
   zone_id                       = local.config_data.zone_id
   dns_name                      = local.config_data.dns_name
   subnets                       = local.config_data.subnet_ids
+  volume_type                   = local.config_data.volume_type
   prefix_name                   = local.config_data.prefix_name
   key_name                      = local.config_data.ssh_key_name
   ebs_volume_size               = local.config_data.ebs_volume_size
