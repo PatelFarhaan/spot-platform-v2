@@ -17,9 +17,6 @@ Todo:
 4. Integrate SPOT LC with current TF module
 
 
-WORK ON STS APPS: CRONJOB: LOOK AT THE ENV VARS
-
-
 
 Current:
 1. Terminal repeated commands

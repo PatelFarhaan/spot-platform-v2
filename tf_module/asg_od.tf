@@ -1,12 +1,12 @@
 // Creating the ASG for OnDemand instances
 resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
-  vpc_zone_identifier  = var.subnets
   name                 = "${var.name}-od"
   termination_policies = ["OldestInstance"]
   min_size             = var.od_asg_min_instances
   max_size             = var.od_asg_max_instances
   desired_capacity     = var.od_asg_desired_instances
   target_group_arns    = [aws_lb_target_group.target_group.arn]
+  vpc_zone_identifier  = data.aws_lb.global_load_balancer.subnets
 
   mixed_instances_policy {
     launch_template {
