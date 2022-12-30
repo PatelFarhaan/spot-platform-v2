@@ -33,7 +33,7 @@ Current:
 
 
 
-Volume Automation
+Volume Automation -> Base it on percentage instead of GB: round off to the nearest integer
 Make new VPC's
 Deploy everything in a private subnet
 Create Jenkins job for creating base AMI

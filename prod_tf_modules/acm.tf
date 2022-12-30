@@ -13,10 +13,3 @@ resource "aws_acm_certificate" "application_specific_certs" {
 
   tags = var.tags
 }
-
-
-// Attaching ACM with Global Load Balancer
-resource "aws_lb_listener_certificate" "additional_lb_certs" {
-  listener_arn    = data.aws_lb_listener.global_lb_443_listener.arn
-  certificate_arn = aws_acm_certificate.application_specific_certs.arn
-}

@@ -17,3 +17,7 @@ output "aws_s3_tfstate_dynamodb_name" {
 output "aws_ecr_id" {
   value = aws_ecr_repository.apps_private_repo.repository_url
 }
+
+output "global_lb_security_group_id" {
+  value = aws_security_group.global_lb_security_group.id
+}
