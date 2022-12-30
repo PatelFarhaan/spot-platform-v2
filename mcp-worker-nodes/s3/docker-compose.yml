@@ -134,10 +134,12 @@ services:
     restart: always
     logging: *default-logging
     environment:
+      - "SCALE_UP_GB=${SCALE_UP_GB}"
       - "SCALEUP_WHEN_IN_GB=${SCALEUP_WHEN_IN_GB}"
+      - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
       - "DONT_SCALE_WHEN_REACHED_IN_GB=${DONT_SCALE_WHEN_REACHED_IN_GB}"
     volumes:
-      - /dev/root:/dev/root
+      - /dev:/dev
 
   main_application:
     restart: always

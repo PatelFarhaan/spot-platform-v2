@@ -1,6 +1,7 @@
 # <==================================================================================================>
 #                                          IMPORTS
 # <==================================================================================================>
+import os
 import sys
 import shutil
 from aws import AWS
@@ -14,8 +15,6 @@ from datetime import datetime
 class DiskSpaceChecker(AWS):
     def __init__(self):
         super().__init__()
-        self.log_obj = dict()
-        self.autoscale = "autoscaling"
         self.log_obj["instance_id"] = self.instance_id
         self.free_disk_threshold_in_gb = int(environ["SCALEUP_WHEN_IN_GB"])
         self.max_disk_size_in_gb = int(environ["DONT_SCALE_WHEN_REACHED_IN_GB"])
@@ -35,18 +34,16 @@ class DiskSpaceChecker(AWS):
         print(self.log_obj)
         sys.exit(0)
 
-    def mark_instance_as_unhealthy(self):
-        asg_client = self.get_boto3_client(self.autoscale)
-
-        response = asg_client.set_instance_health(
-            HealthStatus="Unhealthy",
-            InstanceId=self.instance_id
-        )
-        self.log_obj["unhealthy_api_response"] = response
+    def increase_filesize(self):
+        self.log_obj["increasing_filesize"] = True
+        os.system("lsblk")
+        stream = os.popen('sudo growpart /dev/xvda 1 && sudo resize2fs /dev/xvda1')
+        print(stream.read())
 
     def run(self):
         self.is_disk_full()
-        self.mark_instance_as_unhealthy()
+        self.increase_ebs_size()
+        self.increase_filesize()
         print(self.log_obj)
 
 

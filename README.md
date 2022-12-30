@@ -43,7 +43,7 @@ Make sure CD works
 Collect metrics from grafana/prometheus for each app for scaling
 Create a custom auto scalar app
 Support for cluster turn off and turn on automatically
-
+Having Alerts only on main_application pods
 
 webapp for spot pricing:
     simple 2 to 4 apis
