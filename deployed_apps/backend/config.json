@@ -50,7 +50,10 @@
     "Developer": "Farhaan",
     "Application": "backend",
     "Provisioner": "Terraform",
-    "Environment": "development"
+    "Environment": "development",
+    "spotops.delete_ebs": true,
+    "spotops.optimize_od": true,
+    "spotops.optimize_spot": true
   },
   "od_config": {
     "instance_type": [

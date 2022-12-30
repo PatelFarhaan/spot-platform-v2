@@ -25,9 +25,9 @@ resource "aws_launch_template" "od_launch_template" {
     device_name = "/dev/sda1"
 
     ebs {
-      delete_on_termination = true
       volume_type           = var.volume_type
       volume_size           = var.ebs_volume_size
+      delete_on_termination = var.tags["spotops.delete_ebs"]
     }
   }
 
