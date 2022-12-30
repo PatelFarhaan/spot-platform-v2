@@ -1,6 +1,7 @@
-// create a public listner on port 80
+// Public listener on port 80
 resource "aws_lb_listener" "port_80" {
   port              = 80
+  protocol          = "HTTP"
   load_balancer_arn = aws_lb.load_balancer.arn
 
   default_action {
@@ -15,36 +16,28 @@ resource "aws_lb_listener" "port_80" {
       status_code = "HTTP_301"
     }
   }
+
+  tags = var.tags
 }
 
 
-// create a public listner on port 9090 for prometheus
-resource "aws_lb_listener" "port_9090" {
-  port              = 9090
-  load_balancer_arn = aws_lb.load_balancer.arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group_port_9090.arn
-  }
-}
-
-
-// create a secure listner on port 443
+// Secure listener on port 443
 resource "aws_lb_listener" "port_443" {
   port              = 443
   protocol          = "HTTPS"
   load_balancer_arn = aws_lb.load_balancer.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.mcp_certs.arn
+  certificate_arn   = aws_acm_certificate.application_specific_certs.arn
 
   depends_on = [
-    aws_acm_certificate.mcp_certs,
-    aws_route53_record.mcp_acm_records
+    aws_route53_record.application_acm_records,
+    aws_acm_certificate.application_specific_certs
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group_port_80.arn
+    target_group_arn = aws_lb_target_group.target_group.arn
   }
+
+  tags = var.tags
 }

@@ -25,10 +25,9 @@ variable "volume_type" {}
 variable "prefix_name" {}
 variable "ebs_volume_size" {}
 variable "lb_algorithm_type" {}
+variable "alb_security_group" {}
 variable "client_defined_policies" {}
-variable "global_load_balancer_arn" {}
 variable "internal_s3_worker_bucket" {}
-variable "global_lb_security_group_id" {}
 variable "internal_s3_spot_plane_bucket" {}
 
 # OD vars

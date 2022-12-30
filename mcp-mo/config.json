@@ -11,7 +11,6 @@
   "lb_algorithm_type": "round_robin",
   "dns_name": "mcp.biosapplication.com",
   "private_key_name_path": "bios-new.pem",
-  "certificate_arn": "arn:aws:acm:us-east-1:774723060820:certificate/43a4bc29-9369-4f8c-ac89-411c20355179",
   "subnets": [
     "subnet-00559225548afa7d4",
     "subnet-078d8ce666dcbd6ba",

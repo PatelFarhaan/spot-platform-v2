@@ -10,12 +10,15 @@
   "ami_id": "ami-0fbf45d0b1fef0326",
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "vpc_id": "vpc-08da13046fc0ea8fc",
-  "lb_algorithm_type": "round_robin",
+  "internal_lb_algorithm_type": "round_robin",
   "cooldown_and_deregistration_metadata": {},
   "internal_mcp_sg_id": "sg-07a203852bfdab28d",
   "dns_name": "development.biosapplication.com",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
+  "internal_global_lb_name": "global-dev-apps-us-east-1",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
+  "internal_global_lb_security_group_id": "sg-0e2686b01860fdc3d",
+  "global_load_balancer_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/fef057f94960a0d7",
   "client_defined_policies": [
     {
       "Resource": "*",
@@ -41,34 +44,6 @@
       "endpoint": "alerts-aaaah47nucbqcucr6ihs3drml4@biosdevelopment.slack.com"
     }
   ],
-  "security_groups": {
-    "alb": {
-      "ingress": [
-        {
-          "to_port": 80,
-          "from_port": 80,
-          "protocol": "tcp",
-          "cidr_blocks": [
-            "0.0.0.0/0"
-          ],
-          "description": "HTTP from VPC"
-        },
-        {
-          "to_port": 443,
-          "from_port": 443,
-          "protocol": "tcp",
-          "cidr_blocks": [
-            "0.0.0.0/0"
-          ],
-          "description": "TLS from VPC"
-        }
-      ]
-    },
-    "instance": {
-      "ingress": {
-      }
-    }
-  },
   "subnet_ids": [
     "subnet-00559225548afa7d4",
     "subnet-078d8ce666dcbd6ba",

@@ -5,6 +5,6 @@
   "aws_region": "us-east-1",
   "env": "development",
   "vpc_id": "vpc-08da13046fc0ea8fc",
-  "dns": "adan.biosapplication.com",
+  "dns": "deployment.biosapplication.com",
   "tags": {}
 }

@@ -34,12 +34,13 @@ module "backend-us-east-1" {
   key_name                      = local.config_data.ssh_key_name
   ebs_volume_size               = local.config_data.ebs_volume_size
   sns_subscriptions             = local.config_data.sns_subscriptions
-  lb_algorithm_type             = local.config_data.lb_algorithm_type
   mcp_sg_id                     = local.config_data.internal_mcp_sg_id
   client_defined_policies       = local.config_data.client_defined_policies
+  global_load_balancer_arn      = local.config_data.global_load_balancer_arn
   internal_s3_worker_bucket     = local.config_data.internal_s3_worker_bucket
-  alb_security_group            = local.config_data.security_groups.alb.ingress
+  lb_algorithm_type             = local.config_data.internal_lb_algorithm_type
   internal_s3_spot_plane_bucket = local.config_data.internal_s3_spot_plane_bucket
+  global_lb_security_group_id   = local.config_data.internal_global_lb_security_group_id
   name                          = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
   .app}"
   global_name = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data

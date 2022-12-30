@@ -8,7 +8,7 @@ resource "aws_security_group" "app_sg" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [data.aws_security_group.global_lb_security_group.id]
+    security_groups = [aws_security_group.lb_security_group.id]
   }
 
   ingress {
@@ -36,7 +36,7 @@ resource "aws_security_group" "app_sg" {
     from_port       = 9999
     to_port         = 9999
     protocol        = "tcp"
-    security_groups = [data.aws_security_group.global_lb_security_group.id]
+    security_groups = [aws_security_group.lb_security_group.id]
   }
 
   ingress {
@@ -57,13 +57,40 @@ resource "aws_security_group" "app_sg" {
   tags = merge(
     var.tags,
     {
-      "Name" : "${var.name}-app-sg"
+      "Name": "${var.name}-app-sg"
     }
   )
 }
 
 
-// Security Group of Global Load Balancer
-data "aws_security_group" "global_lb_security_group" {
-  id = var.global_lb_security_group_id
+// create a security group for lb
+resource "aws_security_group" "lb_security_group" {
+  vpc_id      = var.vpc_id
+  name        = "${var.name}-lb-sg"
+  description = "Allow all inbound traffic on port 80 and 443 for load balancer"
+
+  dynamic "ingress" {
+    for_each = var.alb_security_group
+
+    content {
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      from_port   = ingress.value.from_port
+      description = ingress.value.description
+      cidr_blocks = ingress.value.cidr_blocks
+    }
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    var.tags,
+    {
+      "Name": "${var.name}-lb-sg"
+    }
+  )
 }
