@@ -25,10 +25,8 @@ module "backend-us-east-1" {
   tags                          = local.config_data.tags
   region                        = local.config_data.region
   ami_id                        = local.config_data.ami_id
-  vpc_id                        = local.config_data.vpc_id
   zone_id                       = local.config_data.zone_id
   dns_name                      = local.config_data.dns_name
-  subnets                       = local.config_data.subnet_ids
   volume_type                   = local.config_data.volume_type
   prefix_name                   = local.config_data.prefix_name
   key_name                      = local.config_data.ssh_key_name
@@ -40,7 +38,6 @@ module "backend-us-east-1" {
   internal_s3_worker_bucket     = local.config_data.internal_s3_worker_bucket
   lb_algorithm_type             = local.config_data.internal_lb_algorithm_type
   internal_s3_spot_plane_bucket = local.config_data.internal_s3_spot_plane_bucket
-  global_lb_security_group_id   = local.config_data.internal_global_lb_security_group_id
   name                          = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
   .app}"
   global_name = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data

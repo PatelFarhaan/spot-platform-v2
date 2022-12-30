@@ -2,10 +2,6 @@ variable "tags" {
   type = map(string)
 }
 
-variable "subnets" {
-  type = list(string)
-}
-
 variable "sns_subscriptions" {
   type = list(map(string))
 }
@@ -14,7 +10,6 @@ variable "app" {}
 variable "env" {}
 variable "name" {}
 variable "ami_id" {}
-variable "vpc_id" {}
 variable "region" {}
 variable "zone_id" {}
 variable "dns_name" {}
@@ -28,7 +23,6 @@ variable "lb_algorithm_type" {}
 variable "client_defined_policies" {}
 variable "global_load_balancer_arn" {}
 variable "internal_s3_worker_bucket" {}
-variable "global_lb_security_group_id" {}
 variable "internal_s3_spot_plane_bucket" {}
 
 # OD vars

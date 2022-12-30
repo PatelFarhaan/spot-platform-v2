@@ -5,8 +5,8 @@ resource "aws_lb_target_group" "target_group" {
   protocol                      = "HTTP"
   name                          = var.name
   target_type                   = "instance"
-  vpc_id                        = var.vpc_id
   load_balancing_algorithm_type = var.lb_algorithm_type
+  vpc_id                        = data.aws_lb.global_load_balancer.vpc_id
 
   lifecycle {
     create_before_destroy = true
