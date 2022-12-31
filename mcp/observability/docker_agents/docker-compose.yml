@@ -29,9 +29,9 @@ services:
       - spotops_monitoring
 
   alertmanager:
-    image: prom/alertmanager:v0.23.0
-    container_name: alertmanager
     restart: always
+    container_name: alertmanager
+    image: prom/alertmanager:v0.23.0
     expose:
       - 9093
     volumes:
@@ -60,9 +60,9 @@ services:
       - spotops_monitoring
 
   grafana:
+    user: root
     image: grafana/grafana
     container_name: "grafana"
-    user: root
     volumes:
       - spotops-grafana:/var/lib/grafana:rw
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro

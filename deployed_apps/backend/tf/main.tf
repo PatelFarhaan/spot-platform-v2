@@ -18,7 +18,7 @@ locals {
 }
 
 module "backend-us-east-1" {
-  source = "../../../tf_module"
+  source = "../../../tf_modules/dev/web_app"
 
   app                           = local.config_data.app
   env                           = local.config_data.env

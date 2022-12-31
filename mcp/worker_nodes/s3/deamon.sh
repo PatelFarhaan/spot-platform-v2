@@ -1,6 +1,3 @@
-// User data for Spot and OD
-data "template_file" "spotops_user_data" {
-  template = <<EOF
 #!/bin/bash
 
 set -e -x
@@ -27,8 +24,8 @@ process_application_files() {
   app_config_path="$env/$application"
   aws s3 cp "s3://$apps_s3_bucket_name/$app_config_path/" /var/opt/spotops/agents/ --recursive
 
-  echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') > deployment.json
-  echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') > deployment.json
+  echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') >deployment.json
+  echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') >deployment.json
   python3 create_deployment_script.py
   move_file_to_profiled "deployment.sh"
   sudo rm -rf deployment.json
@@ -36,7 +33,7 @@ process_application_files() {
 
 process_worker_files() {
   aws s3 cp "s3://$plane_s3_bucket_name/worker_agents/" /var/opt/spotops/agents/ --recursive
-  move_file_to_profiled "spotops_cloud_init.sh"
+  move_file_to_profiled "app_replica.sh"
 }
 
 create_app() {
@@ -50,6 +47,3 @@ create_app() {
 process_worker_files
 process_application_files
 create_app
-
-EOF
-}

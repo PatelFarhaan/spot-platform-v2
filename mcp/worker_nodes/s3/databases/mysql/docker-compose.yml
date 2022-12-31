@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 networks:
   spotops_monitoring:
@@ -11,19 +11,20 @@ x-logging:
 
 services:
   promtail:
-    image: grafana/promtail:2.4.0
     container_name: promtail
+    image: grafana/promtail:2.4.0
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
-    ports:
-      - "1514:1514"
     restart: always
     command:
       -config.expand-env=true
       -config.file=/etc/promtail/promtail-config.yml
-    env_file:
-      - ./app_config/promtail.env
+    environment:
+      - "LOKI_URL=${LOKI_URL}"
+      - "HOSTNAME=${HOSTNAME}"
+      - "APPLICATION=${APPLICATION}"
+      - "ENVIRONMENT=${ENVIRONMENT}"
     deploy:
       resources:
         limits:
@@ -32,33 +33,33 @@ services:
       - spotops_monitoring
 
   node_exporter:
-    image: quay.io/prometheus/node-exporter:latest
-    container_name: node_exporter
-    restart: always
     pid: "host"
+    restart: always
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
     ports:
       - "9100:9100"
     networks:
       - spotops_monitoring
     command:
-      - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
+      - '--path.procfs=/host/proc'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
       - /:/rootfs:ro
+      - /sys:/host/sys:ro
+      - /proc:/host/proc:ro
     deploy:
       resources:
         limits:
           memory: 20M
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
-    container_name: cadvisor
     restart: always
     privileged: true
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor
     volumes:
       - /:/rootfs:ro
       - /sys:/sys:ro
@@ -77,12 +78,12 @@ services:
 
   nginx:
     image: nginx
-    container_name: nginx
     restart: always
+    container_name: nginx
     logging: *default-logging
     ports:
       - "80:80"
-      - "8081:8081"
+      - "9999:9999"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - spotops-nginx-logs:/var/log/nginx:rw
@@ -95,9 +96,9 @@ services:
           memory: 30M
 
   nginx_exporter:
-    image: nginx/nginx-prometheus-exporter:0.10.0
-    container_name: nginx_exporter
     restart: always
+    container_name: nginx_exporter
+    image: nginx/nginx-prometheus-exporter:0.10.0
     command:
       -nginx.scrape-uri=http://nginx:8081/stub_status
     ports:
@@ -110,9 +111,9 @@ services:
           memory: 15M
 
   nginx_request_exporter:
-    image: quay.io/martinhelmich/prometheus-nginxlog-exporter
-    container_name: nginx_request_exporter
     restart: always
+    container_name: nginx_request_exporter
+    image: quay.io/martinhelmich/prometheus-nginxlog-exporter
     command:
       - /mnt/nginxlogs/_data/access.log
     volumes:
@@ -126,31 +127,31 @@ services:
 
   cron_jobs:
     build:
-      context: ./cron_jobs/
-      dockerfile: Dockerfile
+      context: ../../common/cron_jobs
+      dockerfile: ../common/cron_jobs/Dockerfile
     container_name: cron_jobs
     restart: always
     logging: *default-logging
+    environment:
+      - "SCALE_UP_GB=${SCALE_UP_GB}"
+      - "SCALEUP_WHEN_IN_GB=${SCALEUP_WHEN_IN_GB}"
+      - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
+      - "DONT_SCALE_WHEN_REACHED_IN_GB=${DONT_SCALE_WHEN_REACHED_IN_GB}"
     volumes:
-      - /dev/root:/dev/root
+      - /dev:/dev
 
   main_application:
-    image: ${CLIENT_APP_IMAGE}
     restart: always
     logging: *default-logging
+    image: ${CLIENT_APP_IMAGE}
     expose:
       - ${CLIENT_APP_PORT}
     env_file:
-      - ./app_config/app.env
+      - app.env
     networks:
       - spotops_monitoring
     deploy:
       replicas: ${APP_REPLICAS}
-    healthcheck:
-      test: curl --fail http://localhost:${CLIENT_APP_PORT} || exit 1
-      interval: 60s
-      retries: 5
-      timeout: 10s
 
 volumes:
   spotops-nginx-logs:

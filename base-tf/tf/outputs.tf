@@ -1,3 +1,7 @@
+output "global_lb_arn" {
+  value = aws_lb.global_apps_lb.arn
+}
+
 output "aws_s3_mcp_bucket_name" {
   value = aws_s3_bucket.mcp_bucket.bucket
 }

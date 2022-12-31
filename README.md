@@ -18,20 +18,16 @@ Todo:
 
 
 
-Current:
-1. Terminal repeated commands
-2. IAM Role policy issue fix
-3. Restrict policy for S3 and CD
-4. Check for ping response for autoscaling or create a flask endpoint
-5. Making Code deploy work
-6. Change naming to <dev>:<app>
-7. Make ports more secure to block all other vulnerable traffic
-
+Issues:
+1. Nginx only routes logs of traffic on port 80
 
 
 
 Volume Automation -> Base it on percentage instead of GB: round off to the nearest integer
-Nginx only routes logs of traffic on port 80
+Make Databases deployment and observability work
+
+
+
 Make new VPC's
 Deploy everything in a private subnet
 Create Jenkins job for creating base AMI
