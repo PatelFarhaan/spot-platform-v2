@@ -5,8 +5,8 @@ server:
   grpc_listen_port: 9096
 
 limits_config:
-  ingestion_rate_mb: 1024
-  ingestion_burst_size_mb: 1024
+  ingestion_rate_mb: 70
+  ingestion_burst_size_mb: 90
 
 querier:
   max_concurrent: 2048

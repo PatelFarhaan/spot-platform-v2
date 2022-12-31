@@ -31,6 +31,7 @@ Current:
 
 
 Volume Automation -> Base it on percentage instead of GB: round off to the nearest integer
+Nginx only routes logs of traffic on port 80
 Make new VPC's
 Deploy everything in a private subnet
 Create Jenkins job for creating base AMI
