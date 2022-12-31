@@ -9,12 +9,15 @@ resource "aws_lb_target_group" "target_group_port_80" {
   load_balancing_algorithm_type = local.config_data.lb_algorithm_type
 
   health_check {
-    timeout             = 5
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
-    interval            = 30
-    path                = "/"
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    timeout             = 10
+    interval            = 15
+    enabled             = true
+    matcher             = "200"
     protocol            = "HTTP"
+    port                = "9999"
+    path                = "/internal/spotops/health"
   }
 }
 
@@ -30,27 +33,38 @@ resource "aws_lb_target_group" "target_group_port_9090" {
   name                          = "${local.config_data.app}-prometheus"
 
   health_check {
-    timeout             = 5
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
-    interval            = 30
-    path                = "/"
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    timeout             = 10
+    interval            = 15
+    enabled             = true
+    matcher             = "200"
     protocol            = "HTTP"
+    port                = "9999"
+    path                = "/internal/spotops/health"
   }
 }
 
 
-// register instance for target group
-resource "aws_lb_target_group_attachment" "register_instance_port_80" {
-  port             = 80
-  target_id        = aws_instance.ec2_instance.id
-  target_group_arn = aws_lb_target_group.target_group_port_80.arn
-}
+// creating a Target Group for port 9093
+resource "aws_lb_target_group" "target_group_port_9093" {
+  port                          = 9093
+  deregistration_delay          = 100
+  protocol                      = "HTTP"
+  target_type                   = "instance"
+  vpc_id                        = local.config_data.vpc_id
+  load_balancing_algorithm_type = local.config_data.lb_algorithm_type
+  name                          = "${local.config_data.app}-alert-manager"
 
-
-// register instance for target group
-resource "aws_lb_target_group_attachment" "register_instance_port_9090" {
-  port             = 9090
-  target_id        = aws_instance.ec2_instance.id
-  target_group_arn = aws_lb_target_group.target_group_port_9090.arn
+  health_check {
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    timeout             = 10
+    interval            = 15
+    enabled             = true
+    matcher             = "200"
+    protocol            = "HTTP"
+    port                = "9999"
+    path                = "/internal/spotops/health"
+  }
 }

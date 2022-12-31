@@ -17,8 +17,8 @@ services:
       - spotops-prometheus:/prometheus:rw
       - ./prometheus/rules.yml:/etc/prometheus/rules.yml:ro
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    ports:
-      - "9090:9090"
+    expose:
+      - 9090
     user: root
     restart: always
     command:
@@ -32,8 +32,8 @@ services:
     image: prom/alertmanager:v0.23.0
     container_name: alertmanager
     restart: always
-    ports:
-      - "9093:9093"
+    expose:
+      - 9093
     volumes:
       - spotops-alertmanager:/data:rw
       - ./alert_manager/alertmanager.yml:/config/alertmanager.yml:ro
@@ -42,13 +42,14 @@ services:
       - spotops_monitoring
 
   loki:
-    image: grafana/loki:2.4.0
     container_name: "loki"
+    image: grafana/loki:2.4.0
+    logging: *default-logging
     volumes:
       - spotops-loki:/data/loki:rw
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
-    ports:
-      - "3100:3100"
+    expose:
+      - 3100
     restart: always
     environment:
       - "HOSTNAME=mcp"
@@ -69,8 +70,8 @@ services:
       - ./grafana/datasources:/etc/grafana/provisioning/datasources:rw
     environment:
       - "GF_INSTALL_PLUGINS=grafana-worldmap-panel,grafana-polystat-panel,novatec-sdg-panel,macropower-analytics-panel"
-    ports:
-      - "3000:3000"
+    expose:
+      - 3000
     restart: always
     networks:
       - spotops_monitoring
@@ -85,8 +86,8 @@ services:
       - /var/run:/var/run:ro
       - /dev/disk:/dev/disk/:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "8082:8080"
+    expose:
+      - 8080
     networks:
       - spotops_monitoring
 
@@ -94,8 +95,8 @@ services:
     image: grafana/promtail:2.4.0
     container_name: promtail
     volumes:
-      - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
     restart: always
     command:
       -config.expand-env=true
@@ -112,8 +113,8 @@ services:
     container_name: node_exporter
     restart: always
     pid: "host"
-    ports:
-      - "9100:9100"
+    expose:
+      - 9100
     networks:
       - spotops_monitoring
 
@@ -123,12 +124,13 @@ services:
     restart: always
     ports:
       - "80:80"
-      - "8008:8080"
+      - "9090:9090"
+      - "9093:9093"
+      - "9999:9999"
     logging: *default-logging
     volumes:
-      - spotops-nginx-logs:/var/log/nginx:rw
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - spotops_monitoring
 
@@ -140,21 +142,8 @@ services:
       - nginx
     command:
       -nginx.scrape-uri=http://nginx:8080/stub_status
-    ports:
-      - "9113:9113"
-    networks:
-      - spotops_monitoring
-
-  nginx_request_exporter:
-    image: quay.io/martinhelmich/prometheus-nginxlog-exporter
-    container_name: nginx_request_exporter
-    restart: always
-    command:
-      - /mnt/nginxlogs/_data/access.log
-    volumes:
-      - spotops-nginx-logs:/mnt/nginxlogs:ro
-    ports:
-      - "4040:4040"
+    expose:
+      - 9113
     networks:
       - spotops_monitoring
 
@@ -171,5 +160,4 @@ volumes:
   spotops-loki:
   spotops-grafana:
   spotops-prometheus:
-  spotops-nginx-logs:
   spotops-alertmanager:
