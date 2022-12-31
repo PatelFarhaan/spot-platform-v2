@@ -2,7 +2,7 @@
 resource "aws_security_group" "global_lb_security_group" {
   vpc_id      = local.config_data.vpc_id
   name        = "${local.config_data.global_dev_apps_lb_name}-${local.config_data.region}-lb-sg"
-  description = "Allow all inbound traffic on port 80 and 443 for global load balancer"
+  description = "Allow all inbound traffic for global load balancer"
 
   dynamic "ingress" {
     for_each = local.config_data.security_groups.alb.ingress

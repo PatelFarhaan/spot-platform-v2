@@ -83,7 +83,6 @@ services:
     logging: *default-logging
     ports:
       - "80:80"
-      - "8081:8081"
       - "9999:9999"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
@@ -128,8 +127,8 @@ services:
 
   cron_jobs:
     build:
-      context: ./cron_jobs/
-      dockerfile: Dockerfile
+      context: ../../common/cron_jobs
+      dockerfile: ../common/cron_jobs/Dockerfile
     container_name: cron_jobs
     restart: always
     logging: *default-logging
@@ -151,8 +150,6 @@ services:
       - app.env
     networks:
       - spotops_monitoring
-    deploy:
-      replicas: ${APP_REPLICAS}
 
 volumes:
   spotops-nginx-logs:

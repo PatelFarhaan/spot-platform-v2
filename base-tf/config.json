@@ -38,6 +38,42 @@
             "0.0.0.0/0"
           ],
           "description": "TLS from VPC"
+        },
+        {
+          "to_port": 27017,
+          "from_port": 27017,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "MongoDB Connections"
+        },
+        {
+          "to_port": 3306,
+          "from_port": 3306,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "Mysql Connections"
+        },
+        {
+          "to_port": 5432,
+          "from_port": 5432,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "Postgres Connections"
+        },
+        {
+          "to_port": 6379,
+          "from_port": 6379,
+          "protocol": "tcp",
+          "cidr_blocks": [
+            "0.0.0.0/0"
+          ],
+          "description": "Redis Connections"
         }
       ]
     },
