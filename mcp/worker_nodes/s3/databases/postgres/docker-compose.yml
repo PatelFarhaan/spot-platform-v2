@@ -127,16 +127,18 @@ services:
 
   cron_jobs:
     build:
-      context: ../../common/cron_jobs
+      context: ../common/cron_jobs
       dockerfile: ../common/cron_jobs/Dockerfile
     container_name: cron_jobs
     restart: always
     logging: *default-logging
     environment:
-      - "SCALE_UP_GB=${SCALE_UP_GB}"
-      - "SCALEUP_WHEN_IN_GB=${SCALEUP_WHEN_IN_GB}"
+      - "SCALE_VOLUME=${SCALE_VOLUME}"
+      - "SLACK_WEBHOOK=${SLACK_WEBHOOK}"
+      - "SCALE_UP_PERCENTAGE=${SCALE_UP_PERCENTAGE}"
+      - "SCALEUP_WHEN_GB_REMAINING=${SCALEUP_WHEN_GB_REMAINING}"
       - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
-      - "DONT_SCALE_WHEN_REACHED_IN_GB=${DONT_SCALE_WHEN_REACHED_IN_GB}"
+      - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
     volumes:
       - /dev:/dev
 

@@ -10,7 +10,7 @@ providers:
     disableDeletion: false
     options:
       foldersFromFilesStructure: true
-      path: /etc/grafana/provisioning/dashboards/Spotops
+      path: /etc/grafana/provisioning/dashboards/
 
   - name: 'Loki'
     orgId: 1
@@ -21,4 +21,4 @@ providers:
     disableDeletion: false
     options:
       foldersFromFilesStructure: true
-      path: /etc/grafana/provisioning/dashboards/Spotops
+      path: /etc/grafana/provisioning/dashboards/
