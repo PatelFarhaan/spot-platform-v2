@@ -45,3 +45,9 @@ webapp for spot pricing:
 
 cli: aws ec2 describe-instance-*
 cli aws ec2   describe-spot-price-history
+
+
+
+1. Solve volume automation
+2. migrate deamon from tf module to s3
+3. have file config to container volume mapping

@@ -3,8 +3,7 @@ version: "3.7"
 networks:
   spotops_monitoring:
 
-x-logging:
-  &default-logging
+x-logging: &default-logging
   driver: "json-file"
   options:
     tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
@@ -86,7 +85,6 @@ services:
       - "9999:9999"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - spotops-nginx-logs:/var/log/nginx:rw
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - spotops_monitoring
@@ -110,33 +108,20 @@ services:
         limits:
           memory: 15M
 
-  nginx_request_exporter:
-    restart: always
-    container_name: nginx_request_exporter
-    image: quay.io/martinhelmich/prometheus-nginxlog-exporter
-    command:
-      - /mnt/nginxlogs/_data/access.log
-    volumes:
-      - spotops-nginx-logs:/mnt/nginxlogs:ro
-    depends_on:
-      - nginx
-    ports:
-      - "4040:4040"
-    networks:
-      - spotops_monitoring
-
   cron_jobs:
     build:
       context: ../common/cron_jobs
       dockerfile: ../common/cron_jobs/Dockerfile
-    container_name: cron_jobs
     restart: always
+    container_name: cron_jobs
     logging: *default-logging
     environment:
-      - "SCALE_UP_GB=${SCALE_UP_GB}"
-      - "SCALEUP_WHEN_IN_GB=${SCALEUP_WHEN_IN_GB}"
+      - "SCALE_VOLUME=${SCALE_VOLUME}"
+      - "SLACK_WEBHOOK=${SLACK_WEBHOOK}"
+      - "SCALE_UP_PERCENTAGE=${SCALE_UP_PERCENTAGE}"
+      - "SCALEUP_WHEN_GB_REMAINING=${SCALEUP_WHEN_GB_REMAINING}"
       - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
-      - "DONT_SCALE_WHEN_REACHED_IN_GB=${DONT_SCALE_WHEN_REACHED_IN_GB}"
+      - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
     volumes:
       - /dev:/dev
 
@@ -148,10 +133,9 @@ services:
       - ${CLIENT_APP_PORT}
     env_file:
       - app.env
+    volumes:
+      - ./configs:/config
     networks:
       - spotops_monitoring
     deploy:
       replicas: ${APP_REPLICAS}
-
-volumes:
-  spotops-nginx-logs:

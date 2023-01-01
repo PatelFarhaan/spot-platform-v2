@@ -1,11 +1,17 @@
 {
-  "SCALE_UP_GB": 1,
-  "SCALEUP_WHEN_IN_GB": 1,
+  "VOLUME_CONFIG": [
+    "./config/test.conf:/somepath/test.conf",
+    "/config/dir_binding:/somepath"
+  ],
+  "SCALE_VOLUME": true,
   "CLIENT_APP_PORT": 5000,
-  "DONT_SCALE_WHEN_REACHED_IN_GB": 50,
+  "SCALE_UP_PERCENTAGE": 20,
+  "SCALEUP_WHEN_GB_REMAINING": 1,
+  "STOP_SCALE_WHEN_GB_REACHED": 50,
   "BLOCK_DEVICE_MAPPING_NAME": "/dev/sda1",
   "AWS_ECR_REPO_NAME": "biosmesh-all-apps",
   "AWS_ECR_ID": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
   "LOKI_URL": "https://mcp.biosapplication.com/loki/api/v1/push",
-  "CLIENT_APP_IMAGE": "development-backend-25110d5dbb98fb0f21676ee964ddac5f3ab782be"
+  "CLIENT_APP_IMAGE": "development-backend-25110d5dbb98fb0f21676ee964ddac5f3ab782be",
+  "SLACK_WEBHOOK": "https://hooks.slack.com/services/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"
 }
