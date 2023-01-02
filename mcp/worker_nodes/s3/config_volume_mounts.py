@@ -1,4 +1,3 @@
-import os
 import json
 from ruamel.yaml import YAML
 
@@ -11,7 +10,7 @@ if volume_config:
     yaml.default_flow_style = False
     yaml.indent(sequence=3, offset=1)
 
-    file_path = "../../../docker-compose.yml"
+    file_path = "../../../docker-compose.yml.yml"
     out = "./docker_compose_new.yml"
 
     with open(file_path) as ymlfile:

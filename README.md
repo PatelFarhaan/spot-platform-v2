@@ -48,6 +48,6 @@ cli aws ec2   describe-spot-price-history
 
 
 
-1. Solve volume automation
+1. Solve volume automation -> Done
 2. migrate deamon from tf module to s3
 3. have file config to container volume mapping
