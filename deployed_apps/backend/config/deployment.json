@@ -1,7 +1,6 @@
 {
   "VOLUME_CONFIG": [
-    "./config/test.conf:/somepath/test.conf",
-    "/config/dir_binding:/somepath"
+    "./configs:/configs"
   ],
   "SCALE_VOLUME": true,
   "CLIENT_APP_PORT": 5000,

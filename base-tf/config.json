@@ -5,6 +5,7 @@
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "vpc_id": "vpc-08da13046fc0ea8fc",
   "lb_algorithm_type": "round_robin",
+  "kms_name": "mcp_bios_vault_auto_unseal",
   "s3_mcp_bucket_name": "biosmesh-spot-plane",
   "global_dev_apps_lb_name": "global-dev-apps",
   "dynamodb_name": "bios-dynamodb-tflock-state",
