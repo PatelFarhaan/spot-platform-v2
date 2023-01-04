@@ -19,8 +19,10 @@ class Vault:
     def __init__(self):
         self.service = "backend"
         self.application = "webapp"
-        self.vault_token = environ["VAULT_TOKEN"]
-        self.vault_address = environ["VAULT_ADDR"]
+        self.vault_token = "hvs.bP81GSzK49k7TzqXxGZQ8QbC"
+        # self.vault_token = environ["VAULT_TOKEN"]
+        # self.vault_address = environ["VAULT_ADDR"]
+        self.vault_address = "http://localhost:8200"
         self.path = f"{self.service}/{self.application}"
 
         self.client = self.init_server()
@@ -104,16 +106,14 @@ class Vault:
 
 if __name__ == '__main__':
     vault_obj = Vault()
-    response = vault_obj.write_secret("hello4", "world3")
+    response = vault_obj.write_secret("farhaan", "world3")
     print("Write data response: ", response)
 
-    response = vault_obj.read_secret("hello2")
-    print("Read data response: ", response)
-
-    response = vault_obj.delete_secret("ok")
-    print("Delete data response: ", response)
-
-    response = vault_obj.list_secrets()
-    print("List Secrets response: ", response)
-
-"YwuQSvMDiHW2z6vm8zp77CfVqNRee1kvz9HOdaAbxM0="
+    # response = vault_obj.read_secret("hello2")
+    # print("Read data response: ", response)
+    #
+    # response = vault_obj.delete_secret("ok")
+    # print("Delete data response: ", response)
+    #
+    # response = vault_obj.list_secrets()
+    # print("List Secrets response: ", response)

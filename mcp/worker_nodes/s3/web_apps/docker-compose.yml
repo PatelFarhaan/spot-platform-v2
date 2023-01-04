@@ -133,6 +133,7 @@ services:
       - ${CLIENT_APP_PORT}
     env_file:
       - app.env
+      - app.secret
     volumes:
       - ./configs:/config
     networks:

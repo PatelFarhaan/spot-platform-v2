@@ -1,17 +1,42 @@
 version: "3.8"
+
+networks:
+  spotops_deployment:
+
 services:
   vault-server:
     image: vault:latest
+    container_name: vault-server
     volumes:
-      - ./volume_mounts/data:/vault/data
-      - ./volume_mounts/config:/vault/config
+      - ./config:/vault/config
     ports:
       - "8200:8200"
     environment:
-      - "HOME=/vault/data"
       - "VAULT_ADDR=http://127.0.0.1:8200"
       - "VAULT_ADDRESS=http://127.0.0.1:8200"
       - "VAULT_API_ADDR=http://127.0.0.1:8200"
     cap_add:
       - IPC_LOCK
-    command: vault server -config=/vault/config/vault_config.hcl
+    networks:
+      - spotops_deployment
+    command: vault server -config=/vault/config/vault_config.json
+
+  vault-ops:
+    build:
+      context: .
+      dockerfile: unseal_sidecar/Dockerfile
+    container_name: vault-ops
+    environment:
+      - "S3_VAULT_BUCKET=biosmesh-vault"
+      - "S3_VAULT_FILENAME=internal_vault_config/keys.json"
+      - "VAULT_ADDRESS=http://vault-server:8200"
+      - "VAULT_CONFIG_FILE=/config/vault_config.json"
+    volumes:
+      - ./config/vault_config.json:/config/vault_config.json
+    command:
+      - python3
+      - /app/unseal_automation_script.py
+    depends_on:
+      - vault-server
+    networks:
+      - spotops_deployment

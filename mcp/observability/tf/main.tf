@@ -14,5 +14,5 @@ terraform {
 
 // Reading data variables from app_config.json file
 locals {
-  config_data = jsondecode(file("./../config.json"))
+  config_data = yamldecode(file("./../config.yml"))
 }

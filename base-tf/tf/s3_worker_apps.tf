@@ -1,6 +1,6 @@
 // Creating an S3 bucket for storing TF state files
 resource "aws_s3_bucket" "worker_bucket" {
-  bucket = local.config_data.s3_worker_bucket_name
+  bucket = local.config_data.s3_buckets.workers
 
   tags = local.config_data.tags
 }
