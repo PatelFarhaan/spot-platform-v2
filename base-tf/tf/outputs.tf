@@ -1,3 +1,7 @@
+output "account_id" {
+  value = local.account_id
+}
+
 output "global_lb_arn" {
   value = aws_lb.global_apps_lb.arn
 }
