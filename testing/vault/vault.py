@@ -19,9 +19,9 @@ class Vault:
     def __init__(self):
         self.service = "backend"
         self.application = "webapp"
-        self.vault_token = "hvs.bP81GSzK49k7TzqXxGZQ8QbC"
-        # self.vault_token = environ["VAULT_TOKEN"]
-        # self.vault_address = environ["VAULT_ADDR"]
+        self.mount_point = {"mount_point": "kv"}
+        self.vault_token = environ["VAULT_TOKEN"]
+        self.vault_address = environ["VAULT_ADDR"]
         self.vault_address = "http://localhost:8200"
         self.path = f"{self.service}/{self.application}"
 
@@ -47,7 +47,7 @@ class Vault:
 
     def service_exists(self):
         try:
-            _response = self.client.secrets.kv.v2.list_secrets(self.service)
+            _response = self.client.secrets.kv.v2.list_secrets(self.service, **self.mount_point)
             if self.application in _response["data"]["keys"]:
                 return True
         except Exception as e:
@@ -55,7 +55,7 @@ class Vault:
             return False
 
     def get_secret_obj(self) -> dict:
-        _response = self.client.secrets.kv.v2.read_secret(path=self.path)
+        _response = self.client.secrets.kv.v2.read_secret(path=self.path, **self.mount_point)
         return _response["data"]["data"]
 
     def write_secret(self, key, value):
@@ -71,7 +71,8 @@ class Vault:
 
         _response = self.client.secrets.kv.v2.create_or_update_secret(
             secret=_secret,
-            path=self.path
+            path=self.path,
+            **self.mount_point
         )
         return self.send_response(result=True, data=_response)
 
@@ -91,7 +92,8 @@ class Vault:
             _secret.pop(key)
             self.client.secrets.kv.v2.create_or_update_secret(
                 secret=_secret,
-                path=self.path
+                path=self.path,
+                **self.mount_point
             )
             return self.send_response(result=True, message="Secret Deleted")
 
@@ -106,14 +108,14 @@ class Vault:
 
 if __name__ == '__main__':
     vault_obj = Vault()
-    response = vault_obj.write_secret("farhaan", "world3")
+    response = vault_obj.write_secret("farhaan", "world3asd")
     print("Write data response: ", response)
 
-    # response = vault_obj.read_secret("hello2")
-    # print("Read data response: ", response)
-    #
-    # response = vault_obj.delete_secret("ok")
-    # print("Delete data response: ", response)
-    #
-    # response = vault_obj.list_secrets()
-    # print("List Secrets response: ", response)
+    response = vault_obj.read_secret("farhaanopk")
+    print("Read data response: ", response)
+
+    response = vault_obj.delete_secret("farhaan")
+    print("Delete data response: ", response)
+
+    response = vault_obj.list_secrets()
+    print("List Secrets response: ", response)
