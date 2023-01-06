@@ -6,6 +6,7 @@ networks:
 services:
   vault-server:
     image: vault:latest
+    restart: always
     container_name: vault-server
     volumes:
       - ./config:/vault/config
@@ -23,19 +24,18 @@ services:
 
   vault-ops:
     build:
-      context: .
-      dockerfile: unseal_sidecar/Dockerfile
+      context: unseal_sidecar
+      dockerfile: Dockerfile
     container_name: vault-ops
+    user: root
     environment:
       - "S3_VAULT_BUCKET=biosmesh-vault"
-      - "S3_VAULT_FILENAME=internal_vault_config/keys.json"
       - "VAULT_ADDRESS=http://vault-server:8200"
       - "VAULT_CONFIG_FILE=/config/vault_config.json"
+      - "S3_VAULT_FILENAME=internal_vault_config/keys.json"
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./config/vault_config.json:/config/vault_config.json
-    command:
-      - python3
-      - /app/unseal_automation_script.py
     depends_on:
       - vault-server
     networks:
