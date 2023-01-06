@@ -25,7 +25,7 @@ services:
   vault-ops:
     build:
       context: unseal_sidecar
-      dockerfile: Dockerfile
+      dockerfile: unseal_sidecar/Dockerfile
     container_name: vault-ops
     user: root
     environment:

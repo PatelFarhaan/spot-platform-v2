@@ -3,6 +3,7 @@ import sys
 import hvac
 import json
 import time
+import requests
 from aws import AWS
 from os import environ
 
@@ -12,8 +13,10 @@ class UnsealVault(AWS):
         super().__init__()
         self.keys = None
         self.root_token = None
-        self.client = self.get_vault_client()
+        self.vault_addr = environ["VAULT_ADDRESS"]
         self.config_file = environ["VAULT_CONFIG_FILE"]
+
+        self.client = self.get_vault_client()
 
     def run_user_ops(self):
         def enable_kv_engine():
@@ -37,7 +40,7 @@ class UnsealVault(AWS):
             _enable_auth = self.client.sys.enable_auth_method("userpass")
             assert _enable_auth.ok is True
 
-        def creating_userpass_admin_user():
+        def creating_userpass_users():
             print("CREATING ADMIN USER FOR TEAMS...")
             _admin_user = self.client.auth.userpass.create_or_update_user(
                 policies="admin",
@@ -46,10 +49,26 @@ class UnsealVault(AWS):
             )
             assert _admin_user.ok is True
 
+            print("CREATING APP ROLE USER FOR TEAMS...")
+            _app_user = self.client.auth.userpass.create_or_update_user(
+                policies="app_role",
+                password="password",
+                username="app_role"
+            )
+            assert _app_user.ok is True
+
+            print("CREATING SPOT ROLE USER FOR TEAMS...")
+            _spot_user = self.client.auth.userpass.create_or_update_user(
+                policies="admin",
+                password="password",
+                username="spot_role"
+            )
+            assert _spot_user.ok is True
+
         create_policies()
         enable_kv_engine()
         enable_userpass_auth()
-        creating_userpass_admin_user()
+        creating_userpass_users()
 
     def get_vault_client(self, current_count=1, token=None):
         print(f"CONNECTING TO VAULT SERVER: ATTEMPT -> {current_count}")
@@ -59,15 +78,30 @@ class UnsealVault(AWS):
 
         try:
             if token:
-                _client = hvac.Client(url=environ["VAULT_ADDRESS"], token=token)
+                _client = hvac.Client(url=self.vault_addr, token=token)
             else:
-                _client = hvac.Client(url=environ["VAULT_ADDRESS"])
+                _client = hvac.Client(url=self.vault_addr)
             _client.sys.is_initialized()
             print("CONNECTION TO VAULT SERVER IS SUCCESSFUL!!!")
             return _client
         except:
             time.sleep(5)
             return self.get_vault_client(current_count + 1)
+
+    def enable_audit_logs(self):
+        payload = dict()
+        payload["headers"] = {"X-Vault-Token": self.root_token}
+        payload["url"] = f"{self.vault_addr}/v1/sys/audit/file"
+        payload["data"] = json.dumps(
+            {
+                "type": "file",
+                "options": {
+                    "file_path": "stdout"
+                }
+            }
+        )
+        _audit = requests.post(**payload)
+        assert _audit.status_code == 204
 
     def get_vault_config(self):
         return json.load(open(self.config_file))
@@ -139,6 +173,7 @@ class UnsealVault(AWS):
             print("IS VAULT SEALED: ", self.client.sys.is_sealed())
 
             self.client = self.get_vault_client(token=self.root_token)
+            self.enable_audit_logs()
             self.run_user_ops()
         else:
             print("VAULT IS UNSEALED!!!")

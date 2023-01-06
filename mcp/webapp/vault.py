@@ -1,5 +1,7 @@
 import sys
 import hvac
+import json
+import requests
 from os import environ
 from functools import wraps
 
@@ -17,15 +19,25 @@ def check_if_service_exists(method):
 
 class Vault:
     def __init__(self):
+        self.vault_token = None
         self.service = "backend"
+        self.username = "app_role"
+        self.password = "password"
         self.application = "webapp"
         self.mount_point = {"mount_point": "kv"}
-        self.vault_token = environ["VAULT_TOKEN"]
-        self.vault_address = environ["VAULT_ADDR"]
+        # self.vault_address = environ["VAULT_ADDR"]
         self.vault_address = "http://localhost:8200"
         self.path = f"{self.service}/{self.application}"
 
         self.client = self.init_server()
+
+    def retrieve_token(self):
+        payload = dict()
+        payload["data"] = json.dumps({"password": self.password})
+        payload["url"] = f"{self.vault_address}/v1/auth/userpass/login/{self.username}"
+
+        _response = requests.post(**payload).json()
+        self.vault_token = _response["auth"]["client_token"]
 
     @staticmethod
     def send_response(result: bool, message=None, data=None):
@@ -36,6 +48,7 @@ class Vault:
         }
 
     def init_server(self):
+        self.retrieve_token()
         _client = hvac.Client(
             url=self.vault_address,
             token=self.vault_token
