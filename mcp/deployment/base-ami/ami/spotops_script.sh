@@ -3,6 +3,7 @@
 set -e -x
 
 application_path="/var/opt/spotops/agents"
+mkdir -p $application_path
 
 echo "Providing ubuntu permission to agents folder"
 sudo chown ubuntu:ubuntu -R ${application_path}

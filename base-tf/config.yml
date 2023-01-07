@@ -6,7 +6,7 @@ vpc_id: vpc-08da13046fc0ea8fc
 lb_algorithm_type: round_robin
 kms_name: mcp_bios_vault_auto_unseal
 global_dev_apps_lb_name: global-dev-apps
-dynamodb_name: bios-dynamodb-tflock-state
+dynamodb_name: biosmesh-dynamodb-tflock-state
 
 tags:
   Owner: Bios

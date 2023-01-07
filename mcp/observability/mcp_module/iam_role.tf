@@ -1,6 +1,6 @@
 // Creating a IAM Role with all policies
 resource "aws_iam_role" "iam_role_for_service" {
-  name                = "${local.config_data.name}-${local.config_data.env}"
+  name                = var.regional_name
   managed_policy_arns = [
     aws_iam_policy.ec2_read_only.arn
   ]
@@ -13,12 +13,12 @@ resource "aws_iam_role" "iam_role_for_service" {
         Principal = {
           Service = "ec2.amazonaws.com"
         },
-        Action    = "sts:AssumeRole"
+        Action = "sts:AssumeRole"
       }
     ]
   })
 
-  tags = local.config_data.tags
+  tags = var.tags
 }
 
 // Creating IAM Profile to be associated with EC2
