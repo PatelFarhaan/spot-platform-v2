@@ -127,20 +127,17 @@ services:
 
   sidecar:
     build:
-      context: ../common/cron_jobs
-      dockerfile: ../common/cron_jobs/Dockerfile
-    restart: always
-    container_name: cron_jobs
+      context: ../common/sidecar
+      dockerfile: Dockerfile
+    restart: on-failure
+    container_name: sidecar
     logging: *default-logging
     environment:
-      - "SCALE_VOLUME=${SCALE_VOLUME}"
-      - "SLACK_WEBHOOK=${SLACK_WEBHOOK}"
-      - "SCALE_UP_PERCENTAGE=${SCALE_UP_PERCENTAGE}"
-      - "SCALEUP_WHEN_GB_REMAINING=${SCALEUP_WHEN_GB_REMAINING}"
-      - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
-      - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
+      - "VAULT_ADDR=${VAULT_ADDR}"
+      - "ENVIRONMENT=${ENVIRONMENT}"
+      - "APPLICATION=${APPLICATION}"
     volumes:
-      - /dev:/dev
+      - ./app.secret:/app_path/app.secret
 
   main_application:
     restart: always
@@ -157,3 +154,6 @@ services:
       - spotops_monitoring
     deploy:
       replicas: ${APP_REPLICAS}
+    depends_on:
+      sidecar:
+        condition: service_completed_successfully
