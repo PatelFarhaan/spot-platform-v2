@@ -1,8 +1,8 @@
 // Defining SG rules
 resource "aws_security_group" "app_sg" {
-  vpc_id      = local.config_data.vpc_id
+  vpc_id      = var.vpc_id
   description = "Security Group for Application"
-  name        = "${local.config_data.app}-${local.config_data.env}-${local.config_data.region}"
+  name        = var.regional_name
 
   ingress {
     from_port       = 0
@@ -25,13 +25,14 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  tags = local.config_data.tags
+  tags = var.tags
 }
+
 
 // create a security group for lb
 resource "aws_security_group" "lb_security_group" {
-  name        = local.config_data.name
-  vpc_id      = local.config_data.vpc_id
+  name        = var.app
+  vpc_id      = var.vpc_id
   description = "open for all traffic on port 80, 443, 22 for load balancer"
 
   ingress {
@@ -69,5 +70,5 @@ resource "aws_security_group" "lb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = local.config_data.tags
+  tags = var.tags
 }

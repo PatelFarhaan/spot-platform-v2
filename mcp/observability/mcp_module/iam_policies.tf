@@ -1,8 +1,8 @@
 // SES Policy
 resource "aws_iam_policy" "ec2_read_only" {
   description = "EC2 Read only access"
-  name        = "ec2-ro-${local.config_data.name}-${local.config_data.env}"
-  path        = "/${local.config_data.name}/${local.config_data.env}/"
+  path        = "/${var.app}/${var.env}/"
+  name        = "ec2-ro-${var.regional_name}"
 
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -35,5 +35,5 @@ resource "aws_iam_policy" "ec2_read_only" {
     ]
   })
 
-  tags = local.config_data.tags
+  tags = var.tags
 }

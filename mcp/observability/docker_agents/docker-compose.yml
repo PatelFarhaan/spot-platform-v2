@@ -77,7 +77,7 @@ services:
       - spotops_monitoring
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: zcube/cadvisor
     container_name: cadvisor
     restart: always
     volumes:

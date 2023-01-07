@@ -4,9 +4,9 @@ resource "aws_lb" "load_balancer" {
   enable_deletion_protection = false
   ip_address_type            = "ipv4"
   load_balancer_type         = "application"
-  subnets                    = local.config_data.subnets
-  name                       = "${local.config_data.name}-lb"
+  subnets                    = var.subnets
+  name                       = "${var.app}-lb"
   security_groups            = [aws_security_group.lb_security_group.id]
 
-  tags = local.config_data.tags
+  tags = var.tags
 }

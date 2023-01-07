@@ -4,9 +4,9 @@ resource "aws_lb_target_group" "target_group_port_80" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = local.config_data.vpc_id
-  name                          = "${local.config_data.app}-public"
-  load_balancing_algorithm_type = local.config_data.lb_algorithm_type
+  vpc_id                        = var.vpc_id
+  load_balancing_algorithm_type = "round_robin"
+  name                          = "${var.app}-public"
 
   health_check {
     healthy_threshold   = 3
@@ -28,9 +28,9 @@ resource "aws_lb_target_group" "target_group_port_9090" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = local.config_data.vpc_id
-  load_balancing_algorithm_type = local.config_data.lb_algorithm_type
-  name                          = "${local.config_data.app}-prometheus"
+  vpc_id                        = var.vpc_id
+  load_balancing_algorithm_type = "round_robin"
+  name                          = "${var.app}-prometheus"
 
   health_check {
     healthy_threshold   = 3
@@ -52,9 +52,9 @@ resource "aws_lb_target_group" "target_group_port_9093" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = local.config_data.vpc_id
-  load_balancing_algorithm_type = local.config_data.lb_algorithm_type
-  name                          = "${local.config_data.app}-alert-manager"
+  vpc_id                        = var.vpc_id
+  load_balancing_algorithm_type = "round_robin"
+  name                          = "${var.app}-alert-manager"
 
   health_check {
     healthy_threshold   = 3

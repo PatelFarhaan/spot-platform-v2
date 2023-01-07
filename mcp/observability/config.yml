@@ -2,12 +2,10 @@ app: mcp
 env: development
 region: us-east-1
 key_name: bios-new
-instance_type: c5a.large
-ami_id: ami-09e67e426f25ce0d7
+instance_type: a1.medium
 zone_id: Z1023527RS6FKHEBV4ZZ
 vpc_id: vpc-08da13046fc0ea8fc
 name: monitoring-control-plane
-lb_algorithm_type: round_robin
 dns_name: mcp.***REMOVED***
 private_key_name_path: bios-new.pem
 
