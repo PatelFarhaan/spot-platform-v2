@@ -3,6 +3,7 @@
 set -e -x
 cd /var/opt/spotops/agents/
 
+node_architecture=$(uname -m)
 spot_plane_bucket="biosmesh-spot-plane"
 internal_s3_worker_bucket="biosmesh-apps-config"
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)

@@ -21,8 +21,8 @@ load_balancers:
 s3_buckets:
   vault: biosmesh-vault
   mcp: biosmesh-spot-plane
+  tfstate: biosmesh-tf-state
   workers: biosmesh-apps-config
-  tfstate: biosmesh-apps-tf-state
 
 subnet_ids:
   - subnet-00559225548afa7d4

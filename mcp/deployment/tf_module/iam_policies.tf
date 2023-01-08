@@ -14,11 +14,6 @@ resource "aws_iam_policy" "ec2_read_only" {
       },
       {
         "Effect" : "Allow",
-        "Action" : "elasticloadbalancing:Describe*",
-        "Resource" : "*"
-      },
-      {
-        "Effect" : "Allow",
         "Action" : [
           "cloudwatch:Describe*",
           "cloudwatch:ListMetrics",
@@ -31,7 +26,12 @@ resource "aws_iam_policy" "ec2_read_only" {
         "Effect" : "Allow",
         "Action" : "autoscaling:Describe*",
         "Resource" : "*"
-      }
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : "elasticloadbalancing:Describe*",
+        "Resource" : "*"
+      },
     ]
   })
 

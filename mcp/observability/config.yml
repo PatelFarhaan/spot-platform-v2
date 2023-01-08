@@ -1,26 +1,17 @@
-app: mcp
-env: development
+env: production
 region: us-east-1
 key_name: bios-new
+app: mcp-observability
 instance_type: a1.medium
-zone_id: Z1023527RS6FKHEBV4ZZ
-vpc_id: vpc-08da13046fc0ea8fc
-name: monitoring-control-plane
-dns_name: mcp.***REMOVED***
+zone_name: ***REMOVED***
 private_key_name_path: bios-new.pem
+dns_name: mcp.observability.***REMOVED***
+global_dev_mcp_load_balancer_arn: "arn:aws:elasticloadbalancing:us-east-1:***REMOVED***:loadbalancer/app/global-mcp-apps-us-east-1/5d2b1ac8971f186a"
 
 tags:
   Owner: Bios
-  Application: mcp
-  Name: biosmesh-mcp
   Developer: Farhaan
   Provisioner: Terraform
-  Environment: development
-
-subnet_ids:
-  - subnet-00559225548afa7d4
-  - subnet-078d8ce666dcbd6ba
-  - subnet-0c73f4d65aef7adf4
-  - subnet-0e3597bed0f180f79
-  - subnet-0d75bad323fdb2481
-  - subnet-0c26209bd1cfeeac6
+  Environment: production
+  Application: mcp-observability
+  Name: biosmesh-mcp-observability

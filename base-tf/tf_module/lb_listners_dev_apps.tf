@@ -17,8 +17,8 @@ resource "aws_lb_listener" "port_80" {
 resource "aws_lb_listener" "port_443" {
   port              = 443
   protocol          = "HTTPS"
-  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   certificate_arn   = aws_acm_certificate.default_global_certs.arn
 
   depends_on = [
@@ -39,8 +39,8 @@ resource "aws_lb_listener" "port_443" {
 resource "aws_lb_listener" "port_27017" {
   port              = 27017
   protocol          = "HTTPS"
-  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   certificate_arn   = aws_acm_certificate.default_global_certs.arn
 
   depends_on = [
@@ -61,8 +61,8 @@ resource "aws_lb_listener" "port_27017" {
 resource "aws_lb_listener" "port_3306" {
   port              = 3306
   protocol          = "HTTPS"
-  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   certificate_arn   = aws_acm_certificate.default_global_certs.arn
 
   depends_on = [
@@ -83,8 +83,8 @@ resource "aws_lb_listener" "port_3306" {
 resource "aws_lb_listener" "port_5432" {
   port              = 5432
   protocol          = "HTTPS"
-  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   certificate_arn   = aws_acm_certificate.default_global_certs.arn
 
   depends_on = [
@@ -105,8 +105,8 @@ resource "aws_lb_listener" "port_5432" {
 resource "aws_lb_listener" "port_6379" {
   port              = 6379
   protocol          = "HTTPS"
-  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  load_balancer_arn = aws_lb.global_dev_apps_lb.arn
   certificate_arn   = aws_acm_certificate.default_global_certs.arn
 
   depends_on = [

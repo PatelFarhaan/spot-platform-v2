@@ -1,3 +1,3 @@
 output "outputs" {
-  value = module.mcp_bios
+  value = module.mcp_observability_stack
 }
