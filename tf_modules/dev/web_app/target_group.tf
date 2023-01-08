@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "target_group" {
   name                          = var.name
   target_type                   = "instance"
   load_balancing_algorithm_type = var.lb_algorithm_type
-  vpc_id                        = data.aws_lb.global_load_balancer.vpc_id
+  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   lifecycle {
     create_before_destroy = true

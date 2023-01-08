@@ -10,4 +10,4 @@ variable "dns_name" {}
 variable "instance_type" {}
 variable "regional_name" {}
 variable "private_key_name_path" {}
-variable "subnets" { type = list(string)}
+variable "subnets" { type = list(string) }

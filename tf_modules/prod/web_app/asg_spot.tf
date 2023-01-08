@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
         version            = aws_launch_template.spot_launch_template.latest_version
       }
 
-      dynamic override {
+      dynamic "override" {
         for_each = var.spot_instance_type
         content {
           instance_type = override.value

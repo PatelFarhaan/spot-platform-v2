@@ -11,12 +11,13 @@
   "zone_id": "Z1023527RS6FKHEBV4ZZ",
   "cooldown_and_deregistration_metadata": {},
   "internal_lb_algorithm_type": "round_robin",
-  "internal_mcp_sg_id": "sg-07a203852bfdab28d",
+  "internal_mcp_sg_id": "sg-091f1638a7081219f",
   "dns_name": "development.biosapplication.com",
+  "internal_spot_plane_bucket": "biosmesh-spot-plane",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_global_lb_name": "global-dev-apps-us-east-1",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
-  "global_load_balancer_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/fef057f94960a0d7",
+  "internal_global_dev_apps_lb_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/7b455d3b7d3bdfb6",
   "client_defined_policies": [
     {
       "Resource": "*",
@@ -53,6 +54,7 @@
     "Environment": "development",
     "spotops.delete_ebs": true,
     "spotops.optimize_od": true,
+    "spotops.app_type": "webapp",
     "spotops.optimize_spot": true
   },
   "od_config": {

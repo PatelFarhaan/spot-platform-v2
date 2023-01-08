@@ -15,7 +15,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
         version            = aws_launch_template.od_launch_template.latest_version
       }
 
-      dynamic override {
+      dynamic "override" {
         for_each = var.od_instance_type
         content {
           instance_type = override.value

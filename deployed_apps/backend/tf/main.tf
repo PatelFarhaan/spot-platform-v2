@@ -5,9 +5,9 @@ terraform {
   backend "s3" {
     encrypt        = true
     region         = "us-east-1"
-    bucket         = "bios-apps-tf-state"
+    bucket         = "biosmesh-apps-tf-state"
     key            = "backend/terraform.tfstate"
-    dynamodb_table = "bios-dynamodb-tflock-state"
+    dynamodb_table = "biosmesh-dynamodb-tflock-state"
   }
 }
 
@@ -20,25 +20,26 @@ locals {
 module "backend-us-east-1" {
   source = "../../../tf_modules/dev/web_app"
 
-  app                           = local.config_data.app
-  env                           = local.config_data.env
-  tags                          = local.config_data.tags
-  region                        = local.config_data.region
-  ami_id                        = local.config_data.ami_id
-  zone_id                       = local.config_data.zone_id
-  dns_name                      = local.config_data.dns_name
-  volume_type                   = local.config_data.volume_type
-  prefix_name                   = local.config_data.prefix_name
-  key_name                      = local.config_data.ssh_key_name
-  ebs_volume_size               = local.config_data.ebs_volume_size
-  sns_subscriptions             = local.config_data.sns_subscriptions
-  mcp_sg_id                     = local.config_data.internal_mcp_sg_id
-  client_defined_policies       = local.config_data.client_defined_policies
-  global_load_balancer_arn      = local.config_data.global_load_balancer_arn
-  internal_s3_worker_bucket     = local.config_data.internal_s3_worker_bucket
-  lb_algorithm_type             = local.config_data.internal_lb_algorithm_type
-  internal_s3_spot_plane_bucket = local.config_data.internal_s3_spot_plane_bucket
-  name                          = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
+  app                               = local.config_data.app
+  env                               = local.config_data.env
+  tags                              = local.config_data.tags
+  region                            = local.config_data.region
+  ami_id                            = local.config_data.ami_id
+  zone_id                           = local.config_data.zone_id
+  dns_name                          = local.config_data.dns_name
+  volume_type                       = local.config_data.volume_type
+  prefix_name                       = local.config_data.prefix_name
+  key_name                          = local.config_data.ssh_key_name
+  ebs_volume_size                   = local.config_data.ebs_volume_size
+  sns_subscriptions                 = local.config_data.sns_subscriptions
+  mcp_sg_id                         = local.config_data.internal_mcp_sg_id
+  client_defined_policies           = local.config_data.client_defined_policies
+  internal_s3_worker_bucket         = local.config_data.internal_s3_worker_bucket
+  lb_algorithm_type                 = local.config_data.internal_lb_algorithm_type
+  spot_plane_bucket                 = local.config_data.internal_spot_plane_bucket
+  internal_s3_spot_plane_bucket     = local.config_data.internal_s3_spot_plane_bucket
+  global_dev_apps_load_balancer_arn = local.config_data.internal_global_dev_apps_lb_arn
+  name                              = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
   .app}"
   global_name = "${local.config_data.internal_platform}-${local.config_data.env}-${local.config_data
   .app}-${local.config_data.region}"
