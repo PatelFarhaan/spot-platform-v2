@@ -16,7 +16,7 @@ locals {
 
 // Base TF Module
 module "base_tf_module" {
-  source = "./../base_module"
+  source = "../tf_module"
 
   tags                       = local.config_data.tags
   region                     = local.config_data.region

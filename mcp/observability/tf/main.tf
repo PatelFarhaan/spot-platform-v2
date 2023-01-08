@@ -20,7 +20,7 @@ locals {
 
 // MCP Module
 module "mcp_bios" {
-  source = "./../mcp_module"
+  source = "../tf_module"
 
   app                   = local.config_data.app
   env                   = local.config_data.env
