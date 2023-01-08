@@ -1,12 +1,12 @@
-// creating a Target Group for port 80
+// Target Group for port 80
 resource "aws_lb_target_group" "target_group_port_80" {
   port                          = 80
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = var.vpc_id
   load_balancing_algorithm_type = "round_robin"
-  name                          = "${var.app}-public"
+  name                          = "${var.app}-grafana"
+  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   health_check {
     healthy_threshold   = 3
@@ -28,9 +28,9 @@ resource "aws_lb_target_group" "target_group_port_9090" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = var.vpc_id
   load_balancing_algorithm_type = "round_robin"
   name                          = "${var.app}-prometheus"
+  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   health_check {
     healthy_threshold   = 3
@@ -52,9 +52,9 @@ resource "aws_lb_target_group" "target_group_port_9093" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  vpc_id                        = var.vpc_id
   load_balancing_algorithm_type = "round_robin"
   name                          = "${var.app}-alert-manager"
+  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   health_check {
     healthy_threshold   = 3

@@ -25,13 +25,13 @@ module "backend-us-east-1" {
   tags                              = local.config_data.tags
   region                            = local.config_data.region
   ami_id                            = local.config_data.ami_id
-  zone_id                           = local.config_data.zone_id
   dns_name                          = local.config_data.dns_name
   volume_type                       = local.config_data.volume_type
   prefix_name                       = local.config_data.prefix_name
   key_name                          = local.config_data.ssh_key_name
   ebs_volume_size                   = local.config_data.ebs_volume_size
   sns_subscriptions                 = local.config_data.sns_subscriptions
+  zone_name                         = local.config_data.internal_zone_name
   mcp_sg_id                         = local.config_data.internal_mcp_sg_id
   client_defined_policies           = local.config_data.client_defined_policies
   internal_s3_worker_bucket         = local.config_data.internal_s3_worker_bucket

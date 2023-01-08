@@ -11,9 +11,9 @@ variable "env" {}
 variable "name" {}
 variable "ami_id" {}
 variable "region" {}
-variable "zone_id" {}
 variable "dns_name" {}
 variable "key_name" {}
+variable "zone_name" {}
 variable "mcp_sg_id" {}
 variable "global_name" {}
 variable "volume_type" {}

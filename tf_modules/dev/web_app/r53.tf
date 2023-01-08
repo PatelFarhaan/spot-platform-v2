@@ -1,8 +1,14 @@
+// Fetching ZoneID
+data "aws_route53_zone" "selected" {
+  name = var.zone_name
+}
+
+
 // Redirect non-naked domain to Load Balancer
 resource "aws_route53_record" "dualstack_alias" {
   type    = "A"
-  zone_id = var.zone_id
   name    = "www.${var.dns_name}"
+  zone_id = data.aws_route53_zone.selected.zone_id
 
   alias {
     evaluate_target_health = false
@@ -15,8 +21,8 @@ resource "aws_route53_record" "dualstack_alias" {
 // Redirect naked domain to www
 resource "aws_route53_record" "www_redirect" {
   type    = "A"
-  zone_id = var.zone_id
   name    = var.dns_name
+  zone_id = data.aws_route53_zone.selected.zone_id
 
   alias {
     evaluate_target_health = false
@@ -38,8 +44,8 @@ resource "aws_route53_record" "application_acm_records" {
 
   ttl             = 60
   allow_overwrite = true
-  zone_id         = var.zone_id
   name            = each.value.name
   type            = each.value.type
   records         = [each.value.record]
+  zone_id         = data.aws_route53_zone.selected.zone_id
 }

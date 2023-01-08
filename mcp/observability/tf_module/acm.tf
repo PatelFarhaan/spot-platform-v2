@@ -1,5 +1,5 @@
 // Application Cert Manager
-resource "aws_acm_certificate" "mcp_certs" {
+resource "aws_acm_certificate" "mcp_observability_app_certs" {
   validation_method = "DNS"
   domain_name       = var.dns_name
 
@@ -12,23 +12,4 @@ resource "aws_acm_certificate" "mcp_certs" {
   }
 
   tags = var.tags
-}
-
-
-// Validating ACM Records
-resource "aws_route53_record" "mcp_acm_records" {
-  for_each = {
-    for dvo in aws_acm_certificate.mcp_certs.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      type   = dvo.resource_record_type
-      record = dvo.resource_record_value
-    }
-  }
-
-  ttl             = 60
-  allow_overwrite = true
-  zone_id         = var.zone_id
-  name            = each.value.name
-  type            = each.value.type
-  records         = [each.value.record]
 }

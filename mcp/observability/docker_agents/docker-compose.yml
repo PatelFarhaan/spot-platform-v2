@@ -53,8 +53,8 @@ services:
     restart: always
     environment:
       - "HOSTNAME=mcp"
-      - "ENV=development"
-      - "APPLICATION=mcp"
+      - "ENV=production"
+      - "APPLICATION=mcp-observability"
     command: -config.file=/etc/loki/loki-config.yml
     networks:
       - spotops_monitoring
@@ -102,9 +102,9 @@ services:
       -config.expand-env=true
       -config.file=/etc/promtail/promtail-config.yml
     environment:
-      - ENV=production
-      - HOSTNAME=master-node
-      - APPLICATION=monitoting-control-plane
+      - "HOSTNAME=mcp"
+      - "ENV=production"
+      - "APPLICATION=mcp-observability"
     networks:
       - spotops_monitoring
 
