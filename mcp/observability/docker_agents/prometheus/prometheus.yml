@@ -26,8 +26,8 @@ scrape_configs:
         target_label: instance
     static_configs:
       - labels:
-          application: mcp
           environment: production
+          application: mcp-observability
         targets:
           - cadvisor:8080
           - node_exporter:9100
