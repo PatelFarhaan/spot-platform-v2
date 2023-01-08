@@ -1,0 +1,17 @@
+variable "tags" {}
+variable "region" {}
+variable "vpc_id" {}
+variable "zone_id" {}
+variable "dns_name" {}
+variable "ecr_name" {}
+variable "kms_name" {}
+variable "subnets" {}
+variable "dynamodb_name" {}
+variable "mcp_bucket" {}
+variable "vault_bucket" {}
+variable "workers_bucket" {}
+variable "tfstate_bucket" {}
+variable "global_mcp_apps_lb" {}
+variable "global_dev_apps_lb" {}
+variable "global_dev_apps_lb_ingress" {}
+variable "global_mcp_apps_lb_ingress" {}

@@ -6,7 +6,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
   max_size             = var.od_asg_max_instances
   desired_capacity     = var.od_asg_desired_instances
   target_group_arns    = [aws_lb_target_group.target_group.arn]
-  vpc_zone_identifier  = data.aws_lb.global_load_balancer.subnets
+  vpc_zone_identifier  = data.aws_lb.global_dev_apps_load_balancer.subnets
 
   mixed_instances_policy {
     launch_template {
@@ -15,7 +15,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
         version            = aws_launch_template.od_launch_template.latest_version
       }
 
-      dynamic override {
+      dynamic "override" {
         for_each = var.od_instance_type
         content {
           instance_type = override.value

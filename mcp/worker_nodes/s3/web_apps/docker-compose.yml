@@ -110,8 +110,8 @@ services:
 
   cron_jobs:
     build:
-      context: ../common/cron_jobs
-      dockerfile: ../common/cron_jobs/Dockerfile
+      context: cron_jobs
+      dockerfile: Dockerfile
     restart: always
     container_name: cron_jobs
     logging: *default-logging
@@ -125,19 +125,19 @@ services:
     volumes:
       - /dev:/dev
 
-  sidecar:
-    build:
-      context: ../common/sidecar
-      dockerfile: Dockerfile
-    restart: on-failure
-    container_name: sidecar
-    logging: *default-logging
-    environment:
-      - "VAULT_ADDR=${VAULT_ADDR}"
-      - "ENVIRONMENT=${ENVIRONMENT}"
-      - "APPLICATION=${APPLICATION}"
-    volumes:
-      - ./app.secret:/app_path/app.secret
+#  sidecar:
+#    build:
+#      context: ../common/sidecar
+#      dockerfile: Dockerfile
+#    restart: on-failure
+#    container_name: sidecar
+#    logging: *default-logging
+#    environment:
+#      - "VAULT_ADDR=${VAULT_ADDR}"
+#      - "ENVIRONMENT=${ENVIRONMENT}"
+#      - "APPLICATION=${APPLICATION}"
+#    volumes:
+#      - ./app.secret:/app_path/app.secret
 
   main_application:
     restart: always
@@ -147,13 +147,12 @@ services:
       - ${CLIENT_APP_PORT}
     env_file:
       - app.env
-      - app.secret
     volumes:
       - ./configs:/config
     networks:
       - spotops_monitoring
     deploy:
       replicas: ${APP_REPLICAS}
-    depends_on:
-      sidecar:
-        condition: service_completed_successfully
+#    depends_on:
+#      sidecar:
+#        condition: service_completed_successfully

@@ -19,11 +19,12 @@ variable "global_name" {}
 variable "volume_type" {}
 variable "prefix_name" {}
 variable "ebs_volume_size" {}
+variable "spot_plane_bucket" {}
 variable "lb_algorithm_type" {}
 variable "client_defined_policies" {}
-variable "global_load_balancer_arn" {}
 variable "internal_s3_worker_bucket" {}
 variable "internal_s3_spot_plane_bucket" {}
+variable "global_dev_apps_load_balancer_arn" {}
 
 # OD vars
 variable "od_instance_type" {

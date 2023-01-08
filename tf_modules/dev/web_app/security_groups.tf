@@ -2,13 +2,13 @@
 resource "aws_security_group" "app_sg" {
   name        = "${var.name}-app-sg"
   description = "Security Group for Application"
-  vpc_id      = data.aws_lb.global_load_balancer.vpc_id
+  vpc_id      = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   ingress {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = data.aws_lb.global_load_balancer.security_groups
+    security_groups = data.aws_lb.global_dev_apps_load_balancer.security_groups
   }
 
   ingress {
@@ -36,7 +36,7 @@ resource "aws_security_group" "app_sg" {
     from_port       = 9999
     to_port         = 9999
     protocol        = "tcp"
-    security_groups = data.aws_lb.global_load_balancer.security_groups
+    security_groups = data.aws_lb.global_dev_apps_load_balancer.security_groups
   }
 
   ingress {

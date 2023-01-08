@@ -1,6 +1,6 @@
 // Creating a IAM Role with all policies
 resource "aws_iam_role" "iam_role_for_service" {
-  name                = var.regional_name
+  name = var.regional_name
   managed_policy_arns = [
     aws_iam_policy.ec2_read_only.arn
   ]
@@ -9,7 +9,7 @@ resource "aws_iam_role" "iam_role_for_service" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        Effect    = "Allow",
+        Effect = "Allow",
         Principal = {
           Service = "ec2.amazonaws.com"
         },

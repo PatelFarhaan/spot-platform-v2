@@ -17,6 +17,8 @@ locals {
   config_data = yamldecode(file("./../config.yml"))
 }
 
+
+// MCP Module
 module "mcp_bios" {
   source = "./../mcp_module"
 
