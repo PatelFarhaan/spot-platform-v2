@@ -1,1 +1,0 @@
-// One S3 bucket for storing code deploy artifacts

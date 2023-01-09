@@ -34,6 +34,10 @@ output "aws_ecr_id" {
   value = aws_ecr_repository.apps_private_repo.repository_url
 }
 
+output "mcp_global_apps_target_gorup_name" {
+  value = aws_lb_target_group.global_mcp_apps_target_group.name
+}
+
 output "global_dev_apps_lb_security_group_id" {
   value = aws_security_group.global_dev_apps_lb_security_group.id
 }
