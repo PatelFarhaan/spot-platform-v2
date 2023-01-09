@@ -1,4 +1,4 @@
-// Target Group for port 80
+// Target Group for port 80 (Grafana)
 resource "aws_lb_target_group" "target_group_port_80" {
   port                          = 80
   deregistration_delay          = 100
@@ -18,6 +18,10 @@ resource "aws_lb_target_group" "target_group_port_80" {
     protocol            = "HTTP"
     port                = "9999"
     path                = "/internal/spotops/health"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
@@ -43,6 +47,10 @@ resource "aws_lb_target_group" "target_group_port_9090" {
     port                = "9999"
     path                = "/internal/spotops/health"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 
@@ -66,5 +74,9 @@ resource "aws_lb_target_group" "target_group_port_9093" {
     protocol            = "HTTP"
     port                = "9999"
     path                = "/internal/spotops/health"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }

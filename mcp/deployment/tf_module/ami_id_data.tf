@@ -1,7 +1,7 @@
-// Fetching latest AMI id for Ubuntu: ARM64 processor
-data "aws_ami" "arm64_processor" {
+// Fetching latest AMI id for Ubuntu: X86_64 processor
+data "aws_ami" "x86_processor" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["099720109477"]
 
   filter {
     name   = "virtualization-type"
@@ -9,12 +9,7 @@ data "aws_ami" "arm64_processor" {
   }
 
   filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-20221206"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 }

@@ -1,17 +1,18 @@
 env: production
 region: us-east-1
 key_name: bios-new
-app: mcp-observability
-instance_type: a1.medium
+app: mcp-deployment
+instance_type: t2.medium
 zone_name: biosapplication.com
 private_key_name_path: bios-new.pem
-dns_name: mcp.observability.biosapplication.com
+dns_name_vault: mcp.vault.biosapplication.com
+dns_name_jenkins: mcp.deployment.biosapplication.com
 global_dev_mcp_load_balancer_arn: "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-mcp-apps-us-east-1/5d2b1ac8971f186a"
 
 tags:
   Owner: Bios
-  Name: biosmesh-mcp
   Developer: Farhaan
   Provisioner: Terraform
   Environment: production
-  Application: mcp-observability
+  Application: mcp-deployment
+  Name: biosmesh-mcp-deployment

@@ -21,8 +21,9 @@ resource "aws_iam_role" "iam_role_for_service" {
   tags = var.tags
 }
 
+
 // Creating IAM Profile to be associated with EC2
 resource "aws_iam_instance_profile" "iam_profile_for_service" {
-  name = "monitoring_control_plane_development"
+  name = "${var.regional_name}-ip"
   role = aws_iam_role.iam_role_for_service.name
 }

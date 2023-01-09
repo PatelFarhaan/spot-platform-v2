@@ -3,7 +3,7 @@ resource "aws_instance" "ec2_instance" {
   tenancy              = "default"
   key_name             = var.key_name
   instance_type        = var.instance_type
-  ami                  = data.aws_ami.arm64_processor.id
+  ami                  = data.aws_ami.x86_processor.id
   security_groups      = [aws_security_group.app_sg.name]
   iam_instance_profile = aws_iam_instance_profile.iam_profile_for_service.name
 

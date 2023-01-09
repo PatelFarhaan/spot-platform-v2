@@ -1,12 +1,14 @@
 // Public listener on port 80
-resource "aws_lb_listener" "port_80" {
+resource "aws_lb_listener" "dev_apps_port_80" {
   port              = 80
   protocol          = "HTTP"
   load_balancer_arn = aws_lb.global_dev_apps_lb.arn
 
+  depends_on = [aws_lb_target_group.global_dev_apps_target_group]
+
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
@@ -14,7 +16,7 @@ resource "aws_lb_listener" "port_80" {
 
 
 // Secure listener on port 443
-resource "aws_lb_listener" "port_443" {
+resource "aws_lb_listener" "dev_apps_port_443" {
   port              = 443
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -23,12 +25,13 @@ resource "aws_lb_listener" "port_443" {
 
   depends_on = [
     aws_route53_record.global_acm_records,
-    aws_acm_certificate.default_global_certs
+    aws_acm_certificate.default_global_certs,
+    aws_lb_target_group.global_dev_apps_target_group
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
@@ -36,7 +39,7 @@ resource "aws_lb_listener" "port_443" {
 
 
 // Secure listener on port 27017
-resource "aws_lb_listener" "port_27017" {
+resource "aws_lb_listener" "dev_apps_port_27017" {
   port              = 27017
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -45,12 +48,13 @@ resource "aws_lb_listener" "port_27017" {
 
   depends_on = [
     aws_route53_record.global_acm_records,
-    aws_acm_certificate.default_global_certs
+    aws_acm_certificate.default_global_certs,
+    aws_lb_target_group.global_dev_apps_target_group
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
@@ -58,7 +62,7 @@ resource "aws_lb_listener" "port_27017" {
 
 
 // Secure listener on port 3306
-resource "aws_lb_listener" "port_3306" {
+resource "aws_lb_listener" "dev_apps_port_3306" {
   port              = 3306
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -67,12 +71,13 @@ resource "aws_lb_listener" "port_3306" {
 
   depends_on = [
     aws_route53_record.global_acm_records,
-    aws_acm_certificate.default_global_certs
+    aws_acm_certificate.default_global_certs,
+    aws_lb_target_group.global_dev_apps_target_group
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
@@ -80,7 +85,7 @@ resource "aws_lb_listener" "port_3306" {
 
 
 // Secure listener on port 5432
-resource "aws_lb_listener" "port_5432" {
+resource "aws_lb_listener" "dev_apps_port_5432" {
   port              = 5432
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -89,12 +94,13 @@ resource "aws_lb_listener" "port_5432" {
 
   depends_on = [
     aws_route53_record.global_acm_records,
-    aws_acm_certificate.default_global_certs
+    aws_acm_certificate.default_global_certs,
+    aws_lb_target_group.global_dev_apps_target_group
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
@@ -102,7 +108,7 @@ resource "aws_lb_listener" "port_5432" {
 
 
 // Secure listener on port 6379
-resource "aws_lb_listener" "port_6379" {
+resource "aws_lb_listener" "dev_apps_port_6379" {
   port              = 6379
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -111,12 +117,13 @@ resource "aws_lb_listener" "port_6379" {
 
   depends_on = [
     aws_route53_record.global_acm_records,
-    aws_acm_certificate.default_global_certs
+    aws_acm_certificate.default_global_certs,
+    aws_lb_target_group.global_dev_apps_target_group
   ]
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
   }
 
   tags = var.tags
