@@ -6,7 +6,7 @@ instance_type: a1.medium
 zone_name: biosapplication.com
 private_key_name_path: bios-new.pem
 dns_name: mcp.observability.biosapplication.com
-global_dev_mcp_load_balancer_arn: "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-mcp-apps-us-east-1/5d2b1ac8971f186a"
+global_dev_mcp_load_balancer_name: global-mcp-apps-us-east-1
 
 tags:
   Owner: Bios

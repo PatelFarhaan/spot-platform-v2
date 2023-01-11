@@ -10,4 +10,4 @@ variable "regional_name" {}
 variable "dns_name_vault" {}
 variable "dns_name_jenkins" {}
 variable "private_key_name_path" {}
-variable "global_dev_mcp_load_balancer_arn" {}
+variable "global_dev_mcp_load_balancer_name" {}

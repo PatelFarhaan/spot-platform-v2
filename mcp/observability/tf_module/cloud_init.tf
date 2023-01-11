@@ -3,6 +3,8 @@ data "template_file" "cloud_init_script" {
 #! /bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
+export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
+
 sudo apt update -y &&
 sudo apt upgrade -y &&
 cd /etc/apt && sudo cp trusted.gpg trusted.gpg.d

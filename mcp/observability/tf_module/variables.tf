@@ -9,4 +9,4 @@ variable "zone_name" {}
 variable "instance_type" {}
 variable "regional_name" {}
 variable "private_key_name_path" {}
-variable "global_dev_mcp_load_balancer_arn" {}
+variable "global_dev_mcp_load_balancer_name" {}

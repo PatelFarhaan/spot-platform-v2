@@ -113,6 +113,7 @@ class UnsealVault(AWS):
 
     def update_kms_config(self, add_kms=True):
         def add_kms_to_vault():
+            # TODO: get value from main_config
             if "seal" not in data:
                 data["seal"] = {
                     "awskms": {

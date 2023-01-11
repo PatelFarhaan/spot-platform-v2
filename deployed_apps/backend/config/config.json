@@ -54,8 +54,9 @@
     "Environment": "development",
     "spotops.delete_ebs": true,
     "spotops.optimize_od": true,
-    "spotops.app_type": "webapp",
-    "spotops.optimize_spot": true
+    "spotops.app.type": "webapp",
+    "spotops.optimize_spot": true,
+    "spotops.app.configuration": "docker"
   },
   "od_config": {
     "instance_type": [

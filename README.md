@@ -51,3 +51,13 @@ cli aws ec2   describe-spot-price-history
 1. Solve volume automation -> Done
 2. migrate deamon from tf module to s3
 3. have file config to container volume mapping
+
+
+Main things to do to complete MCP:
+Develop script for main config
+1. Solve the issue with Vault unseal kms 
+2. Migrate mcp observability to minio
+3. Integrate Tempo and jagear to observability stack
+4. https://developer.hashicorp.com/consul/tutorials/docker/docker-compose-observability
+5. https://grafana.com/docs/tempo/latest/getting-started/example-demo-app/
+6. https://opentelemetry.io/docs/instrumentation/
