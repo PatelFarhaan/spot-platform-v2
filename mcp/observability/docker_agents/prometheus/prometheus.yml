@@ -29,6 +29,7 @@ scrape_configs:
           environment: production
           application: mcp-observability
         targets:
+          - tempo:3200
           - cadvisor:8080
           - node_exporter:9100
           - nginx_exporter:9113
@@ -55,12 +56,14 @@ scrape_configs:
           - __meta_ec2_tag_Environment
         target_label: environment
     ec2_sd_configs:
-      - region: us-east-1
+      - region: '${region}'
         port: 9100
-      - region: us-east-1
+      - region: '${region}'
         port: 8080
-      - region: us-east-1
+      - region: '${region}'
         port: 9113
+      - region: '${region}'
+        port: 3200
 
   - job_name: databases
     scheme: http
@@ -88,9 +91,9 @@ scrape_configs:
         regex: true
         action: keep
     ec2_sd_configs:
-      - region: us-east-1
+      - region: '${region}'
         port: 9100
-      - region: us-east-1
+      - region: '${region}'
         port: 8080
-      - region: us-east-1
+      - region: '${region}'
         port: 9113

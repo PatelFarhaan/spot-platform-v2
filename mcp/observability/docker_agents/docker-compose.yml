@@ -11,7 +11,10 @@ x-logging:
 
 services:
   prometheus:
+    user: root
+    restart: always
     image: prom/prometheus
+    logging: *default-logging
     container_name: "prometheus"
     volumes:
       - spotops-prometheus:/prometheus:rw
@@ -19,11 +22,13 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     expose:
       - 9090
-    user: root
-    restart: always
+    environment:
+      - "region=${AWS_REGION}"
     command:
       --web.enable-lifecycle
       --storage.tsdb.retention.time=7d
+      --enable-feature=exemplar-storage
+      --web.enable-remote-write-receiver
       --config.file=/etc/prometheus/prometheus.yml
     networks:
       - spotops_monitoring
@@ -37,14 +42,14 @@ services:
     volumes:
       - spotops-alertmanager:/data:rw
       - ./alert_manager/alertmanager.yml:/config/alertmanager.yml:ro
-    command: --config.file=/config/alertmanager.yml --log.level=debug
+    command:
+      --config.file=/config/alertmanager.yml --log.level=debug
     networks:
       - spotops_monitoring
 
   loki:
     container_name: "loki"
     image: grafana/loki:2.4.0
-    logging: *default-logging
     volumes:
       - spotops-loki:/data/loki:rw
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
@@ -58,6 +63,34 @@ services:
     command: -config.file=/etc/loki/loki-config.yml
     networks:
       - spotops_monitoring
+
+  tempo:
+    restart: always
+    container_name: tempo
+    image: grafana/tempo:latest
+    command:
+      -config.file=/etc/tempo.yml
+    volumes:
+      - spotops-tempo:/tmp/tempo
+      - ./tempo/tempo.yml:/etc/tempo.yml
+    expose:
+      - 3200
+      - 4317
+    networks:
+      - spotops_monitoring
+    logging: *default-logging
+
+  otel-agent:
+    restart: always
+    image: otel/opentelemetry-collector-contrib
+    container_name: opentelemetry-collector
+    expose:
+      - 4317
+    volumes:
+      - ./otel/config.yml:/etc/otel/config.yaml
+    networks:
+      - spotops_monitoring
+    logging: *default-logging
 
   grafana:
     user: root
@@ -156,8 +189,10 @@ services:
     networks:
       - spotops_monitoring
 
+
 volumes:
   spotops-loki:
+  spotops-tempo:
   spotops-grafana:
   spotops-prometheus:
   spotops-alertmanager:
