@@ -23,3 +23,6 @@
     }
   }
 }
+
+
+# Give proper IAM role to read from S3 and full access to KMS key for vault

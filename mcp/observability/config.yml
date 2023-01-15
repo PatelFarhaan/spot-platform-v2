@@ -3,10 +3,9 @@ region: us-east-1
 key_name: bios-new
 app: mcp-observability
 instance_type: a1.medium
-zone_name: biosapplication.com  # mcp
 private_key_name_path: bios-new.pem
 dns_name: mcp.observability.biosapplication.com
-global_dev_mcp_load_balancer_name: global-mcp-apps-us-east-1 # mcp
+global_zone_name_1: biosapplication.com
 
 tags:
   Owner: Bios
