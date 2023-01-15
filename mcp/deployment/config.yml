@@ -3,11 +3,9 @@ region: us-east-1
 key_name: bios-new
 app: mcp-deployment
 instance_type: t2.medium
-zone_name: ***REMOVED*** # mcp
 private_key_name_path: bios-new.pem
 dns_name_vault: mcp.vault.***REMOVED***
 dns_name_jenkins: mcp.deployment.***REMOVED***
-global_dev_mcp_load_balancer_name: global-mcp-apps-us-east-1 # mcp
 
 tags:
   Owner: Bios
