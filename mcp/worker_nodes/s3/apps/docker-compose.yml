@@ -125,19 +125,19 @@ services:
     volumes:
       - /dev:/dev
 
-#  sidecar:
-#    build:
-#      context: ../common/sidecar
-#      dockerfile: Dockerfile
-#    restart: on-failure
-#    container_name: sidecar
-#    logging: *default-logging
-#    environment:
-#      - "VAULT_ADDR=${VAULT_ADDR}"
-#      - "ENVIRONMENT=${ENVIRONMENT}"
-#      - "APPLICATION=${APPLICATION}"
-#    volumes:
-#      - ./app.secret:/app_path/app.secret
+  sidecar:
+    build:
+      context: sidecar
+      dockerfile: Dockerfile
+    restart: on-failure
+    container_name: sidecar
+    logging: *default-logging
+    environment:
+      - "VAULT_ADDR=${VAULT_ADDR}"
+      - "ENVIRONMENT=${ENVIRONMENT}"
+      - "APPLICATION=${APPLICATION}"
+    volumes:
+      - ./app.secret:/app_path/app.secret
 
   main_application:
     restart: always
@@ -153,6 +153,6 @@ services:
       - spotops_monitoring
     deploy:
       replicas: ${APP_REPLICAS}
-#    depends_on:
-#      sidecar:
-#        condition: service_completed_successfully
+    depends_on:
+      sidecar:
+        condition: service_completed_successfully

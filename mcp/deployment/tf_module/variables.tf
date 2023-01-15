@@ -2,12 +2,15 @@ variable "app" {}
 variable "env" {}
 variable "tags" {}
 variable "name" {}
+variable "kms_id" {}
 variable "region" {}
 variable "key_name" {}
 variable "zone_name" {}
 variable "instance_type" {}
 variable "regional_name" {}
 variable "dns_name_vault" {}
+variable "mcp_spot_bucket" {}
+variable "mcp_vault_bucket" {}
 variable "dns_name_jenkins" {}
 variable "private_key_name_path" {}
 variable "global_mcp_load_balancer_arn" {}

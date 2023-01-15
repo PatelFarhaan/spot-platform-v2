@@ -13,7 +13,8 @@ class UnsealVault(AWS):
         super().__init__()
         self.keys = None
         self.root_token = None
-        self.vault_addr = environ["VAULT_ADDRESS"]
+        self.kms_id = self.get_kms_id()
+        self.vault_addr = environ["VAULT_ADDR"]
         self.config_file = environ["VAULT_CONFIG_FILE"]
 
         self.client = self.get_vault_client()
@@ -103,6 +104,10 @@ class UnsealVault(AWS):
         _audit = requests.post(**payload)
         assert _audit.status_code == 204
 
+    def get_kms_id(self):
+        data = self.get_vault_config()
+        return data["seal"]["awskms"]["kms_key_id"]
+
     def get_vault_config(self):
         return json.load(open(self.config_file))
 
@@ -113,14 +118,10 @@ class UnsealVault(AWS):
 
     def update_kms_config(self, add_kms=True):
         def add_kms_to_vault():
-            # TODO: get value from main_config
             if "seal" not in data:
                 data["seal"] = {
                     "awskms": {
-                        "region": "us-east-1",
-                        "access_key": "AKIA3IYIXYRKI6DKV4OU",
-                        "kms_key_id": "a2701869-7b71-43b0-8e2d-832439856c56",
-                        "secret_key": "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"
+                        "kms_key_id": self.kms_id,
                     }
                 }
                 self.update_vault_config(data)

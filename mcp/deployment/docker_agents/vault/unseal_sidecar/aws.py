@@ -14,15 +14,12 @@ from boto3 import client, resource
 class AWS:
     def __init__(self):
         self.region = "us-east-1"
-        # self.region = self.get_aws_region()
+        self.region = self.get_aws_region()
         self.s3_bucket = environ["S3_VAULT_BUCKET"]
         self.s3_filename = environ["S3_VAULT_FILENAME"]
 
     def get_boto3_client(self, service_name: str) -> client:
-        return client(service_name,
-                      region_name=self.region,
-                      aws_access_key_id='AKIA3IYIXYRKI6DKV4OU',
-                      aws_secret_access_key='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')
+        return client(service_name, region_name=self.region)
 
     def get_boto3_resource(self, service_name: str) -> resource:
         return resource(service_name, region_name=self.region)

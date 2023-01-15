@@ -8,21 +8,12 @@
   },
   "backend": {
     "s3": {
-      "region": "us-east-1",
-      "bucket": "biosmesh-vault",
-      "access_key": "AKIA3IYIXYRKI6DKV4OU",
-      "secret_key": "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"
+      "bucket": "$vaultbucketname"
     }
   },
   "seal": {
     "awskms": {
-      "region": "us-east-1",
-      "access_key": "AKIA3IYIXYRKI6DKV4OU",
-      "kms_key_id": "cd7b6e54-1605-43db-8096-4ff6975b2dc5",
-      "secret_key": "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"
+      "kms_key_id": "$kmskeyid"
     }
   }
 }
-
-
-# Give proper IAM role to read from S3 and full access to KMS key for vault

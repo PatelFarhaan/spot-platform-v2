@@ -2,7 +2,7 @@
 resource "aws_iam_role" "iam_role_for_service" {
   name = var.regional_name
   managed_policy_arns = [
-    aws_iam_policy.ec2_read_only.arn
+    aws_iam_policy.mcp_deployment_access.arn
   ]
 
   assume_role_policy = jsonencode({

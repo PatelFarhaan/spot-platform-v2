@@ -52,9 +52,10 @@
     "Application": "backend",
     "Provisioner": "Terraform",
     "Environment": "development",
+    "spotops.is_sts": false,
+    "spotops.app.type": "app",
     "spotops.delete_ebs": true,
     "spotops.optimize_od": true,
-    "spotops.app.type": "webapp",
     "spotops.optimize_spot": true,
     "spotops.app.configuration": "docker"
   },

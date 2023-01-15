@@ -1,37 +1,42 @@
 // SES Policy
-resource "aws_iam_policy" "ec2_read_only" {
-  description = "EC2 Read only access"
+resource "aws_iam_policy" "mcp_deployment_access" {
+  name        = var.regional_name
+  description = "MCP deployment access"
   path        = "/${var.app}/${var.env}/"
-  name        = "ec2-ro-${var.regional_name}"
 
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
       {
         "Effect" : "Allow",
-        "Action" : "ec2:Describe*",
-        "Resource" : "*"
-      },
-      {
-        "Effect" : "Allow",
         "Action" : [
-          "cloudwatch:Describe*",
-          "cloudwatch:ListMetrics",
-          "cloudwatch:GetMetricData",
-          "cloudwatch:GetMetricStatistics"
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:DescribeKey"
         ],
-        "Resource" : "*"
+        "Resource" : "arn:aws:kms:::key/${var.kms_id}"
       },
       {
-        "Effect" : "Allow",
-        "Action" : "autoscaling:Describe*",
-        "Resource" : "*"
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::${var.mcp_spot_bucket}",
+          "arn:aws:s3:::${var.mcp_spot_bucket}/*",
+        ]
       },
       {
-        "Effect" : "Allow",
-        "Action" : "elasticloadbalancing:Describe*",
-        "Resource" : "*"
-      },
+        Effect = "Allow",
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::${var.mcp_vault_bucket}",
+          "arn:aws:s3:::${var.mcp_vault_bucket}/*",
+        ]
+      }
     ]
   })
 
