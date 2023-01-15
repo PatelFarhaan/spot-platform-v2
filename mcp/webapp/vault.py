@@ -25,8 +25,7 @@ class Vault:
         self.password = "password"
         self.application = "webapp"
         self.mount_point = {"mount_point": "kv"}
-        # self.vault_address = environ["VAULT_ADDR"]
-        self.vault_address = "http://localhost:8200"
+        self.vault_address = environ["VAULT_ADDR"]
         self.path = f"{self.service}/{self.application}"
 
         self.client = self.init_server()
