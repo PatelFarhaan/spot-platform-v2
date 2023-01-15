@@ -19,8 +19,8 @@ resource "null_resource" "push_output_to_s3" {
 
   provisioner "local-exec" {
     command = <<EOF
-      mcp_bucket_name=`cat ./../config.yml | yq -r .s3_buckets.mcp`
-      terraform output -json | jq .outputs.value > /tmp/mcp_config.json
+      mcp_bucket_name=`cat ./../config.yml | yq -r .s3_buckets.mcp` &&
+      terraform output -json | jq .outputs.value > /tmp/mcp_config.json &&
       aws s3 cp /tmp/mcp_config.json s3://$mcp_bucket_name
     EOF
   }
