@@ -8,7 +8,7 @@ terraform {
 }
 
 
-// Reading data variables from app_config.json file
+// Reading variables from config.json file
 locals {
   config_data = yamldecode(file("./../config.yml"))
 }
@@ -35,5 +35,4 @@ module "base_tf_module" {
   global_dev_apps_lb         = local.config_data.load_balancers.global_dev_apps
   global_dev_apps_lb_ingress = local.config_data.security_groups.global_dev_apps.alb.ingress
   global_mcp_apps_lb_ingress = local.config_data.security_groups.global_mcp_apps.alb.ingress
-
 }

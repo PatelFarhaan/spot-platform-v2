@@ -1,7 +1,3 @@
-output "account_id" {
-  value = local.account_id
-}
-
 output "global_dev_apps_lb_arn" {
   value = aws_lb.global_dev_apps_lb.arn
 }
@@ -10,33 +6,30 @@ output "global_mcp_apps_lb_arn" {
   value = aws_lb.global_mcp_apps_lb.arn
 }
 
-output "aws_s3_mcp_bucket_name" {
+output "s3_mcp_spot_plane_bucket_name" {
   value = aws_s3_bucket.mcp_bucket.bucket
 }
 
-output "aws_s3_worker_bucket_name" {
+output "s3_mcp_worker_bucket_name" {
   value = aws_s3_bucket.worker_bucket.bucket
 }
 
-output "aws_s3_tfstate_bucket_name" {
+output "s3_mcp_tfstate_bucket_name" {
   value = aws_s3_bucket.tfstate_bucket.bucket
 }
 
-output "aws_kms_id" {
+output "vault_kms_id" {
   value = aws_kms_key.vault_auto_unseal.key_id
 }
 
-output "aws_s3_tfstate_dynamodb_name" {
+output "tfstate_dynamodb_name" {
   value = aws_dynamodb_table.tfstate_dynamodb_table.name
 }
 
-output "aws_ecr_id" {
+output "mcp_ecr_id" {
   value = aws_ecr_repository.apps_private_repo.repository_url
 }
 
-output "mcp_global_apps_target_gorup_name" {
-  value = aws_lb_target_group.global_mcp_apps_target_group.name
-}
 
 output "global_dev_apps_lb_security_group_id" {
   value = aws_security_group.global_dev_apps_lb_security_group.id
@@ -44,4 +37,8 @@ output "global_dev_apps_lb_security_group_id" {
 
 output "global_mcp_apps_lb_security_group_id" {
   value = aws_security_group.global_mcp_apps_lb_security_group.id
+}
+
+output "global_zone_name_1" {
+  value = aws_acm_certificate.default_global_certs.domain_name
 }
