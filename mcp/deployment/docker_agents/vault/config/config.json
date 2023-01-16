@@ -8,11 +8,13 @@
   },
   "backend": {
     "s3": {
+      "region": "$region",
       "bucket": "$vaultbucketname"
     }
   },
   "seal": {
     "awskms": {
+      "region": "$region",
       "kms_key_id": "$kmskeyid"
     }
   }

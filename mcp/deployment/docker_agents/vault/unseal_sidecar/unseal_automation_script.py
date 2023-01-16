@@ -13,10 +13,10 @@ class UnsealVault(AWS):
         super().__init__()
         self.keys = None
         self.root_token = None
-        self.kms_id = self.get_kms_id()
         self.vault_addr = environ["VAULT_ADDR"]
         self.config_file = environ["VAULT_CONFIG_FILE"]
 
+        self.kms_id = self.get_kms_id()
         self.client = self.get_vault_client()
 
     def run_user_ops(self):
