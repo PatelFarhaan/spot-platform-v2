@@ -127,6 +127,7 @@ services:
   vault-server:
     image: vault:latest
     restart: always
+    logging: *default-logging
     container_name: vault-server
     volumes:
       - ./vault/config:/vault/config
@@ -149,14 +150,16 @@ services:
       context: vault/unseal_sidecar
       dockerfile: Dockerfile
     container_name: vault-ops
+    logging: *default-logging
     user: root
     environment:
       - "S3_VAULT_BUCKET=biosmesh-vault"
       - "VAULT_ADDR=http://vault-server:8200"
-      - "VAULT_CONFIG_FILE=/config/vault_config.json"
+      - "VAULT_CONFIG_FILE=/config/config.json"
+      - "S3_VAULT_FILENAME=internal_vault_config/keys.json"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./vault/config/vault_config.json:/config/vault_config.json
+      - ./vault/config/config.json:/config/config.json
     depends_on:
       vault-server:
         condition: service_started
