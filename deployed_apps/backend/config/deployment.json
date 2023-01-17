@@ -9,6 +9,7 @@
   "STOP_SCALE_WHEN_GB_REACHED": 50,
   "BLOCK_DEVICE_MAPPING_NAME": "/dev/sda1",
   "AWS_ECR_REPO_NAME": "biosmesh-all-apps",
+  "VAULT_ADDR": "https://mcp.vault.biosapplication.com",
   "AWS_ECR_ID": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
   "LOKI_URL": "https://mcp.observability.biosapplication.com/loki/api/v1/push",
   "CLIENT_APP_IMAGE": "development-backend-25110d5dbb98fb0f21676ee964ddac5f3ab782be",

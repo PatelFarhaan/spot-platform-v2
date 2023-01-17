@@ -23,8 +23,8 @@ RUN addgroup --system user && adduser --system --no-create-home --group user
 RUN chown -R user:user /usr/src/app && chmod -R 755 /usr/src/app
 
 USER user
-COPY secrets /usr/src/app/secrets
+COPY vault /usr/src/app/vault
 
 ENTRYPOINT ["python3"]
 
-CMD ["secrets/run.py"]
+CMD ["vault/run.py"]
