@@ -15,7 +15,7 @@ class Vault:
         self.application = environ["APPLICATION"]
         self.environment = environ["ENVIRONMENT"]
         self.vault_address = environ["VAULT_ADDR"]
-        self.path = f"{self.application}/{self.environment}"
+        self.path = f"{self.environment}/{self.application}"
 
         self.client = self.init_server()
 
@@ -40,24 +40,37 @@ class Vault:
         print("SUCCESSFULLY CONNECTED TO VAULT SERVER")
         return _client
 
-    def write_to_secrets_file(self, secrets):
-        print("INJECTING SECRETS INTO CONTAINERS...")
-        with open(f"{self.app_path}/app.secret", "w+") as file:
+    def write_to_secrets_file(self, secrets, is_secret=True):
+        if is_secret:
+            print("INJECTING SECRETS INTO CONTAINERS...")
+            _path = f"{self.app_path}/app.secret"
+        else:
+            print("INJECTING ENV VARIABLES INTO CONTAINERS...")
+            _path = f"{self.app_path}/app.env"
+
+        with open(_path, "w+") as file:
             for k, v in secrets.items():
                 _v = v.replace("'", '"')
                 file.writelines(f"{k}='{_v}'\n")
 
-    def list_secrets(self) -> dict:
-        _response = self.client.secrets.kv.v2.read_secret(path=self.path, **self.mount_point)
+    def list_secrets(self, is_secret=True) -> dict:
+        if is_secret:
+            print("STARTING PROCESS TO RETRIEVE SECRETS FROM VAULT...")
+            _path = f"{self.path}/secrets"
+        else:
+            print("STARTING PROCESS TO RETRIEVE ENV VARIABLES FROM VAULT...")
+            _path = f"{self.path}/env"
+
+        _response = self.client.secrets.kv.v2.read_secret(path=_path, **self.mount_point)
         _secrets = _response["data"]["data"]
-        print("RETRIEVED SECRETS SUCCESSFULLY")
         return _secrets
 
     def run(self):
-        print("STARTING PROCESS TO RETRIEVE SECRETS FROM VAULT...")
-        secrets = self.list_secrets()
-        self.write_to_secrets_file(secrets)
-        print("ALL SECRETS ARE INJECTED SECURELY INTO THE CONTAINER!!!")
+        secrets = self.list_secrets(is_secret=True)
+        self.write_to_secrets_file(secrets, is_secret=True)
+        env_vars = self.list_secrets(is_secret=False)
+        self.write_to_secrets_file(env_vars, is_secret=False)
+        print("ALL SECRETS AND ENV VARS ARE SECURELY INJECTED INTO THE CONTAINER!!!")
 
 
 if __name__ == '__main__':

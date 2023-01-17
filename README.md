@@ -61,3 +61,6 @@ Develop script for main config
 4. https://developer.hashicorp.com/consul/tutorials/docker/docker-compose-observability
 5. https://grafana.com/docs/tempo/latest/getting-started/example-demo-app/
 6. https://opentelemetry.io/docs/instrumentation/
+
+
+Add password for vault by script
