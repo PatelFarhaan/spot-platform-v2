@@ -10,15 +10,15 @@ instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
 tags=$(aws ec2 describe-tags --region "$region" --filter "Name=resource-id,Values=$instance_id" | jq '.Tags')
 
-env=$(echo $tags | jq -r '.[] | select ((.Key == "Environment")) | .Value')
-application=$(echo $tags | jq -r '.[] | select ((.Key == "Application")) | .Value')
-app_type=$(echo $tags | jq -r '.[] | select ((.Key == "spotops.app_type")) | .Value')
+env=$(echo $tags | jq -r '.[] | select (.Key == "Environment") | .Value')
+application=$(echo $tags | jq -r '.[] | select (.Key == "Application") | .Value')
+app_type=$(echo $tags | jq -r '.[] | select (.Key == "spotops.app.type") | .Value')
 
 app_config_path="$env/$application"
 aws s3 cp "s3://$internal_s3_worker_bucket/$app_config_path/" /var/opt/spotops/agents/ --recursive
 
-if [ "$app_type" == "webapp" ]; then
-  aws s3 cp "s3://$spot_plane_bucket/worker_agents/web_apps" /var/opt/spotops/agents/ --recursive
+if [ "$app_type" == "app" ]; then
+  aws s3 cp "s3://$spot_plane_bucket/worker_agents/apps" /var/opt/spotops/agents/ --recursive
 fi
 
 export_app_replicas() {
