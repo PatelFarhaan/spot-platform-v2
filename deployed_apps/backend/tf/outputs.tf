@@ -1,3 +1,3 @@
 output "outputs" {
-  value = module.backend-us-east-1
+  value = module.development-backend-us-east-1
 }

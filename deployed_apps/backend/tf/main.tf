@@ -5,22 +5,22 @@ terraform {
   backend "s3" {
     encrypt        = true
     region         = "us-east-1"
-    bucket         = "biosmesh-apps-tf-state"
-    key            = "backend/terraform.tfstate"
+    bucket         = "biosmesh-tf-state"
     dynamodb_table = "biosmesh-dynamodb-tflock-state"
+    key            = "development/backend/terraform.tfstate"
   }
 }
 
 
 // Reading data variables from app_config.json file
 locals {
-  app_data = jsondecode(file("./../config/config.json"))
-  internal_data = jsondecode(file("./../config/config.json"))
-
+  app_data = jsondecode(file("./../config/app_config.json"))
+  #  internal_data = jsondecode(file("./../config/internal_config.json"))
 }
 
-module "backend-us-east-1" {
-  source = "../../../tf_modules/stateful/dev/apps"
+
+module "development-backend-us-east-1" {
+  source = "../../../tf_modules/stateless/dev/apps"
 
   app                               = local.app_data.app
   env                               = local.app_data.env
@@ -41,10 +41,8 @@ module "backend-us-east-1" {
   spot_plane_bucket                 = local.app_data.internal_spot_plane_bucket
   internal_s3_spot_plane_bucket     = local.app_data.internal_s3_spot_plane_bucket
   global_dev_apps_load_balancer_arn = local.app_data.internal_global_dev_apps_lb_arn
-  name                              = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data
-  .app}"
-  global_name = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data
-  .app}-${local.app_data.region}"
+  name                              = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data.app}"
+  global_name                       = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data.app}-${local.app_data.region}"
 
   od_instance_type         = local.app_data.od_config.instance_type
   od_asg_min_instances     = local.app_data.od_config.auto_scaling_group.min_instances

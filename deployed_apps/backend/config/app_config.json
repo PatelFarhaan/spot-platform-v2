@@ -11,13 +11,13 @@
   "cooldown_and_deregistration_metadata": {},
   "internal_zone_name": "biosapplication.com",
   "internal_lb_algorithm_type": "round_robin",
-  "internal_mcp_sg_id": "sg-091f1638a7081219f",
+  "internal_mcp_sg_id": "sg-0d21eb79512dabcbc",
   "dns_name": "development.biosapplication.com",
   "internal_spot_plane_bucket": "biosmesh-spot-plane",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_global_lb_name": "global-dev-apps-us-east-1",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
-  "internal_global_dev_apps_lb_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/7b455d3b7d3bdfb6",
+  "internal_global_dev_apps_lb_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/10aa052609edd2f3",
   "client_defined_policies": [
     {
       "Resource": "*",
