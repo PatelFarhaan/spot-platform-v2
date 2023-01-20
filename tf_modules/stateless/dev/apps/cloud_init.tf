@@ -7,9 +7,16 @@ set -e -x
 sudo mkdir -p /var/opt/spotops/agents
 cd /var/opt/spotops/agents/
 
-aws s3 cp "s3://${var.spot_plane_bucket}/worker_agents/deamon.sh" /var/opt/spotops/agents/
-sudo bash deamon.sh && echo "Executing deamon.sh..."
-rm -rf deamon.sh
+region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
+aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "${var.ecr_id}"
+
+docker run --privileged \
+  -u root \
+  --name sidecar \
+  -v ${PWD}:/app_path/ \
+  -v /etc/profile.d/:/etc/profile.d/ \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  "${var.ecr_id}:host-sidecar"
 
 EOF
 }

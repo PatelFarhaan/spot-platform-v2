@@ -5,7 +5,7 @@ resource "aws_lb_target_group" "global_dev_apps_target_group" {
   protocol                      = "HTTP"
   target_type                   = "instance"
   vpc_id                        = var.vpc_id
-  load_balancing_algorithm_type = "round_robin"
+  load_balancing_algorithm_type = "least_outstanding_requests"
   name                          = "${var.global_dev_apps_lb}-${var.region}"
 
   lifecycle {

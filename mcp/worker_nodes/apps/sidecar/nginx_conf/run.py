@@ -17,4 +17,4 @@ s.add(
                    )
     )
 c.add(s)
-nginx.dumpf(c, './nginx/conf.d/application.conf')
+nginx.dumpf(c, '/app_path/nginx/conf.d/application.conf')
