@@ -1,8 +1,8 @@
 import json
 
-with open("./deployment.sh", "w") as file_write:
+with open("/app_path/deployment.sh", "w") as file_write:
     export_vars = "export HOSTNAME=`hostname`\n"
-    data = json.load(open("./deployment.json"))
+    data = json.load(open("/app_path/deployment.json"))
     key_to_ignore = ["VOLUME_CONFIG"]
 
     for key, value in data.items():
@@ -16,7 +16,6 @@ with open("./deployment.sh", "w") as file_write:
 
     content = f"""#!/bin/bash
 
-set -e -x
 {export_vars}"""
 
     file_write.write(content)

@@ -11,6 +11,7 @@ variable "env" {}
 variable "name" {}
 variable "ami_id" {}
 variable "region" {}
+variable "ecr_id" {}
 variable "dns_name" {}
 variable "key_name" {}
 variable "zone_name" {}
