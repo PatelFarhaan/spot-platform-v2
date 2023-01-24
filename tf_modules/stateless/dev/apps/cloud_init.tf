@@ -12,7 +12,6 @@ aws ecr get-login-password --region "$region" | docker login --username AWS --pa
 
 docker run --privileged \
   -u root \
-  --name sidecar \
   -v ${PWD}:/app_path/ \
   -v /etc/profile.d/:/etc/profile.d/ \
   -v /var/run/docker.sock:/var/run/docker.sock \

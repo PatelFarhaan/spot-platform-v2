@@ -17,10 +17,6 @@ app_type=$(echo $tags | jq -r '.[] | select (.Key == "spotops.app.type") | .Valu
 app_config_path="$env/$application"
 aws s3 cp "s3://$internal_s3_worker_bucket/$app_config_path/" /app_path/ --recursive
 
-#if [ "$app_type" == "app" ]; then
-#  cp apps/* /app_path/ --recursive
-#fi
-
 AWS_ECR_ID=$(cat deployment.json | jq -r .AWS_ECR_ID)
 aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "$AWS_ECR_ID"
 
@@ -28,17 +24,16 @@ echo $(cat deployment.json | jq --arg newval "$region" '. += { region: $newval }
 echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') >deployment.json
 echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') >deployment.json
 
+cd /usr/src/app
 cd apps/sidecar
 python3 update_dc/create_deployment_script.py &&
 mv /app_path/deployment.sh /etc/profile.d/ &&
 chmod +x /etc/profile.d/deployment.sh &&
 source /etc/profile.d/deployment.sh &&
-
 python3 nginx_conf/run.py &&
 python3 update_dc/run.py &&
 python3 vault/run.py &&
 rm -rf /app_path/deployment.json &&
-
 cd ./../
 rm -rf delete sidecar folder
 
