@@ -19,3 +19,11 @@ docker run --privileged \
 
 EOF
 }
+
+
+docker run --privileged \
+  -u root \
+  -v ${PWD}:/app_path/ \
+  -v /etc/profile.d/:/etc/profile.d/ \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-all-apps:host-sidecar
