@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	docker build --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-all-apps:host-sidecar .
+	docker build --platform linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-all-apps:host-sidecar .
 
 
 .PHONY: deploy

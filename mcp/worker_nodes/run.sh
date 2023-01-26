@@ -24,6 +24,10 @@ echo $(cat deployment.json | jq --arg newval "$region" '. += { region: $newval }
 echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') >deployment.json
 echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') >deployment.json
 
+if [ "$app_type" == "app" ]; then
+  cp /usr/src/app/apps/* /app_path/ --recursive
+fi
+
 cd /usr/src/app
 cd apps/sidecar
 python3 update_dc/create_deployment_script.py &&
@@ -36,10 +40,6 @@ python3 vault/run.py &&
 rm -rf /app_path/deployment.json &&
 cd ./../
 rm -rf delete sidecar folder
-
-if [ "$app_type" == "app" ]; then
-  cp apps/* /app_path/ --recursive
-fi
 
 docker-compose -f /app_path/docker-compose.yml up -d --build --force-recreate --remove-orphans
 sleep 10
