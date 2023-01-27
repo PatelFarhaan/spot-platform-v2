@@ -15,7 +15,7 @@ docker run --privileged \
   -v ${PWD}:/app_path/ \
   -v /etc/profile.d/:/etc/profile.d/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  "${var.ecr_id}:host-sidecar"
+  "${var.ecr_id}:host-sidecar-${uname -m}"
 
 EOF
 }

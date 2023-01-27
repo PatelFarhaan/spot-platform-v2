@@ -21,9 +21,10 @@ module "base_tf_module" {
   tags                       = local.config_data.tags
   region                     = local.config_data.region
   vpc_id                     = local.config_data.vpc_id
+  ecr_mcp                    = local.config_data.ecr.mcp
   zone_id                    = local.config_data.zone_id
   dns_name                   = local.config_data.dns_name
-  ecr_name                   = local.config_data.ecr_name
+  ecr_apps                   = local.config_data.ecr.apps
   kms_name                   = local.config_data.kms_name
   subnets                    = local.config_data.subnet_ids
   dynamodb_name              = local.config_data.dynamodb_name

@@ -1,5 +1,4 @@
 region: us-east-1
-ecr_name: biosmesh-all-apps
 dns_name: biosapplication.com
 zone_id: Z1023527RS6FKHEBV4ZZ
 vpc_id: vpc-08da13046fc0ea8fc
@@ -13,6 +12,11 @@ tags:
   Provisioner: Terraform
   Name: biosmesh-mcp-init
   Environment: production
+
+ecr:
+  mcp: biosmesh-mcp
+  apps: biosmesh-all-apps
+
 
 load_balancers:
   global_dev_apps: global-dev-apps

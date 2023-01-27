@@ -3,8 +3,9 @@ variable "region" {}
 variable "vpc_id" {}
 variable "zone_id" {}
 variable "subnets" {}
+variable "ecr_mcp" {}
 variable "dns_name" {}
-variable "ecr_name" {}
+variable "ecr_apps" {}
 variable "kms_name" {}
 variable "mcp_bucket" {}
 variable "vault_bucket" {}
