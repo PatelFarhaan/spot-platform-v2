@@ -10,12 +10,11 @@ x-logging: &default-logging
 
 services:
   promtail:
+    image: ""
+    restart: always
     container_name: promtail
-    image: grafana/promtail:2.4.0
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
-    restart: always
     command:
       -config.expand-env=true
       -config.file=/etc/promtail/promtail-config.yml
@@ -108,10 +107,8 @@ services:
         limits:
           memory: 15M
 
-  cron_jobs:
-    build:
-      context: cron_jobs
-      dockerfile: cron_jobs/Dockerfile
+  cronjobs:
+    image: ""
     restart: always
     container_name: cron_jobs
     logging: *default-logging
@@ -126,9 +123,9 @@ services:
       - /dev:/dev
 
   main_application:
+    image: ""
     restart: always
     logging: *default-logging
-    image: ""
     expose:
       - ""
     env_file:

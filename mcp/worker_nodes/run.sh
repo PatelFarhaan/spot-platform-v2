@@ -3,7 +3,6 @@
 set -e -x
 cd /app_path/
 
-node_architecture=$(uname -m)
 spot_plane_bucket="biosmesh-spot-plane"
 internal_s3_worker_bucket="biosmesh-apps-config"
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
@@ -28,15 +27,18 @@ if [ "$app_type" == "app" ]; then
   cp /usr/src/app/apps/* /app_path/ --recursive
 fi
 
-cd /usr/src/app
-cd apps/sidecar
-python3 update_dc/create_deployment_script.py &&
+cd /usr/src/app/apps/sidecar &&
+
+python3 export_env/run.py &&
 mv /app_path/deployment.sh /etc/profile.d/ &&
 chmod +x /etc/profile.d/deployment.sh &&
-source /etc/profile.d/deployment.sh &&
+source /etc/profile.d/deployment.sh && echo "Exported ENV VARS"
+
 python3 nginx_conf/run.py &&
 python3 update_dc/run.py &&
-python3 vault/run.py &&
+python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
+
+
 rm -rf /app_path/deployment.json &&
 cd ./../
 rm -rf delete sidecar folder
