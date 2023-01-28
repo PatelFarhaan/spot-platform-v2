@@ -1,17 +1,22 @@
-.PHONY: build_worker
-build_worker:
-	cd worker_nodes
-	docker buildx build --platform linux/arm64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar-arm64 .
-	docker buildx build --platform linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar-x86_64 .
+.PHONY: build_and_deploy_hostsidecar
+build_and_deploy_hostsidecar:
+	cd worker_nodes && \
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
+	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar .
 
 
-.PHONY: deploy_worker
-deploy_worker:
-	cd worker_nodes
-	export AWS_PROFILE=bios && export AWS_REGION=us-east-1
-	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com
-	docker push ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar-arm64
-	docker push ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar-x86_64
+.PHONY: build_and_deploy_cronjobs
+build_and_deploy_cronjobs:
+	cd worker_nodes/custom_images/cron_jobs && \
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
+	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
+
+
+.PHONY: build_and_deploy_promtail
+build_and_deploy_promtail:
+	cd worker_nodes/custom_images/promtail && \
+	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
+	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:promtail .
 
 
 .PHONY: plan_deployment
@@ -72,4 +77,3 @@ teardown_observability:
 	rm -rf ./cluster_config.json && \
 	cd ./tf && terraform destroy && \
 	cd ./../ && rm -rf ./cluster_config.yml
-

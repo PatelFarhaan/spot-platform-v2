@@ -1,5 +1,6 @@
 import os
 import json
+import platform
 from ruamel.yaml import YAML
 
 
@@ -24,10 +25,13 @@ class DockerCompose:
 
         ecr_id = deployment_config["AWS_ECR_ID"]
         app_port = deployment_config["CLIENT_APP_PORT"]
-        ecr_name = deployment_config["AWS_ECR_REPO_NAME"]
         app_image = deployment_config["CLIENT_APP_IMAGE"]
         volume_config = deployment_config["VOLUME_CONFIG"]
-        app_ecr_image = f"{ecr_id}/{ecr_name}:{app_image}"
+        app_ecr_name = deployment_config["AWS_ECR_REPO_NAME"]
+        mcp_ecr_name = deployment_config["AWS_ECR_REPO_NAME"]
+        app_ecr_image = f"{ecr_id}/{app_ecr_name}:{app_image}"
+        cronjob_ecr_image = f"{ecr_id}/{mcp_ecr_name}:cronjobs"
+        promtail_ecr_image = f"{ecr_id}/{mcp_ecr_name}:promtail"
 
         yaml = YAML()
         yaml.preserve_quotes = True
@@ -37,12 +41,19 @@ class DockerCompose:
         with open(self.docker_compose_file) as ymlfile:
             data = yaml.load(ymlfile)
 
+        # Patching Main Application
         if volume_config:
             data["services"]["main_application"]["volumes"] = volume_config
 
         data["services"]["main_application"]["expose"] = [app_port]
         data["services"]["main_application"]["image"] = app_ecr_image
         data["services"]["main_application"]["deploy"]["replicas"] = replicas
+
+        # Patching Cronjobs
+        data["service"]["cronjobs"]["image"] = cronjob_ecr_image
+
+        # Patching Promtail
+        data["service"]["promtail"]["image"] = promtail_ecr_image
 
         with open(self.docker_compose_file, "w+") as fw:
             yaml.dump(data, fw)
