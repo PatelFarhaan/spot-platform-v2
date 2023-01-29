@@ -18,7 +18,8 @@ docker run --privileged \
   "${var.ecr_id}:host-sidecar" &&
 
 echo "Staring docker containers..."
-docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
+aws ecr get-login-password --region "$region" | sudo docker login --username AWS --password-stdin "$AWS_ECR_ID" &&
+sudo -E docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
 sleep 10
 
 set +x

@@ -110,7 +110,7 @@ services:
   cronjobs:
     image: ""
     restart: always
-    container_name: cron_jobs
+    container_name: cronjobs
     logging: *default-logging
     environment:
       - "SCALE_VOLUME=${SCALE_VOLUME}"
