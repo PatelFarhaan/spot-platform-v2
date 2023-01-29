@@ -38,12 +38,7 @@ python3 nginx_conf/run.py &&
 python3 update_dc/run.py &&
 python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
 
-
-rm -rf /app_path/deployment.json &&
-cd ./../
-rm -rf delete sidecar folder
-
-docker-compose -f /app_path/docker-compose.yml up -d --build --force-recreate --remove-orphans
-sleep 10
+cd /app_path &&
+rm -rf deployment.json
 
 set +x

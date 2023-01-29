@@ -15,15 +15,12 @@ docker run --privileged \
   -v ${PWD}:/app_path/ \
   -v /etc/profile.d/:/etc/profile.d/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  "${var.ecr_id}:host-sidecar"
+  "${var.ecr_id}:host-sidecar" &&
 
+echo "Staring docker containers..."
+docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
+sleep 10
+
+set +x
 EOF
 }
-
-
-docker run --privileged \
-  -u root \
-  -v ${PWD}:/app_path/ \
-  -v /etc/profile.d/:/etc/profile.d/ \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-all-apps:host-sidecar
