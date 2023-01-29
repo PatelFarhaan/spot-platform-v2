@@ -26,6 +26,6 @@ COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip3 install -r requirements.txt
 RUN rm -rf requirements.txt
 
-#ENTRYPOINT ["bash"]
+ENTRYPOINT ["bash"]
 
-#CMD ["run.sh"]
+CMD ["run.sh"]

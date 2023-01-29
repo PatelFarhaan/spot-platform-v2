@@ -12,13 +12,13 @@ aws ecr get-login-password --region "$region" | docker login --username AWS --pa
 
 docker run --privileged \
   -u root \
-  -v ${PWD}:/app_path/ \
+  -v $PWD:/app_path/ \
   -v /etc/profile.d/:/etc/profile.d/ \
   -v /var/run/docker.sock:/var/run/docker.sock \
   "${var.ecr_id}:host-sidecar" &&
 
+source /etc/profile.d/deployment.sh &&
 echo "Staring docker containers..."
-aws ecr get-login-password --region "$region" | sudo docker login --username AWS --password-stdin "$AWS_ECR_ID" &&
 sudo -E docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
 sleep 10
 
