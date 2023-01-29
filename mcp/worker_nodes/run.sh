@@ -16,9 +16,6 @@ app_type=$(echo $tags | jq -r '.[] | select (.Key == "spotops.app.type") | .Valu
 app_config_path="$env/$application"
 aws s3 cp "s3://$internal_s3_worker_bucket/$app_config_path/" /app_path/ --recursive
 
-AWS_ECR_ID=$(cat deployment.json | jq -r .AWS_ECR_ID)
-aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "$AWS_ECR_ID"
-
 echo $(cat deployment.json | jq --arg newval "$region" '. += { region: $newval }') >deployment.json
 echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') >deployment.json
 echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') >deployment.json
