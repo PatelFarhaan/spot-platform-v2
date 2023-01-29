@@ -27,8 +27,8 @@ class DockerCompose:
         app_port = deployment_config["CLIENT_APP_PORT"]
         app_image = deployment_config["CLIENT_APP_IMAGE"]
         volume_config = deployment_config["VOLUME_CONFIG"]
-        app_ecr_name = deployment_config["AWS_ECR_REPO_NAME"]
-        mcp_ecr_name = deployment_config["AWS_ECR_REPO_NAME"]
+        mcp_ecr_name = deployment_config["AWS_ECR_MCP_REPO_NAME"]
+        app_ecr_name = deployment_config["AWS_ECR_APPS_REPO_NAME"]
         app_ecr_image = f"{ecr_id}/{app_ecr_name}:{app_image}"
         cronjob_ecr_image = f"{ecr_id}/{mcp_ecr_name}:cronjobs"
         promtail_ecr_image = f"{ecr_id}/{mcp_ecr_name}:promtail"
@@ -50,10 +50,10 @@ class DockerCompose:
         data["services"]["main_application"]["deploy"]["replicas"] = replicas
 
         # Patching Cronjobs
-        data["service"]["cronjobs"]["image"] = cronjob_ecr_image
+        data["services"]["cronjobs"]["image"] = cronjob_ecr_image
 
         # Patching Promtail
-        data["service"]["promtail"]["image"] = promtail_ecr_image
+        data["services"]["promtail"]["image"] = promtail_ecr_image
 
         with open(self.docker_compose_file, "w+") as fw:
             yaml.dump(data, fw)

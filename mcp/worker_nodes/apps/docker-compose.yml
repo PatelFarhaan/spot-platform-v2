@@ -136,4 +136,4 @@ services:
     networks:
       - spotops_monitoring
     deploy:
-      replicas: ""
+      replicas: 2
