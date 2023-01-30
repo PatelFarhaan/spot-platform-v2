@@ -31,8 +31,8 @@ module "development-backend-us-east-1" {
   volume_type                       = local.app_data.volume_type
   prefix_name                       = local.app_data.prefix_name
   key_name                          = local.app_data.ssh_key_name
-  ecr_id                            = local.app_data.internal_ecr_id
   ebs_volume_size                   = local.app_data.ebs_volume_size
+  ecr_mcp                           = local.app_data.internal_ecr_mcp
   sns_subscriptions                 = local.app_data.sns_subscriptions
   zone_name                         = local.app_data.internal_zone_name
   mcp_sg_id                         = local.app_data.internal_mcp_sg_id
