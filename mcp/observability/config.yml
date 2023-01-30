@@ -14,3 +14,6 @@ tags:
   Environment: production
   Application: mcp-observability
   Name: biosmesh-mcp-observability
+
+s3_buckets:
+  mcp: biosmesh-spot-plane
