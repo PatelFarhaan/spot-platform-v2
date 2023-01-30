@@ -2,21 +2,21 @@
 build_and_deploy_hostsidecar:
 	cd worker_nodes && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar .
+	docker buildx build --push --platform linux/arm64,linux/x86_64 -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar .
 
 
 .PHONY: build_and_deploy_cronjobs
 build_and_deploy_cronjobs:
 	cd worker_nodes/custom_images/cron_jobs && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
+	docker buildx build --push --platform linux/arm64,linux/x86_64 -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
 
 
 .PHONY: build_and_deploy_promtail
 build_and_deploy_promtail:
 	cd worker_nodes/custom_images/promtail && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 --no-cache -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:promtail .
+	docker buildx build --push --platform linux/arm64,linux/x86_64 -t ***REMOVED***.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:promtail .
 
 
 .PHONY: plan_deployment
