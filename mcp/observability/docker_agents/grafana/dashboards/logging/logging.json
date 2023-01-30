@@ -27,8 +27,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13639,
   "graphTooltip": 0,
-  "id": 51,
-  "iteration": 1653657610132,
+  "id": 8,
   "links": [
     {
       "$$hashKey": "object:59",
@@ -120,7 +119,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.5.2",
+      "pluginVersion": "9.3.2",
       "targets": [
         {
           "datasource": {
@@ -156,7 +155,7 @@
         "showLabels": false,
         "showTime": true,
         "sortOrder": "Descending",
-        "wrapLogMessage": false
+        "wrapLogMessage": true
       },
       "targets": [
         {
@@ -175,7 +174,7 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -200,9 +199,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "redflag-service-lookup",
-          "value": "redflag-service-lookup"
+          "selected": false,
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "loki",
@@ -227,9 +226,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "production",
-          "value": "production"
+          "selected": false,
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "loki",
@@ -254,45 +253,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "agents_main_application_13",
-            "agents_main_application_1",
-            "agents_main_application_17",
-            "agents_main_application_2",
-            "agents_main_application_7",
-            "agents_main_application_6",
-            "agents_main_application_9",
-            "agents_main_application_10",
-            "agents_main_application_14",
-            "agents_main_application_4",
-            "agents_main_application_3",
-            "agents_main_application_15",
-            "agents_main_application_12",
-            "agents_main_application_5",
-            "agents_main_application_11",
-            "agents_main_application_8",
-            "agents_main_application_16"
-          ],
-          "value": [
-            "agents_main_application_13",
-            "agents_main_application_1",
-            "agents_main_application_17",
-            "agents_main_application_2",
-            "agents_main_application_7",
-            "agents_main_application_6",
-            "agents_main_application_9",
-            "agents_main_application_10",
-            "agents_main_application_14",
-            "agents_main_application_4",
-            "agents_main_application_3",
-            "agents_main_application_15",
-            "agents_main_application_12",
-            "agents_main_application_5",
-            "agents_main_application_11",
-            "agents_main_application_8",
-            "agents_main_application_16"
-          ]
+          "selected": false,
+          "text": [],
+          "value": []
         },
         "datasource": {
           "type": "loki",
@@ -314,7 +277,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "",
           "value": ""
         },
@@ -335,7 +298,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -354,7 +317,7 @@
   },
   "timezone": "",
   "title": "Platform Logging",
-  "uid": "PlatformLogging",
-  "version": 3,
+  "uid": "liz0yRCZz",
+  "version": 8,
   "weekStart": ""
 }
