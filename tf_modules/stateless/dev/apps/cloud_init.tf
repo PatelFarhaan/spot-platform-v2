@@ -36,7 +36,7 @@ services:
     environment:
       - "HOSTNAME=$hostname"
       - "ENVIRONMENT=internal"
-      - "APPLICATION=deamon_sidecar"
+      - "APPLICATION=deamon-sidecar"
       - "LOKI_URL=https://mcp.observability.biosapplication.com/loki/api/v1/push"
     depends_on:
       - host_sidecar
@@ -63,6 +63,7 @@ EOIF
 echo "$host_dc_file" > ./docker-compose.host.yml
 
 sudo -E docker-compose -f docker-compose.host.yml up --force-recreate --remove-orphans --abort-on-container-exit &&
+sudo rm -rf ./docker-compose.host.yml &&
 source /etc/profile.d/deployment.sh &&
 
 echo "Staring docker containers..."
