@@ -94,5 +94,6 @@ class AWS:
             self.check_volume_modification_status(_client)
         except Exception as e:
             print("There was an error increasing EBS volume size...")
-            print(e)
+            self.log_obj["modified_volume_response"] = e
+            print(self.log_obj)
             sys.exit(0)
