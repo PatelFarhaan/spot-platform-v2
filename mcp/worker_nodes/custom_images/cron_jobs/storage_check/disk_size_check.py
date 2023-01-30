@@ -38,7 +38,7 @@ class DiskSpaceChecker(Notification):
         print(f"Disk details for {self.volume_id}")
         os.system("lsblk")
         os.system("df -h")
-        os.system('sudo growpart /dev/xvda 1 && sudo resize2fs /dev/xvda1')
+        os.system('growpart /dev/xvda 1 && resize2fs /dev/xvda1')
 
     def run(self):
         self.is_disk_full()

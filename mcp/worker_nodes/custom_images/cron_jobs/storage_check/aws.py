@@ -85,9 +85,14 @@ class AWS:
         self.original_size = self.get_current_volume_size(_client)
         self.process_target_size()
 
-        response = _client.modify_volume(VolumeId=self.volume_id,
-                                         Size=self.target_size)
-        print(response)
-        assert response["ResponseMetadata"]["HTTPStatusCode"] == 200
-        self.log_obj["modified_volume_response"] = 200
-        self.check_volume_modification_status(_client)
+        try:
+            response = _client.modify_volume(VolumeId=self.volume_id,
+                                             Size=self.target_size)
+            print(response)
+            assert response["ResponseMetadata"]["HTTPStatusCode"] == 200
+            self.log_obj["modified_volume_response"] = 200
+            self.check_volume_modification_status(_client)
+        except Exception as e:
+            print("There was an error increasing EBS volume size...")
+            print(e)
+            sys.exit(0)

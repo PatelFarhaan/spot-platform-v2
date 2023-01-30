@@ -1,12 +1,15 @@
 FROM alpine
 
-COPY . .
+WORKDIR /app
 
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+COPY . /app
 
-RUN python3 -m ensurepip
+RUN apk update && apk upgrade && apk add util-linux
 
-RUN pip3 install -r requirements.txt
+RUN apk add --update --no-cache python3 && \
+    ln -sf python3 /usr/bin/python && \
+    python3 -m ensurepip && \
+    pip3 install -r requirements.txt
 
 RUN crontab ./storage_check/disk_storage_check
 
