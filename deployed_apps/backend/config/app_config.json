@@ -72,9 +72,9 @@
   },
   "od_config": {
     "instance_type": [
-      "t2.small",
-      "t2.medium",
-      "t2.large"
+      "t3.small",
+      "t3.medium",
+      "t3.large"
     ],
     "auto_scaling_group": {
       "min_instances": 0,
@@ -84,9 +84,9 @@
   },
   "spot_config": {
     "instance_type": [
-      "t2.small",
-      "t2.medium",
-      "t2.large"
+      "t3.small",
+      "t3.medium",
+      "t3.large"
     ],
     "auto_scaling_group": {
       "min_instances": 0,
