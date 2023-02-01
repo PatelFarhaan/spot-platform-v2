@@ -36,7 +36,17 @@
       "Action": [
         "ses:*"
       ]
-    }
+    },
+    {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:*"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::bios-3d-models",
+          "arn:aws:s3:::bios-3d-models/*"
+        ]
+      }
   ],
   "sns_subscriptions": [
     {

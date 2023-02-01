@@ -13,6 +13,6 @@
   "VAULT_ADDR": "https://mcp.vault.biosapplication.com",
   "AWS_ECR_ID": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
   "LOKI_URL": "https://mcp.observability.biosapplication.com/loki/api/v1/push",
-  "CLIENT_APP_IMAGE": "development-backend-b73877b444ff8b1bf1ed8fe770f1871c6d83ff74",
+  "CLIENT_APP_IMAGE": "development-backend-ac864a9e7b60e8a0012ef0fa521417a44049563e",
   "SLACK_WEBHOOK": "https://hooks.slack.com/services/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"
 }
