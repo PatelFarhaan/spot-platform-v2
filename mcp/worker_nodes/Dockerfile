@@ -18,13 +18,11 @@ WORKDIR /usr/src/app
 RUN addgroup --system user && adduser --system --no-create-home --group user
 RUN chown -R user:user /usr/src/app && chmod -R 755 /usr/src/app
 
-COPY apps /usr/src/app/apps
-COPY run.sh /usr/src/app/run.sh
-COPY databases /usr/src/app/databases
 COPY requirements.txt /usr/src/app/requirements.txt
+RUN pip3 install -r requirements.txt && rm -rf requirements.txt
 
-RUN pip3 install -r requirements.txt
-RUN rm -rf requirements.txt
+COPY run.sh /usr/src/app/run.sh
+COPY apps /usr/src/app/apps
 
 ENTRYPOINT ["bash"]
 

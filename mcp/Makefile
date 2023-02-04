@@ -9,7 +9,7 @@ build_and_deploy_hostsidecar:
 build_and_deploy_cronjobs:
 	cd worker_nodes/custom_images/cron_jobs && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 774723060820.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
+	docker buildx build --push --no-cache --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
 
 
 .PHONY: build_and_deploy_promtail

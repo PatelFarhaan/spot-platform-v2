@@ -9,7 +9,7 @@ RUN python3 -m venv /venv
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-FROM python:3.10.6-alpine AS runtime-image
+FROM python:3.10.6-slim-buster AS runtime-image
 
 ENV PYTHONUNBUFFERED=1
 ENV PATH="/venv/bin:$PATH"
@@ -17,16 +17,16 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 COPY --from=builder /venv /venv
-RUN apk update && apk upgrade
-RUN apk add util-linux && apk update
-RUN apk add cloud-utils-growpart e2fsprogs-extra
+
+RUN apt update && apt -y upgrade
+RUN apt install -y cloud-utils cron
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
 COPY storage_check /app/storage_check
-COPY cronjob /app/cronjob
+COPY cronjob /etc/cron.d/crontab
 
-RUN chmod +x /app/cronjob
+RUN chmod 0644 /etc/cron.d/crontab
+RUN crontab /etc/cron.d/crontab
 
-CMD ["crond", "-f", "-d", "8"]
+ENTRYPOINT ["cron", "-f"]
