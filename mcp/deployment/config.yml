@@ -2,7 +2,7 @@ env: production
 region: us-east-1
 key_name: bios-new
 app: mcp-deployment
-instance_type: t2.medium
+instance_type: t3.medium
 private_key_name_path: bios-new.pem
 dns_name_vault: mcp.vault.biosapplication.com
 dns_name_jenkins: mcp.deployment.biosapplication.com
