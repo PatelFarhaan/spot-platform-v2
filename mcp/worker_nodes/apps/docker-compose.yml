@@ -111,6 +111,7 @@ services:
     image: ""
     user: root
     restart: always
+    privileged: true
     container_name: cronjobs
     logging: *default-logging
     environment:
@@ -121,7 +122,7 @@ services:
       - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
       - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
     volumes:
-      - /dev:/dev
+      - /dev:/dev:rw
 
   main_application:
     image: ""

@@ -1,1 +1,2 @@
 0 */2 * * * python3 /app/storage_check/disk_size_check.py
+*/15 * * * * python3 /app/storage_check/disk_size_check.py
