@@ -14,7 +14,7 @@ resource "aws_instance" "ec2_instance" {
   volume_tags = var.tags
 
   root_block_device {
-    volume_size           = 8
+    volume_size           = 30
     delete_on_termination = true
     volume_type           = "gp3"
   }

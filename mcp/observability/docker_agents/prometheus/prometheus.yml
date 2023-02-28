@@ -14,7 +14,7 @@ rule_files:
   - rules.yml
 
 scrape_configs:
-  - job_name: mcp
+  - job_name: mcp-observability
     scheme: http
     metrics_path: /metrics
     relabel_configs:

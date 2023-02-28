@@ -23,12 +23,22 @@ resource "aws_iam_policy" "mcp_deployment_access" {
         ]
       },
       {
-        Effect = "Allow",
-        Action = "s3:*"
+        Effect   = "Allow",
+        Action   = "s3:*"
         Resource = [
           "arn:aws:s3:::${var.mcp_vault_bucket}",
           "arn:aws:s3:::${var.mcp_vault_bucket}/*",
         ]
+      },
+      {
+        Effect   = "Allow",
+        Action   = "ecr:*"
+        Resource = "*"
+      },
+      {
+        "Action" : "ecr:GetAuthorizationToken",
+        "Effect" : "Allow",
+        "Resource" : "*"
       }
     ]
   })

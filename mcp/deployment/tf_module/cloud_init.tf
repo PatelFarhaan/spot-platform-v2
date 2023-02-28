@@ -5,6 +5,7 @@ data "template_file" "cloud_init_script" {
 export DEBIAN_FRONTEND=noninteractive
 sudo apt update -y &&
 sudo apt upgrade -y &&
+sudo apt install xterm -y &&
 cd /etc/apt && sudo cp trusted.gpg trusted.gpg.d
 
 sudo apt install docker.io -y &&

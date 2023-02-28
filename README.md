@@ -64,3 +64,8 @@ Develop script for main config
 
 
 Add password for vault by script
+
+
+New:
+make deploy and obs autoscale
+make metrics of deploy and obs in grafana
