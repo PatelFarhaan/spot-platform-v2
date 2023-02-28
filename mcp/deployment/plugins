@@ -1,0 +1,8 @@
+slackSend -> https://plugins.jenkins.io/slack/
+Configuration as Code
+
+
+Add a incoming webhook and share that with us
+
+
+For git: need only: read_api, read_repository access

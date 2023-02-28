@@ -1,0 +1,153 @@
+pipeline {
+    agent {
+        docker {
+            image 'docker:dind'
+            args '--log-driver="json-file"'
+            args '--label "TAG={{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"'
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+    }
+
+    environment {
+        image_id="${env.registry}/${env.repository}:${env.app_name}-${env.branch}"
+    }
+
+    parameters {
+            string(name: 'app_name', defaultValue: '')
+            string(name: 'registry', defaultValue: '.')
+            string(name: 'environment', defaultValue: '')
+            string(name: 'docker_path', defaultValue: '.')
+            string(name: 'branch', defaultValue: 'master')
+            string(name: 'region', defaultValue: 'us-east-1')
+            string(name: 'repository', defaultValue: 'biosmesh-all-apps')
+            string(name: 'slack_channel', defaultValue: '#spotops-alerts')
+            string(name: 'gitUrl', defaultValue: 'https://gitlab.com/b1115/backend-apis.git')
+            string(name: 'docker_path', defaultValue: '774723060820.dkr.ecr.us-east-1.amazonaws.com')
+    }
+
+    stages {
+        stage("Install Dependencies") {
+            steps {
+                script {
+                    sh """
+                        apk add git
+                        apk add --no-cache aws-cli
+                    """
+                }
+            }
+        }
+
+        stage("Notify in Slack") {
+            steps {
+                script {
+                    slackSend botUser: false,
+                              color: '#006FFF',
+                              username: 'SpotOps',
+                              channel: env.slack_channel,
+                              tokenCredentialId: 'client-slack',
+                              message: 'Build Started for ' + env.app_name
+                }
+            }
+        }
+
+        stage("Checkout") {
+            steps {
+                script {
+                    git branch: env.branch,
+                    credentialsId: 'client-git',
+                    url: env.gitUrl
+                }
+            }
+        }
+
+        stage("Build") {
+            when { expression { return doesImageExistsInECR() } }
+
+            steps {
+                script {
+                    def commit_id = getCommitId()
+                    sh """
+                        docker build -t "${env.image_id}-${commit_id}" .
+                    """
+                }
+            }
+        }
+
+        stage("Publish") {
+            when { expression { return doesImageExistsInECR() } }
+
+            steps {
+                script {
+                    def commit_id = getCommitId()
+                    sh """
+                        aws ecr get-login-password --region ${env.region} | docker login --username AWS --password-stdin ${env.registry}
+                        docker push "${env.image_id}-${commit_id}"
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs(deleteDirs: true,
+                    notFailBuild: true,
+                    cleanWhenNotBuilt: false,
+                    disableDeferredWipeout: true)
+            script {
+                    sh """
+                        docker system prune --all -af
+                    """
+            }
+        }
+
+        success {
+            script {
+                slackSend botUser: false,
+                          color: '#00ff00',
+                          channel: env.slack_channel,
+                          tokenCredentialId: 'client-slack',
+                          message: 'Build Passed for ' + env.app_name +
+                                   '\nLogs: https://mcp.deployment.biosapplication.com/job/backend/' + env.BUILD_ID
+
+                if (env.branch == "master") {
+                    build job: env.app_name + '-cd',
+                    parameters: [string(name: 'environment', value: env.environment)],
+                    wait: false
+                }
+                else {
+                    build job: env.app_name + '-cd',
+                    parameters: [string(name: 'deploy_to_prod', value: env.environment)],
+                    wait: false
+                }
+            }
+        }
+
+        failure {
+            script {
+                slackSend botUser: false,
+                          color: '#ff0000',
+                          channel: env.slack_channel,
+                          tokenCredentialId: 'client-slack',
+                          message: 'Build Failed for ' + env.app_name +
+                                   '\nLogs: https://mcp.deployment.biosapplication.com/job/backend/' + env.BUILD_ID
+            }
+        }
+    }
+}
+
+
+def doesImageExistsInECR() {
+    def commit_id = getCommitId()
+    response = sh(returnStdout: true, script: "aws ecr describe-images --region ${env.region} --repository-name ${env.repository} --image-ids imageTag=\"${env.app_name}-${env.branch}-${commit_id}\" ").trim()
+    return response == null
+}
+
+
+def getCommitId() {
+    response = sh(returnStdout: true, script: "cd './${docker_path}' && git log --format='%H' -n 1").trim()
+    return response
+}

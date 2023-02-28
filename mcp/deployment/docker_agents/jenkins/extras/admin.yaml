@@ -1,0 +1,5 @@
+slack:
+  channel: channel
+  incomingWebhook: https://hooks.slack.com/services/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
+git:
+  apiToken: glpat-WBzdbDehsdRk7eArzuqM

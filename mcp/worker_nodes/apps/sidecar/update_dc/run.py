@@ -1,6 +1,5 @@
 import os
 import json
-import platform
 from ruamel.yaml import YAML
 
 
@@ -11,7 +10,7 @@ class DockerCompose:
     @staticmethod
     def get_app_replicas():
         cpu_count = int(os.cpu_count())
-        replicas = (cpu_count * 2) + 1
+        replicas = (cpu_count * 2)
         return replicas
 
     @staticmethod
