@@ -3,11 +3,15 @@ version: "3.8"
 networks:
   spotops_deployment:
 
+
 x-logging:
   &default-logging
-  driver: "json-file"
+  driver: loki
   options:
-    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    keep-file: "false"
+    loki-url: https://mcp.observability.biosapplication.com/loki/api/v1/push
+    loki-external-labels: "instance=mcp,application=mcp-deployment,environment=production,container_name={{.Name}}"
+
 
 services:
   promtail:
@@ -29,8 +33,6 @@ services:
       resources:
         limits:
           memory: 30M
-    networks:
-      - spotops_deployment
 
   node_exporter:
     pid: "host"
@@ -171,3 +173,4 @@ services:
 
 volumes:
   spotops-jenkins:
+

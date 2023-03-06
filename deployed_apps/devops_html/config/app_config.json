@@ -1,5 +1,5 @@
 {
-  "app": "backend",
+  "app": "devops",
   "env": "development",
   "volume_type": "gp3",
   "ebs_volume_size": 8,
@@ -12,7 +12,7 @@
   "internal_zone_name": "biosapplication.com",
   "internal_lb_algorithm_type": "round_robin",
   "internal_mcp_sg_id": "sg-0ea9f0e82cf6e3617",
-  "dns_name": "development.biosapplication.com",
+  "dns_name": "devops.biosapplication.com",
   "internal_spot_plane_bucket": "biosmesh-spot-plane",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_global_lb_name": "global-dev-apps-us-east-1",
@@ -23,30 +23,10 @@
     {
       "Resource": "*",
       "Effect": "Allow",
-      "Action": "ec2:DescribeTags",
-      "Condition": {
-        "StringEquals": {
-          "ec2:ResourceTag/nullKey": "Base Client Default Policy"
-        }
-      }
-    },
-    {
-      "Resource": "*",
-      "Effect": "Allow",
       "Action": [
         "ses:*"
       ]
-    },
-    {
-        "Effect" : "Allow",
-        "Action" : [
-          "s3:*"
-        ],
-        "Resource" : [
-          "arn:aws:s3:::bios-3d-models",
-          "arn:aws:s3:::bios-3d-models/*"
-        ]
-      }
+    }
   ],
   "sns_subscriptions": [
     {
@@ -55,12 +35,12 @@
     }
   ],
   "tags": {
-    "Code": "pasx",
+    "Code": "pasx2",
     "MCP_SD": true,
     "Owner": "Bios",
     "Platform": "biosmesh",
     "Developer": "Farhaan",
-    "Application": "backend",
+    "Application": "devops",
     "Provisioner": "Terraform",
     "Environment": "development",
     "spotops.is_sts": false,

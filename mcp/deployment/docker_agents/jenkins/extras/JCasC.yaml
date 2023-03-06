@@ -1,0 +1,213 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          id: "client-slack"
+          scope: GLOBAL
+          secret: "{AQAAABAAAABAwyefMOR4CWO2F6AiZC4gDmaorDH05Lj910tNgFwAcxXLlmKLzkqCAmPcBZR/KM91rXlKlnH/ydPZ2ZXPClABMTHpBh6M0E4CSNIwsvduU6A=}"
+      - usernamePassword:
+          id: "client-git"
+          password: "{AQAAABAAAAAgul828Oz21oTNryqqBthOrko+1jTZ5Su2vInLHHu3LfpY5OUxQqw2Gi+UBqKxARbZ}"
+          scope: GLOBAL
+          username: "farhaan.patel"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  labelAtoms:
+  - name: "built-in"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  nodeProperties:
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+        name: "farhaan"
+        properties:
+        - "myView"
+        - preferredProvider:
+            providerId: "default"
+        - "timezone"
+        - mailer:
+            emailAddress: "patel.farhaaan@gmail.com"
+        - "apiToken"
+        - "slack"
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - list:
+      columns:
+      - "jobName"
+      - "status"
+      - "lastSuccess"
+      - "lastFailure"
+      - "lastDuration"
+      - "buildButton"
+      jobNames:
+      - "backend-cd"
+      name: "CD"
+  - list:
+      columns:
+      - "jobName"
+      - "status"
+      - "lastSuccess"
+      - "lastFailure"
+      - "lastDuration"
+      - "buildButton"
+      jobNames:
+      - "backend"
+      name: "CI"
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    restrictions:
+    - includes:
+        provider: "com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider"
+        type: "org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  sSHD:
+    port: -1
+  scriptApproval:
+    approvedScriptHashes:
+    - "SHA512:3f205299bef2fe3329258a42f2c60d332cc35ccb41a3ca0512d7869c6aff4561ff708c48123b4f7c3dec33ccca30d54fb8b9b51b5bc7070f96236d11a3f0bdcb"
+unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  buildStepOperation:
+    enabled: false
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    hookUrl: "https://mcp.deployment.biosapplication.com/github-webhook/"
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
+    overwriteable: false
+  injectionConfig:
+    allowUntrusted: false
+    enabled: false
+    injectCcudExtension: false
+    injectMavenExtension: false
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "https://mcp.deployment.biosapplication.com/"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pollSCM:
+    pollingThreadCount: 10
+  prometheusConfiguration:
+    appendParamLabel: false
+    appendStatusLabel: false
+    collectDiskUsage: true
+    collectingMetricsPeriodInSeconds: 120
+    countAbortedBuilds: true
+    countFailedBuilds: true
+    countNotBuiltBuilds: true
+    countSuccessfulBuilds: true
+    countUnstableBuilds: true
+    defaultNamespace: "default"
+    fetchTestResults: true
+    jobAttributeName: "jenkins_job"
+    path: "prometheus"
+    perBuildMetrics: false
+    processingDisabledBuilds: false
+    useAuthenticatedEndpoint: false
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  slackNotifier:
+    baseUrl: "https://hooks.slack.com/services"
+    botUser: false
+    room: "#spotops-alerts"
+    sendAsText: false
+    teamDomain: "personal-1cn6610"
+    tokenCredentialId: "slack"
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"

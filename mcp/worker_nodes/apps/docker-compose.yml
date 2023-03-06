@@ -3,33 +3,16 @@ version: "3.8"
 networks:
   spotops_monitoring:
 
-x-logging: &default-logging
-  driver: "json-file"
+x-logging:
+  &default-logging
+  driver: loki
   options:
-    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    keep-file: "false"
+    loki-url: "${LOKI_URL}"
+    loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
+
 
 services:
-  promtail:
-    image: ""
-    restart: always
-    container_name: promtail
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-    command:
-      -config.expand-env=true
-      -config.file=/etc/promtail/promtail-config.yml
-    environment:
-      - "LOKI_URL=${LOKI_URL}"
-      - "HOSTNAME=${HOSTNAME}"
-      - "APPLICATION=${APPLICATION}"
-      - "ENVIRONMENT=${ENVIRONMENT}"
-    deploy:
-      resources:
-        limits:
-          memory: 30M
-    networks:
-      - spotops_monitoring
-
   node_exporter:
     pid: "host"
     restart: always

@@ -12,13 +12,6 @@ build_and_deploy_cronjobs:
 	docker buildx build --push --no-cache --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
 
 
-.PHONY: build_and_deploy_promtail
-build_and_deploy_promtail:
-	cd worker_nodes/custom_images/promtail && \
-	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 774723060820.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:promtail .
-
-
 .PHONY: plan_deployment
 plan_deployment:
 	cd deployment && \
@@ -35,7 +28,7 @@ deploy_deployment:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform apply && \
+	cd ./tf && terraform apply
 	cd ./../ && rm -rf ./cluster_config.yml
 
 
@@ -55,7 +48,7 @@ plan_observability:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform plan && \
+	cd ./tf && terraform plan
 	cd ./../ && rm -rf ./cluster_config.yml
 
 

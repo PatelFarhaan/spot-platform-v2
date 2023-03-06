@@ -69,3 +69,8 @@ Add password for vault by script
 New:
 make deploy and obs autoscale
 make metrics of deploy and obs in grafana
+add supervisord to all nodes to auto start docker containers if anything fails
+https://volkovlabs.io/blog/nginx-loki-grafana-20230129/
+if vault is not present, set asg to 0 -> ec2 error loop
+if client user defined poilicies is empty, it does not work
+retry login on aws ecr login -> does not show logs of this in grafana

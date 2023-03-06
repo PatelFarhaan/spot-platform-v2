@@ -39,7 +39,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
   health_check_type         = "ELB"
 
   lifecycle {
-    create_before_destroy = true
+    create_before_destroy = false
   }
 
   instance_refresh {

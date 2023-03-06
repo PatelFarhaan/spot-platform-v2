@@ -20,12 +20,19 @@ resource "null_resource" "push_output_to_s3" {
 
   provisioner "local-exec" {
     command = <<EOF
+      rm -rf /tmp/spotops
       mkdir -p /tmp/spotops &&
       mcp_bucket_name=`cat ./../config.yml | yq -r .s3_buckets.mcp` &&
       aws s3 cp s3://$mcp_bucket_name/cluster_config.json /tmp/spotops/base_config.json &&
       terraform output -json | jq .outputs.value > /tmp/spotops/observability_config.json &&
-      jq -s '.[0] * .[1]' /tmp/spotops/base_config.json /tmp/spotops/observability_config.json > /tmp/spotops/cluster_config.json &&
-      aws s3 cp /tmp/spotops/cluster_config.json s3://$mcp_bucket_name
+
+      if [ ! -s /tmp/spotops/observability_config.json ]; then
+        jq -s '.[0] * .[1]' /tmp/spotops/base_config.json /tmp/spotops/observability_config.json > /tmp/spotops/cluster_config.json &&
+        aws s3 cp /tmp/spotops/cluster_config.json s3://$mcp_bucket_name
+      else
+        echo "File Content is Empty"
+      fi
+
     EOF
   }
 }
