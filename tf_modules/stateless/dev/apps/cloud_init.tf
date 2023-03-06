@@ -12,41 +12,23 @@ ecr_mcp=${var.ecr_mcp}
 region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
 aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "${var.ecr_mcp}"
 
+sudo docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+
 host_dc_file=$(cat <<- EOIF
 version: "3.8"
 
 networks:
   spotops_monitoring:
 
-x-logging: &default-logging
-  driver: "json-file"
+x-logging:
+  &default-logging
+  driver: loki
   options:
-    tag: "{{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"
+    keep-file: "false"
+    loki-url: https://mcp.observability.***REMOVED***/loki/api/v1/push
+    loki-external-labels: "instance=$hostname,application=deamon-sidecar,environment=internal,container_name={{.Name}}"
 
 services:
-  promtail:
-    restart: always
-    image: $ecr_mcp:promtail
-    container_name: promtail
-    volumes:
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-    command:
-      -config.expand-env=true
-      -config.file=/etc/promtail/promtail-config.yml
-    environment:
-      - "HOSTNAME=$hostname"
-      - "ENVIRONMENT=internal"
-      - "APPLICATION=deamon-sidecar"
-      - "LOKI_URL=https://mcp.observability.***REMOVED***/loki/api/v1/push"
-    depends_on:
-      - host_sidecar
-    deploy:
-      resources:
-        limits:
-          memory: 30M
-    networks:
-      - spotops_monitoring
-
   host_sidecar:
     user: root
     privileged: true

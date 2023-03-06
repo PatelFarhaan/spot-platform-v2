@@ -97,3 +97,23 @@ scrape_configs:
         port: 8080
       - region: '${region}'
         port: 9113
+
+  - job_name: Jenkins
+    scheme: https
+    metrics_path: /prometheus
+    relabel_configs:
+      - action: replace
+        regex: ([^:]+)(:[0-9]+)?
+        replacement: ${1}
+        source_labels:
+          - __address__
+        target_label: instance
+    static_configs:
+      - labels:
+          application: jenkins
+          environment: production
+        targets:
+          - mcp.deployment.***REMOVED***
+    basic_auth:
+      username: "admin"
+      password: "admin"

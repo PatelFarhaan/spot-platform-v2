@@ -2,8 +2,6 @@ pipeline {
     agent {
         docker {
             image 'docker:dind'
-            args '--log-driver="json-file"'
-            args '--label "TAG={{.ImageName}}|{{.Name}}|{{.ImageFullID}}|{{.FullID}}"'
         }
     }
 
@@ -12,12 +10,13 @@ pipeline {
     }
 
     environment {
-        image_id="${env.registry}/${env.repository}:${env.app_name}-${env.branch}"
+        display_image_id="${env.environment}-${env.app_name}-${env.branch}"
+        image_id="${env.registry}/${env.repository}:${env.environment}-${env.app_name}-${env.branch}"
     }
 
     parameters {
             string(name: 'app_name', defaultValue: '')
-            string(name: 'registry', defaultValue: '.')
+            string(name: 'registry', defaultValue: '')
             string(name: 'environment', defaultValue: '')
             string(name: 'docker_path', defaultValue: '.')
             string(name: 'branch', defaultValue: 'master')
@@ -25,7 +24,6 @@ pipeline {
             string(name: 'repository', defaultValue: 'biosmesh-all-apps')
             string(name: 'slack_channel', defaultValue: '#spotops-alerts')
             string(name: 'gitUrl', defaultValue: 'https://gitlab.com/b1115/backend-apis.git')
-            string(name: 'docker_path', defaultValue: '***REMOVED***.dkr.ecr.us-east-1.amazonaws.com')
     }
 
     stages {
@@ -59,12 +57,14 @@ pipeline {
                     git branch: env.branch,
                     credentialsId: 'client-git',
                     url: env.gitUrl
+
+                currentBuild.displayName = env.display_image_id + "-" + getCommitId()
                 }
             }
         }
 
         stage("Build") {
-            when { expression { return doesImageExistsInECR() } }
+            when { not { expression { return imageExistsInECR() } } }
 
             steps {
                 script {
@@ -77,7 +77,7 @@ pipeline {
         }
 
         stage("Publish") {
-            when { expression { return doesImageExistsInECR() } }
+            when { not { expression { return imageExistsInECR() } } }
 
             steps {
                 script {
@@ -140,10 +140,14 @@ pipeline {
 }
 
 
-def doesImageExistsInECR() {
+def imageExistsInECR() {
     def commit_id = getCommitId()
-    response = sh(returnStdout: true, script: "aws ecr describe-images --region ${env.region} --repository-name ${env.repository} --image-ids imageTag=\"${env.app_name}-${env.branch}-${commit_id}\" ").trim()
-    return response == null
+    try {
+          response = sh(returnStdout: true, script: "aws ecr describe-images --region ${env.region} --repository-name ${env.repository} --image-ids imageTag=\"${env.environment}-${env.app_name}-${env.branch}-${commit_id}\" ").trim()
+          return true
+    } catch (Exception e) {
+          return false
+    }
 }
 
 

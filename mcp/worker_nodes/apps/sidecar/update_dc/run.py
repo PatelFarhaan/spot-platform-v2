@@ -30,7 +30,6 @@ class DockerCompose:
         app_ecr_name = deployment_config["AWS_ECR_APPS_REPO_NAME"]
         app_ecr_image = f"{ecr_id}/{app_ecr_name}:{app_image}"
         cronjob_ecr_image = f"{ecr_id}/{mcp_ecr_name}:cronjobs"
-        promtail_ecr_image = f"{ecr_id}/{mcp_ecr_name}:promtail"
 
         yaml = YAML()
         yaml.preserve_quotes = True
@@ -50,9 +49,6 @@ class DockerCompose:
 
         # Patching Cronjobs
         data["services"]["cronjobs"]["image"] = cronjob_ecr_image
-
-        # Patching Promtail
-        data["services"]["promtail"]["image"] = promtail_ecr_image
 
         with open(self.docker_compose_file, "w+") as fw:
             yaml.dump(data, fw)

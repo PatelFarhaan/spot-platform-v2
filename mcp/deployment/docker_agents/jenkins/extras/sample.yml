@@ -16,6 +16,8 @@ notifications:
   slack:
     channel: spotops-alerts
 deployment:
+  maxSurge: "?"
+  waitForConnectionDraining: true
   deployOnPushToMaster: true
   ci:
     branch: master

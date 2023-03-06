@@ -32,7 +32,10 @@ resource "aws_iam_policy" "mcp_deployment_access" {
       },
       {
         Effect   = "Allow",
-        Action   = "ecr:*"
+        Action   = [
+          "ecr:*",
+          "cloudtrail:LookupEvents"
+        ]
         Resource = "*"
       },
       {

@@ -2,7 +2,7 @@ FROM ubuntu
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-RUN apt update  && apt upgrade -y
+RUN apt update --fix-missing && apt upgrade -y
 RUN apt install jq curl gpg apt-transport-https ca-certificates curl software-properties-common awscli -y
 
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg

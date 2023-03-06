@@ -25,9 +25,9 @@ resource "aws_instance" "ec2_instance" {
 
     connection {
       port        = 22
-      agent       = true
       timeout     = "5m"
       type        = "ssh"
+      agent       = false
       user        = "ubuntu"
       host        = aws_instance.ec2_instance.public_ip
       private_key = file("./../${var.private_key_name_path}")
