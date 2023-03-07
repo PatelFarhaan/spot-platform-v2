@@ -9,6 +9,7 @@ metadata:
     optimize_spot: true
 dns:
   name: www.development.biosapplication.com
+  redirectHtppToHttps: false
   servicePorts:
     - port: 80
       targetPort: 8000
