@@ -10,7 +10,7 @@
   "ami_id": "ami-0fbf45d0b1fef0326",
   "cooldown_and_deregistration_metadata": {},
   "internal_zone_name": "biosapplication.com",
-  "internal_lb_algorithm_type": "round_robin",
+  "internal_lb_algorithm_type": "least_outstanding_requests",
   "internal_mcp_sg_id": "sg-0ea9f0e82cf6e3617",
   "dns_name": "development.biosapplication.com",
   "internal_spot_plane_bucket": "biosmesh-spot-plane",

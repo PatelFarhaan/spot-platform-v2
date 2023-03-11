@@ -2,7 +2,7 @@
   "platform": "biosmesh",
   "ami_id": "ami-0fbf45d0b1fef0326",
   "zone_name": "biosapplication.com",
-  "lb_algorithm_type": "round_robin",
+  "lb_algorithm_type": "least_outstanding_requests",
   "mcp_sg_id": "sg-0ea9f0e82cf6e3617",
   "cooldown_and_deregistration_metadata": {},
   "spot_plane_bucket": "biosmesh-spot-plane",

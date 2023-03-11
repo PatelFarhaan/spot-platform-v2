@@ -4,7 +4,7 @@ resource "aws_lb_target_group" "target_group_port_80" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  load_balancing_algorithm_type = "round_robin"
+  load_balancing_algorithm_type = "least_outstanding_requests"
   name                          = "${var.app}-grafana"
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "target_group_port_9090" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  load_balancing_algorithm_type = "round_robin"
+  load_balancing_algorithm_type = "least_outstanding_requests"
   name                          = "${var.app}-prometheus"
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
@@ -60,7 +60,7 @@ resource "aws_lb_target_group" "target_group_port_9093" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  load_balancing_algorithm_type = "round_robin"
+  load_balancing_algorithm_type = "least_outstanding_requests"
   name                          = "${var.app}-alert-manager"
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 

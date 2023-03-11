@@ -14,13 +14,13 @@ resource "aws_instance" "ec2_instance" {
   volume_tags = var.tags
 
   root_block_device {
-    volume_size           = 30
+    volume_size           = 10
     delete_on_termination = true
     volume_type           = "gp3"
   }
 
   provisioner "file" {
-    source      = "${path.module}/../docker_agents"
+    source      = "${path.root}/../docker_agents"
     destination = "/home/ubuntu"
 
     connection {

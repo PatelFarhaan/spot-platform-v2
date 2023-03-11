@@ -3,10 +3,17 @@ data "template_file" "cloud_init_script" {
 #! /bin/bash
 
 export DEBIAN_FRONTEND=noninteractive
+export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
+
+echo """
+#!/bin/bash
+
+export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
+""" > /etc/profile.d/env.sh && source /etc/profile.d/env.sh
+
 sudo apt update -y &&
 sudo apt upgrade -y &&
 sudo apt install xterm -y &&
-cd /etc/apt && sudo cp trusted.gpg trusted.gpg.d
 
 sudo apt install docker.io -y &&
 sudo systemctl start docker &&

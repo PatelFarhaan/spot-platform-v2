@@ -25,3 +25,16 @@ resource "aws_lb_listener_certificate" "additional_lb_certs" {
     aws_acm_certificate.application_specific_certs
   ]
 }
+
+
+// Validating ACM Service
+resource "aws_acm_certificate_validation" "mcp_acm_certificate_validation" {
+  certificate_arn         = aws_acm_certificate.application_specific_certs.arn
+  validation_record_fqdns = [
+    for record in aws_route53_record.application_acm_records : record.fqdn
+  ]
+
+  depends_on = [
+    aws_route53_record.application_acm_records
+  ]
+}
