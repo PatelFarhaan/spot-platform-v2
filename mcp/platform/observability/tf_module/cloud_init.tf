@@ -4,6 +4,7 @@ data "template_file" "cloud_init_script" {
 
 export DEBIAN_FRONTEND=noninteractive
 export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
+
 echo """
 #!/bin/bash
 
@@ -12,6 +13,7 @@ export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region
 
 sudo apt update -y &&
 sudo apt upgrade -y &&
+sudo apt install xterm -y &&
 
 sudo apt install docker.io -y &&
 sudo systemctl start docker &&
@@ -21,8 +23,7 @@ sudo apt install python3-pip -y
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose &&
 sudo chmod +x /usr/local/bin/docker-compose
 
-sudo docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions &&
-sudo docker plugin enable loki
+sudo docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 
 sudo apt install ec2-instance-connect -y
 cd /home/ubuntu/docker_agents &&

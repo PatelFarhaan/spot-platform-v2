@@ -14,24 +14,23 @@ terraform {
 
 // Reading data variables from app_config.json file
 locals {
-  config_data = yamldecode(file("./../config.yml"))
+  config_data    = yamldecode(file("./../config.yml"))
   cluster_config = yamldecode(file("./../cluster_config.yml"))
 }
 
 
 // MCP Module
 module "mcp_deployment_stack" {
-  source = "../tf_module"
+  source = "../../tf_module"
 
   app                          = local.config_data.app
   env                          = local.config_data.env
   tags                         = local.config_data.tags
   region                       = local.config_data.region
   key_name                     = local.config_data.key_name
+  dns_names                    = local.config_data.dns_names
   instance_type                = local.config_data.instance_type
-  dns_name_vault               = local.config_data.dns_name_vault
   kms_id                       = local.cluster_config.vault_kms_id
-  dns_name_jenkins             = local.config_data.dns_name_jenkins
   zone_name                    = local.cluster_config.global_zone_name_1
   private_key_name_path        = local.config_data.private_key_name_path
   global_mcp_load_balancer_arn = local.cluster_config.global_mcp_apps_lb_arn

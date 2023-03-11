@@ -74,3 +74,4 @@ https://volkovlabs.io/blog/nginx-loki-grafana-20230129/
 if vault is not present, set asg to 0 -> ec2 error loop
 if client user defined poilicies is empty, it does not work
 retry login on aws ecr login -> does not show logs of this in grafana
+add promtail by default to each node to send cloud-init-output.log to loki

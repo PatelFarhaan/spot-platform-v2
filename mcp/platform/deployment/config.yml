@@ -4,8 +4,14 @@ key_name: bios-new
 app: mcp-deployment
 instance_type: t3.medium
 private_key_name_path: bios-new.pem
-dns_name_vault: mcp.vault.***REMOVED***
-dns_name_jenkins: mcp.deployment.***REMOVED***
+
+dns_names:
+  - dns: "mcp.vault.***REMOVED***"
+    port: 8200
+    name: vault
+  - dns: "mcp.deployment.***REMOVED***"
+    port: 80
+    name: jenkins
 
 tags:
   Owner: Bios

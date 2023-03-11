@@ -6,6 +6,6 @@ resource "aws_lb_listener_certificate" "jenkins_certs_attachment" {
   depends_on = [
     aws_route53_record.www_redirect,
     aws_route53_record.dualstack_alias,
-    aws_acm_certificate.application_specific_certs
+    aws_acm_certificate_validation.mcp_acm_certificate_validation
   ]
 }
