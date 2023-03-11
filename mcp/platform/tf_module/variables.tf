@@ -6,10 +6,14 @@ variable "kms_id" {}
 variable "region" {}
 variable "key_name" {}
 variable "zone_name" {}
-variable "instance_type" {}
-variable "regional_name" {}
-variable "mcp_spot_bucket" {}
 variable "dns_names" {}
+variable "regional_name" {}
+variable "ebs_volume_size" {}
+variable "mcp_spot_bucket" {}
 variable "mcp_vault_bucket" {}
+variable "spot_instance_type" {}
 variable "private_key_name_path" {}
+variable "spot_asg_min_instances" {}
+variable "spot_asg_max_instances" {}
+variable "spot_asg_desired_instances" {}
 variable "global_mcp_load_balancer_arn" {}

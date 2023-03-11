@@ -1,9 +1,28 @@
 env: production
 region: us-east-1
 key_name: bios-new
+ebs_volume_size: 10
 app: mcp-deployment
 instance_type: t3.medium
 private_key_name_path: bios-new.pem
+od_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 0
+    desired_instances: 0
+spot_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 1
 
 dns_names:
   - dns: "mcp.vault.***REMOVED***"

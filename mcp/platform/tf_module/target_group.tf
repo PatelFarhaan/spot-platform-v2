@@ -5,10 +5,10 @@ resource "aws_lb_target_group" "target_group_ports" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  port                          = var.dns_names[count.index]["port"]
   load_balancing_algorithm_type = "least_outstanding_requests"
-  name                          = "${var.app}-${var.dns_names[count.index]["name"]}"
+  port                          = var.dns_names[count.index]["port"]
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
+  name                          = "${var.app}-${var.dns_names[count.index]["name"]}"
 
   health_check {
     healthy_threshold   = 3
