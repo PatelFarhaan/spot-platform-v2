@@ -8,5 +8,6 @@ variable "dns_name" {}
 variable "zone_name" {}
 variable "instance_type" {}
 variable "regional_name" {}
+variable "mcp_spot_bucket" {}
 variable "private_key_name_path" {}
 variable "global_mcp_load_balancer_arn" {}

@@ -109,7 +109,7 @@ services:
       - 8080
     volumes:
       - /usr/bin/docker:/usr/bin/docker
-      - spotops-jenkins:/var/jenkins_home:rw
+      - /mnt/s3fs/jenkins:/var/jenkins_home:rw
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - spotops_deployment
@@ -169,8 +169,3 @@ services:
         condition: service_completed_successfully
     networks:
       - spotops_deployment
-
-
-volumes:
-  spotops-jenkins:
-

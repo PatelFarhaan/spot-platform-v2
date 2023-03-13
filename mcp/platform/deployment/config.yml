@@ -1,10 +1,14 @@
 env: production
 region: us-east-1
 key_name: bios-new
-ebs_volume_size: 10
+ebs_volume_size: 8
 app: mcp-deployment
+s3fs_name: deployment
 instance_type: t3.medium
+availability_zone: us-east-1a
+ebs_multi_attach_volume_size: 20
 private_key_name_path: bios-new.pem
+
 od_config:
   instance_type:
     - t3.small
@@ -12,8 +16,9 @@ od_config:
     - t3.large
   auto_scaling_group:
     min_instances: 0
-    max_instances: 0
-    desired_instances: 0
+    max_instances: 1
+    desired_instances: 1
+
 spot_config:
   instance_type:
     - t3.small

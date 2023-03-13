@@ -25,6 +25,8 @@ resource "aws_launch_template" "spot_launch_template" {
     device_name = "/dev/sda1"
 
     ebs {
+      throughput            = 125
+      iops                  = 3000
       volume_type           = var.volume_type
       volume_size           = var.ebs_volume_size
       delete_on_termination = var.tags["spotops.delete_ebs"]

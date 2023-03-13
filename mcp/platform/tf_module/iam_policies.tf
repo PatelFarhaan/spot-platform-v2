@@ -15,11 +15,29 @@ resource "aws_iam_policy" "mcp_deployment_access" {
       {
         Effect = "Allow",
         Action = [
-          "s3:GetObject"
+          "iam:ListInstanceProfiles"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket",
         ],
         Resource = [
           "arn:aws:s3:::${var.mcp_spot_bucket}",
           "arn:aws:s3:::${var.mcp_spot_bucket}/*",
+        ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:*",
+        ],
+        Resource = [
+          "arn:aws:s3:::${var.mcp_spot_bucket}/nfs/",
+          "arn:aws:s3:::${var.mcp_spot_bucket}/nfs/*",
         ]
       },
       {
@@ -40,6 +58,14 @@ resource "aws_iam_policy" "mcp_deployment_access" {
       },
       {
         "Action" : "ecr:GetAuthorizationToken",
+        "Effect" : "Allow",
+        "Resource" : "*"
+      },
+      {
+        "Action" : [
+          "ec2:DescribeTags",
+          "ec2:AttachVolume",
+        ],
         "Effect" : "Allow",
         "Resource" : "*"
       }
