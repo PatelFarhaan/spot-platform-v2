@@ -21,7 +21,7 @@ services:
     logging: *default-logging
     container_name: prometheus
     volumes:
-      - spotops-prometheus:/prometheus:rw
+      - /mnt/s3fs/prometheus:/prometheus:rw
       - ./prometheus/rules.yml:/etc/prometheus/rules.yml:ro
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     expose:
@@ -55,7 +55,7 @@ services:
     container_name: loki
     image: grafana/loki:2.4.0
     volumes:
-      - spotops-loki:/data/loki:rw
+      - /mnt/s3fs/loki:/data/loki:rw
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
     expose:
       - 3100
@@ -101,7 +101,7 @@ services:
     image: grafana/grafana
     container_name: "grafana"
     volumes:
-      - spotops-grafana:/var/lib/grafana:rw
+      - /mnt/s3fs/grafana:/var/lib/grafana:rw
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:rw
       - ./grafana/datasources:/etc/grafana/provisioning/datasources:rw
@@ -178,8 +178,5 @@ services:
 
 
 volumes:
-  spotops-loki:
   spotops-tempo:
-  spotops-grafana:
-  spotops-prometheus:
   spotops-alertmanager:

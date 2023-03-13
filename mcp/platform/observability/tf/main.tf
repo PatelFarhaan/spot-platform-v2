@@ -14,15 +14,14 @@ terraform {
 
 // Reading variables from config.yml file
 locals {
-  config_data = yamldecode(file("./../config.yml"))
+  config_data    = yamldecode(file("./../config.yml"))
   cluster_config = yamldecode(file("./../cluster_config.yml"))
 }
 
 
 // MCP Module
 module "mcp_observability_stack" {
-  source = "../tf_module"
-
+  source                       = "../tf_module"
   app                          = local.config_data.app
   env                          = local.config_data.env
   tags                         = local.config_data.tags
@@ -33,6 +32,7 @@ module "mcp_observability_stack" {
   private_key_name_path        = local.config_data.private_key_name_path
   zone_name                    = local.cluster_config.global_zone_name_1
   global_mcp_load_balancer_arn = local.cluster_config.global_mcp_apps_lb_arn
+  mcp_spot_bucket              = local.cluster_config.s3_mcp_spot_plane_bucket_name
   name                         = "${local.config_data.app}-${local.config_data.env}"
   regional_name                = "${local.config_data.app}-${local.config_data.env}-${local.config_data.region}"
 }

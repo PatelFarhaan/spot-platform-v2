@@ -1,21 +1,19 @@
 // Creating the ASG for Spot instances
 resource "aws_autoscaling_group" "spot_autoscaling_group" {
-  count = length(var.dns_names)
-
   name                 = "${var.name}-spot"
   termination_policies = ["OldestInstance"]
+  availability_zones   = [var.availability_zone]
   min_size             = var.spot_asg_min_instances
   max_size             = var.spot_asg_max_instances
   desired_capacity     = var.spot_asg_desired_instances
-  vpc_zone_identifier  = data.aws_lb.global_dev_apps_load_balancer.subnets
-  target_group_arns    = [aws_lb_target_group.target_group_ports[count.index].arn]
+  #  vpc_zone_identifier  = data.aws_lb.global_mcp_apps_load_balancer.subnets
+  target_group_arns    = [for target_group in aws_lb_target_group.target_group_ports : target_group.arn]
 
   mixed_instances_policy {
     instances_distribution {
       on_demand_base_capacity                  = 0
       on_demand_percentage_above_base_capacity = 0
-      spot_instance_pools                      = 20
-      spot_allocation_strategy                 = "lowest-price"
+      spot_allocation_strategy                 = "price-capacity-optimized"
     }
 
     launch_template {
@@ -30,18 +28,17 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
           instance_type = override.value
         }
       }
-
     }
   }
 
   default_cooldown          = 15
-  default_instance_warmup   = 30
-  health_check_grace_period = 120
+  default_instance_warmup   = 500
+  health_check_grace_period = 400
   capacity_rebalance        = true
   health_check_type         = "ELB"
 
   lifecycle {
-    create_before_destroy = false
+    create_before_destroy = true
   }
 
   instance_refresh {
@@ -54,6 +51,10 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
     }
   }
 
+  depends_on = [
+    aws_ebs_volume.ebs_multi_attach
+  ]
+
   tags = concat(
     [
       for key, value in var.tags :
@@ -64,6 +65,11 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
       }
     ],
     [
+      {
+        propagate_at_launch = true
+        key = "MultiAttachEBS"
+        value = aws_ebs_volume.ebs_multi_attach.id
+      },
       {
         propagate_at_launch = true
         key                 = "Type"

@@ -18,8 +18,8 @@ resource "aws_route53_record" "dualstack_alias" {
 
   alias {
     evaluate_target_health = false
-    zone_id                = data.aws_lb.global_dev_apps_load_balancer.zone_id
-    name                   = "dualstack.${data.aws_lb.global_dev_apps_load_balancer.dns_name}"
+    zone_id                = data.aws_lb.global_mcp_apps_load_balancer.zone_id
+    name                   = "dualstack.${data.aws_lb.global_mcp_apps_load_balancer.dns_name}"
   }
 }
 
@@ -38,8 +38,8 @@ resource "aws_route53_record" "www_redirect_for_mcp_apps" {
 
   alias {
     evaluate_target_health = false
-    zone_id                = data.aws_lb.global_dev_apps_load_balancer.zone_id
-    name                   = "dualstack.${data.aws_lb.global_dev_apps_load_balancer.dns_name}"
+    zone_id                = data.aws_lb.global_mcp_apps_load_balancer.zone_id
+    name                   = "dualstack.${data.aws_lb.global_mcp_apps_load_balancer.dns_name}"
   }
 }
 

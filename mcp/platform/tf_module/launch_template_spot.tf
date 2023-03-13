@@ -1,7 +1,6 @@
 // Creating Launch Template for Spot instances
 resource "aws_launch_template" "spot_launch_template" {
   update_default_version = true
-  ebs_optimized          = false
   key_name               = var.key_name
   name_prefix            = "${var.name}-spot-"
   image_id               = data.aws_ami.x86_processor.id
@@ -25,8 +24,10 @@ resource "aws_launch_template" "spot_launch_template" {
     device_name = "/dev/sda1"
 
     ebs {
-      volume_type           = "gp3"
+      throughput            = 125
+      iops                  = 3000
       delete_on_termination = true
+      volume_type           = "gp3"
       volume_size           = var.ebs_volume_size
     }
   }
@@ -44,7 +45,7 @@ resource "aws_launch_template" "spot_launch_template" {
     for_each = toset(local.resources)
     content {
       resource_type = tag_specifications.key
-      tags = merge(
+      tags          = merge(
         var.tags,
         {
           "Name" : "${var.name}-spot"
