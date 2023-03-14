@@ -2,11 +2,10 @@
 resource "aws_autoscaling_group" "spot_autoscaling_group" {
   name                 = "${var.name}-spot"
   termination_policies = ["OldestInstance"]
-  availability_zones   = [var.availability_zone]
+  availability_zones   = var.availability_zones
   min_size             = var.spot_asg_min_instances
   max_size             = var.spot_asg_max_instances
   desired_capacity     = var.spot_asg_desired_instances
-  #  vpc_zone_identifier  = data.aws_lb.global_mcp_apps_load_balancer.subnets
   target_group_arns    = [for target_group in aws_lb_target_group.target_group_ports : target_group.arn]
 
   mixed_instances_policy {
@@ -66,9 +65,14 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
     ],
     [
       {
+        key = "MultiAttachEbsId"
         propagate_at_launch = true
-        key = "MultiAttachEBS"
         value = aws_ebs_volume.ebs_multi_attach.id
+      },
+      {
+        key = "MultiAttachEbsSize"
+        propagate_at_launch = true
+        value = "${aws_ebs_volume.ebs_multi_attach.size}G"
       },
       {
         propagate_at_launch = true

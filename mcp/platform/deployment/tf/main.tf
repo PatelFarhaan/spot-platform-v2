@@ -31,7 +31,7 @@ module "mcp_deployment_stack" {
   s3fs_name                    = local.config_data.s3fs_name
   kms_id                       = local.cluster_config.vault_kms_id
   ebs_volume_size              = local.config_data.ebs_volume_size
-  availability_zone            = local.config_data.availability_zone
+  availability_zones           = local.config_data.availability_zones
   zone_name                    = local.cluster_config.global_zone_name_1
   private_key_name_path        = local.config_data.private_key_name_path
   spot_instance_type           = local.config_data.spot_config.instance_type
