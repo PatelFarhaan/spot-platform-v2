@@ -12,7 +12,7 @@ variable "regional_name" {}
 variable "ebs_volume_size" {}
 variable "mcp_spot_bucket" {}
 variable "mcp_vault_bucket" {}
-variable "availability_zone" {}
+variable "availability_zones" {}
 variable "spot_instance_type" {}
 variable "private_key_name_path" {}
 variable "spot_asg_min_instances" {}

@@ -5,9 +5,11 @@ ebs_volume_size: 8
 app: mcp-deployment
 s3fs_name: deployment
 instance_type: t3.medium
-availability_zone: us-east-1a
 ebs_multi_attach_volume_size: 20
 private_key_name_path: bios-new.pem
+
+availability_zones:
+  - us-east-1a
 
 od_config:
   instance_type:

@@ -65,6 +65,7 @@ resource "aws_iam_policy" "mcp_deployment_access" {
         "Action" : [
           "ec2:DescribeTags",
           "ec2:AttachVolume",
+          "ec2:DescribeVolumes"
         ],
         "Effect" : "Allow",
         "Resource" : "*"
