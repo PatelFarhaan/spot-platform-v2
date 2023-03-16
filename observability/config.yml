@@ -1,0 +1,19 @@
+env: production
+region: us-east-1
+key_name: bios-new
+app: mcp_platform-observability
+instance_type: t3.medium
+private_key_name_path: bios-new.pem
+dns_name: mcp_platform.observability.biosapplication.com
+global_zone_name_1: biosapplication.com
+
+tags:
+  Owner: Bios
+  Developer: Farhaan
+  Provisioner: Terraform
+  Environment: production
+  Application: mcp_platform-observability
+  Name: biosmesh-mcp_platform-observability
+
+s3_buckets:
+  mcp: biosmesh-spot-plane

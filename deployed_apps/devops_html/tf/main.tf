@@ -20,7 +20,7 @@ locals {
 
 
 module "development-devops-us-east-1" {
-  source = "../../../tf_modules/stateless/dev/apps"
+  source = "../../../tf_modules/client/stateless/dev"
 
   app                               = local.app_data.app
   env                               = local.app_data.env

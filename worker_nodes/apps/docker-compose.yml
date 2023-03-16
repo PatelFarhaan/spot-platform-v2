@@ -1,0 +1,120 @@
+version: "3.8"
+
+networks:
+  spotops_monitoring:
+
+x-logging:
+  &default-logging
+  driver: loki
+  options:
+    keep-file: "false"
+    loki-url: "${LOKI_URL}"
+    loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
+
+
+services:
+  node_exporter:
+    pid: "host"
+    restart: always
+    container_name: node_exporter
+    image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - "9100:9100"
+    networks:
+      - spotops_monitoring
+    command:
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--path.procfs=/host/proc'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /:/rootfs:ro
+      - /sys:/host/sys:ro
+      - /proc:/host/proc:ro
+    deploy:
+      resources:
+        limits:
+          memory: 20M
+
+  cadvisor:
+    restart: always
+    privileged: true
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /sys:/sys:ro
+      - /cgroup:/cgroup:ro
+      - /var/run:/var/run:ro
+      - /dev/disk:/dev/disk/:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - spotops_monitoring
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+
+  nginx:
+    image: nginx
+    restart: always
+    container_name: nginx
+    logging: *default-logging
+    ports:
+      - "80:80"
+      - "9999:9999"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - spotops_monitoring
+
+  nginx_exporter:
+    restart: always
+    container_name: nginx_exporter
+    image: nginx/nginx-prometheus-exporter:0.10.0
+    command:
+      -nginx.scrape-uri=http://nginx:8081/stub_status
+    ports:
+      - "9113:9113"
+    networks:
+      - spotops_monitoring
+    deploy:
+      resources:
+        limits:
+          memory: 15M
+
+  cronjobs:
+    image: ""
+    user: root
+    restart: always
+    privileged: true
+    container_name: cronjobs
+    logging: *default-logging
+    environment:
+      - "SCALE_VOLUME=${SCALE_VOLUME}"
+      - "SLACK_WEBHOOK=${SLACK_WEBHOOK}"
+      - "SCALE_UP_PERCENTAGE=${SCALE_UP_PERCENTAGE}"
+      - "SCALEUP_WHEN_GB_REMAINING=${SCALEUP_WHEN_GB_REMAINING}"
+      - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
+      - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
+    volumes:
+      - /dev:/dev:rw
+
+  main_application:
+    image: ""
+    restart: always
+    logging: *default-logging
+    expose:
+      - ""
+    env_file:
+      - app.env
+      - app.secret
+    volumes:
+      - ./configs:/config
+    networks:
+      - spotops_monitoring
+    deploy:
+      replicas: 2

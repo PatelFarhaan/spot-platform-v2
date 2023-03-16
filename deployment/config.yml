@@ -1,0 +1,105 @@
+env: production
+region: us-east-1
+key_name: bios-new
+ebs_volume_size: 8
+app: mcp_platform-deployment
+s3fs_name: deployment
+instance_type: t3.medium
+ebs_multi_attach_volume_size: 20
+private_key_name_path: bios-new.pem
+
+availability_zones:
+  - us-east-1a
+
+od_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 1
+
+spot_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 1
+
+dns_names:
+  - dns: "mcp_platform.vault.biosapplication.com"
+    port: 8200
+    name: vault
+  - dns: "mcp_platform.deployment.biosapplication.com"
+    port: 80
+    name: jenkins
+
+tags:
+  Owner: Bios
+  Developer: Farhaan
+  Provisioner: Terraform
+  Environment: production
+  Application: mcp_platform-deployment
+  Name: biosmesh-mcp_platform-deployment
+
+iam_policies: >
+  [
+  {
+    "Effect": "Allow",
+    "Action": "kms:*",
+    "Resource": "*"
+  },
+  {
+    "Resource": "*",
+    "Effect": "Allow",
+    "Action": [
+      "ec2:DescribeTags",
+      "ec2:AttachVolume",
+      "ec2:DescribeVolumes"
+    ]
+  },
+  {
+    "Resource": "*",
+    "Effect": "Allow",
+    "Action": [
+      "ecr:*",
+      "cloudtrail:LookupEvents"
+    ]
+  },
+  {
+    "Effect": "Allow",
+    "Action": [
+      "iam:ListInstanceProfiles"
+    ],
+    "Resource": "*"
+  },
+  {
+    "Resource": "*",
+    "Effect": "Allow",
+    "Action": "ecr:GetAuthorizationToken"
+  },
+  {
+    "Action": "s3:*",
+    "Effect": "Allow",
+    "Resource": [
+      "arn:aws:s3:::${var.mcp_vault_bucket}",
+      "arn:aws:s3:::${var.mcp_vault_bucket}/*"
+    ]
+  },
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ],
+    "Resource": [
+      "arn:aws:s3:::${var.mcp_spot_bucket}/deployment/",
+      "arn:aws:s3:::${var.mcp_spot_bucket}/deployment/*"
+    ]
+  }
+  ]
