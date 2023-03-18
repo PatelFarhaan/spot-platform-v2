@@ -21,7 +21,7 @@ services:
     logging: *default-logging
     container_name: prometheus
     volumes:
-      - /mnt/s3fs/prometheus:/prometheus:rw
+      - /mnt/maebs/prometheus:/prometheus:rw
       - ./prometheus/rules.yml:/etc/prometheus/rules.yml:ro
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     expose:
@@ -44,7 +44,7 @@ services:
     expose:
       - 9093
     volumes:
-      - spotops-alertmanager:/data:rw
+      - /mnt/maebs/alertmanager:/data:rw
       - ./alert_manager/alertmanager.yml:/config/alertmanager.yml:ro
     command:
       --config.file=/config/alertmanager.yml --log.level=debug
@@ -55,7 +55,7 @@ services:
     container_name: loki
     image: grafana/loki:2.4.0
     volumes:
-      - /mnt/s3fs/loki:/data/loki:rw
+      - /mnt/maebs/loki:/data/loki:rw
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
     expose:
       - 3100
@@ -68,40 +68,40 @@ services:
     networks:
       - spotops_monitoring
 
-#  tempo:
-#    restart: always
-#    container_name: tempo
-#    image: grafana/tempo:latest
-#    command:
-#      -config.file=/etc/tempo.yml
-#    volumes:
-#      - spotops-tempo:/tmp/tempo
-#      - ./tempo/tempo.yml:/etc/tempo.yml
-#    expose:
-#      - 3200
-#      - 4317
-#    networks:
-#      - spotops_monitoring
-#    logging: *default-logging
+  #  tempo:
+  #    restart: always
+  #    container_name: tempo
+  #    image: grafana/tempo:latest
+  #    command:
+  #      -config.file=/etc/tempo.yml
+  #    volumes:
+  #      - /mnt/maebs/tempo:/tmp/tempo
+  #      - ./tempo/tempo.yml:/etc/tempo.yml
+  #    expose:
+  #      - 3200
+  #      - 4317
+  #    networks:
+  #      - spotops_monitoring
+  #    logging: *default-logging
 
-#  otel-agent:
-#    restart: always
-#    image: otel/opentelemetry-collector-contrib
-#    container_name: opentelemetry-collector
-#    expose:
-#      - 4317
-#    volumes:
-#      - ./otel/config.yml:/etc/otel/config.yaml
-#    networks:
-#      - spotops_monitoring
-#    logging: *default-logging
+  #  otel-agent:
+  #    restart: always
+  #    image: otel/opentelemetry-collector-contrib
+  #    container_name: opentelemetry-collector
+  #    expose:
+  #      - 4317
+  #    volumes:
+  #      - ./otel/config.yml:/etc/otel/config.yaml
+  #    networks:
+  #      - spotops_monitoring
+  #    logging: *default-logging
 
   grafana:
     user: root
     image: grafana/grafana
     container_name: "grafana"
     volumes:
-      - /mnt/s3fs/grafana:/var/lib/grafana:rw
+      - /mnt/maebs/grafana:/var/lib/grafana:rw
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:rw
       - ./grafana/datasources:/etc/grafana/provisioning/datasources:rw
@@ -171,12 +171,9 @@ services:
     restart: always
     image: fortio/fortio
     container_name: fortio
+    volumes:
+      - /mnt/maebs/fortio:/fortio/data
     expose:
       - 8080
     networks:
       - spotops_monitoring
-
-
-volumes:
-  spotops-tempo:
-  spotops-alertmanager:

@@ -32,6 +32,13 @@ deploy_deployment:
 	cd ./../ && rm -rf ./cluster_config.yml
 
 
+.PHONY: publish_deployment_docker_files
+publish_deployment_docker_files:
+	cd deployment && \
+	aws s3 rm s3://biosmesh-spot-plane/deployment/docker_agents --recursive && \
+	aws s3 cp docker_agents s3://biosmesh-spot-plane/deployment/docker_agents --recursive
+
+
 .PHONY: teardown_deployment
 teardown_deployment:
 	cd deployment && \
@@ -48,8 +55,15 @@ plan_observability:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform plan
+	cd ./tf && terraform plan &&
 	cd ./../ && rm -rf ./cluster_config.yml
+
+
+.PHONY: publish_observability_docker_files
+publish_observability_docker_files:
+	cd observability && \
+	aws s3 rm s3://biosmesh-spot-plane/observability/docker_agents --recursive && \
+	aws s3 cp docker_agents s3://biosmesh-spot-plane/observability/docker_agents --recursive
 
 
 .PHONY: deploy_observability
