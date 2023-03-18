@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "target_group_ports" {
   protocol                      = "HTTP"
   target_type                   = "instance"
   load_balancing_algorithm_type = "least_outstanding_requests"
-  port                          = var.dns_names[count.index]["port"]
+  port                          = var.dns_names[count.index]["internal_port"]
   vpc_id                        = data.aws_lb.global_mcp_apps_load_balancer.vpc_id
   name                          = "${var.app}-${var.dns_names[count.index]["name"]}"
 

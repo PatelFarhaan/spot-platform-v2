@@ -1,19 +1,116 @@
 env: production
 region: us-east-1
 key_name: bios-new
-app: mcp_platform-observability
-instance_type: t3.medium
-private_key_name_path: bios-new.pem
-dns_name: mcp_platform.observability.***REMOVED***
-global_zone_name_1: ***REMOVED***
+ebs_volume_size: 8
+app: biomesh-observability
+ebs_multi_attach_volume_size: 20
+dc_config_bucket_name: observability
+
+availability_zones:
+  - us-east-1a
+
+od_config:
+  instance_types:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 0
+
+spot_config:
+  instance_types:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 0
+
+dns_names:
+  - name: fortio
+    internal_port: 80
+    external_port: 80
+    dns: "internal.fortio.***REMOVED***"
+  - name: grafana
+    internal_port: 80
+    external_port: 80
+    dns: "internal.grafana.***REMOVED***"
+  - name: prometheus
+    internal_port: 9090
+    external_port: 9090
+    dns: "internal.prometheus.***REMOVED***"
 
 tags:
   Owner: Bios
   Developer: Farhaan
   Provisioner: Terraform
   Environment: production
-  Application: mcp_platform-observability
-  Name: biosmesh-mcp_platform-observability
+  Application: platform-observability
+  Name: biosmesh-platform-observability
 
-s3_buckets:
-  mcp: biosmesh-spot-plane
+iam_policies: >
+  [
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:AttachVolume",
+        "ec2:DescribeVolumes"
+      ]
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "iam:ListInstanceProfiles"
+      ]
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:Describe*",
+        "cloudwatch:ListMetrics",
+        "cloudwatch:GetMetricData",
+        "cloudwatch:GetMetricStatistics"
+      ]
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": "autoscaling:Describe*"
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:Describe*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket/observability/"
+      ]
+    },
+    {
+      "Action": "s3:ListBucket",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket"
+      ]
+    },
+    {
+      "Action": "s3:GetObject",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket/*"
+      ]
+    }
+  ]
