@@ -76,3 +76,4 @@ if client user defined poilicies is empty, it does not work
 retry login on aws ecr login -> does not show logs of this in grafana
 add promtail by default to each node to send cloud-init-output.log to loki
 https://github.com/ruanbekker/grafana-observability-primer
+There are only 100 rules per LB: if any app is close to that, create a new lb

@@ -10,12 +10,12 @@ output "s3_mcp_spot_plane_bucket_name" {
   value = aws_s3_bucket.mcp_bucket.bucket
 }
 
-output "s3_mcp_worker_bucket_name" {
-  value = aws_s3_bucket.worker_bucket.bucket
-}
-
 output "s3_mcp_vault_bucket_name" {
   value = aws_s3_bucket.vault_bucket.bucket
+}
+
+output "s3_mcp_worker_bucket_name" {
+  value = aws_s3_bucket.worker_bucket.bucket
 }
 
 output "s3_mcp_tfstate_bucket_name" {
@@ -34,6 +34,9 @@ output "mcp_ecr_id" {
   value = aws_ecr_repository.apps_private_repo.repository_url
 }
 
+output "global_zone_name_1" {
+  value = aws_acm_certificate.default_global_certs.domain_name
+}
 
 output "global_dev_apps_lb_security_group_id" {
   value = aws_security_group.global_dev_apps_lb_security_group.id
@@ -41,8 +44,4 @@ output "global_dev_apps_lb_security_group_id" {
 
 output "global_mcp_apps_lb_security_group_id" {
   value = aws_security_group.global_mcp_apps_lb_security_group.id
-}
-
-output "global_zone_name_1" {
-  value = aws_acm_certificate.default_global_certs.domain_name
 }

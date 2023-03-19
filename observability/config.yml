@@ -27,7 +27,7 @@ spot_config:
   auto_scaling_group:
     min_instances: 0
     max_instances: 1
-    desired_instances: 0
+    desired_instances: 1
 
 dns_names:
   - name: fortio
@@ -45,6 +45,7 @@ dns_names:
 
 tags:
   Owner: Bios
+  MCP_SD: true
   Developer: Farhaan
   Provisioner: Terraform
   Environment: production

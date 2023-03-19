@@ -1,14 +1,15 @@
-// Target Group for port 80 (Jenkins)
+// Target Groups
 resource "aws_lb_target_group" "target_group_ports" {
-  count = length(var.dns_names)
+  #  count = length(var.dns_names)
+  for_each = {for dns in var.dns_names : dns["name"] => dns}
 
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
+  name                          = "${var.app}-${each.key}"
+  port                          = each.value["internal_port"]
   load_balancing_algorithm_type = "least_outstanding_requests"
-  port                          = var.dns_names[count.index]["internal_port"]
   vpc_id                        = data.aws_lb.global_mcp_apps_load_balancer.vpc_id
-  name                          = "${var.app}-${var.dns_names[count.index]["name"]}"
 
   health_check {
     healthy_threshold   = 3
@@ -23,6 +24,6 @@ resource "aws_lb_target_group" "target_group_ports" {
   }
 
   lifecycle {
-    create_before_destroy = false
+    create_before_destroy = true
   }
 }

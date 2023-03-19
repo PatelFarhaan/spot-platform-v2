@@ -12,7 +12,7 @@ locals {
 }
 
 
-// Filtered DNS List
+// Filtered DNS List (non 80 and 443 records)
 locals {
   filtered_dns_list = [
     for obj in var.dns_names : obj
@@ -22,7 +22,7 @@ locals {
 }
 
 
-// Aggregating all ACM Records Value
+// Unique DNS List
 locals {
-  acm_validation_records = flatten([for i in aws_acm_certificate.mcp_app_certs : i.domain_validation_options])
+  unique_dns_list = toset(flatten([for dns in var.dns_names : dns["dns"]]))
 }
