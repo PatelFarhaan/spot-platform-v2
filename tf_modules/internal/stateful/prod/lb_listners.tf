@@ -12,20 +12,26 @@ data "aws_lb_listener" "global_mcp_lb_443_listener" {
 }
 
 
-#// Creating Additional Dynamic Ports
-#resource "aws_lb_listener" "global_mcp_lb_additional_listeners" {
-#  count = local.filtered_dns_list
-#
-#  protocol          = "HTTPS"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = aws_acm_certificate.mcp_app_certs.arn
-#  load_balancer_arn = data.aws_lb.global_mcp_apps_load_balancer.arn
-#  port              = local.filtered_dns_list[count.index]["external_port"]
-#
-#  default_action {
-#    type             = "forward"
-#    target_group_arn = aws_lb_target_group.target_group_ports[count.index].arn
-#  }
-#
-#  tags = var.tags
-#}
+// Creating Additional Dynamic Ports
+resource "aws_lb_listener" "global_mcp_lb_additional_listeners" {
+  for_each = { for dns in local.filtered_dns_list: dns["name"] => dns }
+
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  port              = each.value["external_port"]
+  load_balancer_arn = data.aws_lb.global_mcp_apps_load_balancer.arn
+  certificate_arn   = aws_acm_certificate.mcp_app_certs[each.value["dns"]].arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group_ports[each.key].arn
+  }
+
+  depends_on = [
+    aws_route53_record.dualstack_alias,
+    aws_route53_record.www_redirect_for_mcp_apps,
+    aws_acm_certificate_validation.mcp_app_certs_validation
+  ]
+
+  tags = var.tags
+}

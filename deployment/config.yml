@@ -41,6 +41,7 @@ dns_names:
 
 tags:
   Owner: Bios
+  MCP_SD: true
   Developer: Farhaan
   Provisioner: Terraform
   Environment: production

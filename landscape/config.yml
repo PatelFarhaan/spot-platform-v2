@@ -41,31 +41,10 @@ security_groups:
       ingress: [ ]
     alb:
       ingress:
-        - to_port: 80
-          from_port: 80
+        - from_port: 0
+          to_port: 65535
           protocol: tcp
-          description: "HTTP from VPC"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 443
-          from_port: 443
-          protocol: tcp
-          description: "TLS from VPC"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 9090
-          from_port: 9090
-          protocol: tcp
-          description: "Prometheus Connection"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 9093
-          from_port: 9093
-          protocol: tcp
-          description: "Nginx Exporter Connection"
+          description: "All TCP"
           cidr_blocks:
             - "0.0.0.0/0"
   global_dev_apps:
@@ -73,44 +52,9 @@ security_groups:
       ingress: [ ]
     alb:
       ingress:
-        - to_port: 80
-          from_port: 80
+        - from_port: 0
+          to_port: 65535
           protocol: tcp
-          description: "HTTP from VPC"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 443
-          from_port: 443
-          protocol: tcp
-          description: "TLS from VPC"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 27017
-          from_port: 27017
-          protocol: tcp
-          description: "MongoDB Connections"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 3306
-          from_port: 3306
-          protocol: tcp
-          description: "Mysql Connections"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 5432
-          from_port: 5432
-          protocol: tcp
-          description: "Postgres Connections"
-          cidr_blocks:
-            - "0.0.0.0/0"
-
-        - to_port: 6379
-          from_port: 6379
-          protocol: tcp
-          description: "Redis Connections"
+          description: "All TCP"
           cidr_blocks:
             - "0.0.0.0/0"
