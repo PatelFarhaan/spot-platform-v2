@@ -26,3 +26,5 @@ package.json
 .idea
 
 scripts/rest_apis/delete_artifacts_from_instances.sh
+cluster_config.yml
+*/cluster_config.yml

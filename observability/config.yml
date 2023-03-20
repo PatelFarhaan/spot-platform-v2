@@ -4,7 +4,6 @@ key_name: bios-new
 ebs_volume_size: 8
 app: biosmesh-telemetry
 export_config_to_s3: true
-create_obs_ingress_rule: false
 ebs_multi_attach_volume_size: 20
 dc_config_bucket_name: observability
 
@@ -29,7 +28,7 @@ spot_config:
   auto_scaling_group:
     min_instances: 0
     max_instances: 1
-    desired_instances: 1
+    desired_instances: 0
 
 dns_names:
   - name: loki

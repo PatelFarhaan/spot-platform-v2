@@ -1,5 +1,5 @@
 resource "null_resource" "export_config_to_s3" {
-  count = var.export_config_to_s3 ? 1:0
+  count = var.export_config_to_s3 ? 1 : 0
 
   triggers = {
     always_run = timestamp()
@@ -24,12 +24,13 @@ resource "null_resource" "export_config_to_s3" {
       mcp_bucket_name=`cat ./../cluster_config.yml | yq -r .s3_mcp_spot_plane_bucket_name` &&
       aws s3 cp s3://$mcp_bucket_name/cluster_config.json /tmp/spotops/base_config.json &&
       terraform output -json | jq .outputs.value > /tmp/spotops/observability_config.json &&
+      cat /tmp/spotops/observability_config.json
 
       if [ ! -s /tmp/spotops/observability_config.json ]; then
-        jq -s '.[0] * .[1]' /tmp/spotops/base_config.json /tmp/spotops/observability_config.json > /tmp/spotops/cluster_config.json &&
-        aws s3 cp /tmp/spotops/cluster_config.json s3://$mcp_bucket_name
+          echo "File Content is Empty"
       else
-        echo "File Content is Empty"
+          jq -s '.[0] * .[1]' /tmp/spotops/base_config.json /tmp/spotops/observability_config.json > /tmp/spotops/cluster_config.json &&
+          aws s3 cp /tmp/spotops/cluster_config.json s3://$mcp_bucket_name
       fi
 
     EOF

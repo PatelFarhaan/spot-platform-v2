@@ -8,11 +8,13 @@ variable "key_name" {}
 variable "zone_name" {}
 variable "dns_names" {}
 variable "policy_list" {}
+variable "telemetry_sg" {}
 variable "regional_name" {}
 variable "ebs_volume_size" {}
 variable "mcp_spot_bucket" {}
 variable "od_instance_type" {}
 variable "mcp_vault_bucket" {}
+variable "telemetry_sg_ports" {}
 variable "availability_zones" {}
 variable "spot_instance_type" {}
 variable "export_config_to_s3" {}
@@ -21,7 +23,6 @@ variable "od_asg_max_instances" {}
 variable "dc_config_bucket_name" {}
 variable "spot_asg_min_instances" {}
 variable "spot_asg_max_instances" {}
-variable "create_obs_ingress_rule" {}
 variable "od_asg_desired_instances" {}
 variable "spot_asg_desired_instances" {}
 variable "global_mcp_load_balancer_arn" {}

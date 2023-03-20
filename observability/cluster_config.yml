@@ -10,3 +10,4 @@ s3_mcp_vault_bucket_name: biosmesh-vault
 s3_mcp_worker_bucket_name: biosmesh-apps-config
 tfstate_dynamodb_name: biosmesh-dynamodb-tflock-state
 vault_kms_id: de6cf55b-3c3c-4a08-a19d-8c3f626ef023
+mcp_deployment_instance_sg: sg-0351d2fc7e8a2d5dc
