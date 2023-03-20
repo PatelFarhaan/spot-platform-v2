@@ -1,6 +1,6 @@
 // Defining SG rules
 resource "aws_security_group" "app_sg" {
-  name        = var.regional_name
+  name_prefix = var.regional_name
   description = "Security Group for Application"
   vpc_id      = data.aws_lb.global_mcp_apps_load_balancer.vpc_id
 
@@ -12,13 +12,13 @@ resource "aws_security_group" "app_sg" {
   }
 
   dynamic "ingress" {
-    for_each = var.create_obs_ingress_rule ? { create_obs_ingress_rule = var.create_obs_ingress_rule } : {}
+    for_each = var.telemetry_sg_ports
 
     content {
-      from_port       = 9100
-      to_port         = 9100
       protocol        = "tcp"
-      security_groups = ["sg-0c9bf5ebccc63b7ff"]
+      to_port         = ingress.value
+      from_port       = ingress.value
+      security_groups = [var.telemetry_sg]
     }
   }
 

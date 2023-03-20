@@ -17,8 +17,8 @@ plan_telemetry:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform plan &&
-	cd ./../ && rm -rf ./cluster_config.yml
+	cd ./tf && terraform plan
+	
 
 
 # TERRAFORM APPLY
@@ -28,8 +28,8 @@ deploy_telemetry:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform apply && \
-	cd ./../ && rm -rf ./cluster_config.yml
+	cd ./tf && terraform apply
+	
 
 
 # TERRAFORM DESTROY
@@ -39,8 +39,8 @@ teardown_telemetry:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform destroy && \
-	cd ./../ && rm -rf ./cluster_config.yml
+	cd ./tf && terraform destroy
+	
 
 
 #<==================================================================================================>
@@ -62,8 +62,8 @@ plan_deployment:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform plan && \
-	cd ./../ && rm -rf ./cluster_config.yml
+	cd ./tf && terraform plan
+	
 
 
 # TERRAFORM APPLY
@@ -74,7 +74,7 @@ deploy_deployment:
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
 	cd ./tf && terraform apply
-	cd ./../ && rm -rf ./cluster_config.yml
+	
 
 
 # TERRAFORM DESTROY
@@ -84,8 +84,8 @@ teardown_deployment:
 	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json && \
-	cd ./tf && terraform destroy && \
-	cd ./../ && rm -rf ./cluster_config.yml
+	cd ./tf && terraform destroy
+	
 
 
 #<==================================================================================================>
