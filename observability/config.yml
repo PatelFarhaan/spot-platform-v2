@@ -2,7 +2,9 @@ env: production
 region: us-east-1
 key_name: bios-new
 ebs_volume_size: 8
-app: biomesh-observability
+app: biosmesh-telemetry
+export_config_to_s3: true
+create_obs_ingress_rule: false
 ebs_multi_attach_volume_size: 20
 dc_config_bucket_name: observability
 
@@ -30,6 +32,10 @@ spot_config:
     desired_instances: 1
 
 dns_names:
+  - name: loki
+    internal_port: 80
+    external_port: 80
+    dns: "internal.loki.biosapplication.com"
   - name: fortio
     internal_port: 80
     external_port: 80
@@ -49,8 +55,8 @@ tags:
   Developer: Farhaan
   Provisioner: Terraform
   Environment: production
-  Application: platform-observability
-  Name: biosmesh-platform-observability
+  Name: biosmesh-platform-telemetry
+  Application: biosmesh-platform-telemetry
 
 iam_policies: >
   [

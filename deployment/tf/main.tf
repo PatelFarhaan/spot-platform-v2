@@ -33,8 +33,10 @@ module "mcp_deployment_stack" {
   kms_id                       = local.cluster_config.vault_kms_id
   ebs_volume_size              = local.config_data.ebs_volume_size
   availability_zones           = local.config_data.availability_zones
-  zone_name                    = local.cluster_config.global_zone_name_1
+  export_config_to_s3          = local.config_data.export_config_to_s3
   dc_config_bucket_name        = local.config_data.dc_config_bucket_name
+  zone_name                    = local.cluster_config.global_zone_name_1
+  create_obs_ingress_rule      = local.config_data.create_obs_ingress_rule
   od_instance_type             = local.config_data.od_config.instance_types
   global_mcp_load_balancer_arn = local.cluster_config.global_mcp_apps_lb_arn
   spot_instance_type           = local.config_data.spot_config.instance_types

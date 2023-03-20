@@ -11,6 +11,17 @@ resource "aws_security_group" "app_sg" {
     security_groups = data.aws_lb.global_mcp_apps_load_balancer.security_groups
   }
 
+  dynamic "ingress" {
+    for_each = var.create_obs_ingress_rule ? { create_obs_ingress_rule = var.create_obs_ingress_rule } : {}
+
+    content {
+      from_port       = 9100
+      to_port         = 9100
+      protocol        = "tcp"
+      security_groups = ["sg-0c9bf5ebccc63b7ff"]
+    }
+  }
+
   ingress {
     from_port   = 22
     to_port     = 22
