@@ -52,9 +52,19 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
         key                 = key
         value               = value
         propagate_at_launch = true
-      }
+      } if key != "Name"
     ],
     [
+      {
+        key = "MultiAttachEbsId"
+        propagate_at_launch = true
+        value = aws_ebs_volume.ebs_multi_attach.id
+      },
+      {
+        key = "MultiAttachEbsSize"
+        propagate_at_launch = true
+        value = "${aws_ebs_volume.ebs_multi_attach.size}G"
+      },
       {
         propagate_at_launch = true
         key                 = "Type"

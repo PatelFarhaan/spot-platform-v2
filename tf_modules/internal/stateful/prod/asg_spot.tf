@@ -61,7 +61,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
         key                 = key
         value               = value
         propagate_at_launch = true
-      }
+      } if key != "Name"
     ],
     [
       {

@@ -9,7 +9,7 @@ x-logging:
   driver: loki
   options:
     keep-file: "false"
-    loki-url: https://mcp.observability.***REMOVED***/loki/api/v1/push
+    loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
     loki-external-labels: "instance=mcp_platform,application=mcp_platform-deployment,environment=production,container_name={{.Name}}"
 
 

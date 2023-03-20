@@ -4,7 +4,7 @@ datasources:
   - orgId: 1
     access: proxy
     editable: true
-    uid: prometheus
+    uid: defaultPrometheus
     isDefault: true
     basicAuth: false
     name: Prometheus
@@ -12,11 +12,11 @@ datasources:
     url: http://prometheus:9090
 
   - orgId: 1
-    uid: loki
     name: Loki
     type: loki
     access: proxy
     editable: true
+    uid: defaultLoki
     isDefault: false
     basicAuth: false
     url: http://loki:3100
@@ -29,22 +29,22 @@ datasources:
 
   - orgId: 1
     editable: true
-    uid: cloudwatch
     isDefault: false
     name: CloudWatch
     type: cloudwatch
+    uid: defaultCloudwatch
     jsonData:
       authType: default
       defaultRegion: us-east-1
 
   - orgId: 1
-    uid: tempo
     name: Tempo
     type: tempo
     access: proxy
     editable: true
     basicAuth: false
     isDefault: false
+    uid: defaultTempo
     url: http://tempo:3200
     jsonData:
       httpMethod: GET

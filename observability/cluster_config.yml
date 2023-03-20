@@ -9,4 +9,4 @@ s3_mcp_tfstate_bucket_name: biosmesh-tf-state
 s3_mcp_vault_bucket_name: biosmesh-vault
 s3_mcp_worker_bucket_name: biosmesh-apps-config
 tfstate_dynamodb_name: biosmesh-dynamodb-tflock-state
-vault_kms_id: cd7b6e54-1605-43db-8096-4ff6975b2dc5
+vault_kms_id: de6cf55b-3c3c-4a08-a19d-8c3f626ef023
