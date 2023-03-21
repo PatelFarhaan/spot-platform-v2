@@ -57,6 +57,19 @@ services:
         limits:
           memory: 100M
 
+  pyroscope:
+    container_name: pyroscope
+    image: pyroscope/pyroscope:latest
+    ports:
+      - "4040:4040"
+    command:
+      - server
+    environment:
+      - PYROSCOPE_LOG_LEVEL=info
+      - PYROSCOPE_WAIT_AFTER_STOP=true
+    networks:
+      - spotops_monitoring
+
   nginx:
     image: nginx
     restart: always

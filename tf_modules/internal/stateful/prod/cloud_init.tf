@@ -3,14 +3,8 @@ data "template_file" "cloud_init_script" {
 #! /bin/bash
 
 cd /home/ubuntu
-export DEBIAN_FRONTEND=noninteractive
-export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
-
-echo """
-#!/bin/bash
-
-export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
-""" > /etc/profile.d/env.sh && source /etc/profile.d/env.sh
+mkdir -p /mnt/maebs
+MOUNT_POINT="/mnt/maebs"
 
 echo "Updating System Libraries..."
 sudo apt update -y &&
@@ -25,14 +19,17 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 sudo docker plugin install --alias loki --grant-all-permissions grafana/loki-docker-driver:latest
 
-echo "Attaching External MultiAttach EBS Volume..."
-mkdir -p /mnt/maebs
-MOUNT_POINT="/mnt/maebs"
+export DEBIAN_FRONTEND=noninteractive
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+export AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
 tags=$(aws ec2 describe-tags --region "$AWS_REGION" --filter "Name=resource-id,Values=$instance_id" | jq '.Tags')
+
+application=$(echo $tags | jq -r '.[] | select (.Key == "Application") | .Value')
+environment=$(echo $tags | jq -r '.[] | select (.Key == "Environment") | .Value')
 multi_attach_vol_id=$(echo $tags | jq -r '.[] | select (.Key == "MultiAttachEbsId") | .Value')
 multi_attach_vol_size=$(echo $tags | jq -r '.[] | select (.Key == "MultiAttachEbsSize") | .Value')
 
+echo "Attaching External MultiAttach EBS Volume..."
 aws ec2 attach-volume --volume-id $multi_attach_vol_id --instance-id $instance_id --region "$AWS_REGION" --device /dev/sdf
 
 echo "Waiting for the EBS volume to be attached..."
@@ -48,23 +45,34 @@ echo "USER and GROUPS: $USER:$GROUPS"
 echo "Volume ID: $multi_attach_vol_id"
 echo "\n\n\n"
 
+echo "Checking Filesystem exists on the new volume..."
 if ! file -s /dev/$DEVICE_NAME | grep -q "ext4"; then
     echo "Creating new file system on /dev/$DEVICE_NAME"
     mkfs -t ext4 /dev/$DEVICE_NAME
     chown -R ubuntu:1000 $MOUNT_POINT
 fi
 
-echo "Mounting FileSystem..."
+
+echo "Mounting /dev/$DEVICE_NAME to $MOUNT_POINT"
+mount /dev/$DEVICE_NAME $MOUNT_POINT
+chown -R ubuntu:1000 $MOUNT_POINT
+
 if ! grep -q "$MOUNT_POINT" /etc/fstab; then
-    echo "Mounting /dev/$DEVICE_NAME to $MOUNT_POINT"
-    chown -R ubuntu:1000 $MOUNT_POINT
     echo "/dev/$DEVICE_NAME $MOUNT_POINT ext4 defaults,nofail 0 2" >> /etc/fstab
 fi
 
 echo "Downloading Container Files from S3..."
 aws s3 cp "s3://biosmesh-spot-plane/${var.dc_config_bucket_name}/" ./ --recursive &&
 cd /home/ubuntu/docker_agents &&
-sudo docker-compose up -d --build
+
+echo """
+HOSTNAME=`hostname`
+APPLICATION=$application
+ENVIRONMENT=$environment
+AWS_REGION=`curl http://169.254.169.254/latest/meta-data/placement/region`
+""" > /home/ubuntu/docker_agents/.env &&
+
+docker-compose up -d --build
 sudo snap install amazon-ssm-agent --classic && sudo snap start amazon-ssm-agent
 
 ls /usr/share/zoneinfo

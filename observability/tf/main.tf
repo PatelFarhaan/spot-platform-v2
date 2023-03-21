@@ -30,8 +30,8 @@ module "mcp_observability_stack" {
   env                          = local.config_data.env
   tags                         = local.config_data.tags
   region                       = local.config_data.region
+  routing                      = local.config_data.routing
   key_name                     = local.config_data.key_name
-  dns_names                    = local.config_data.dns_names
   policy_list                  = local.config_data.iam_policies
   kms_id                       = local.cluster_config.vault_kms_id
   ebs_volume_size              = local.config_data.ebs_volume_size

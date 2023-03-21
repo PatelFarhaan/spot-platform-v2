@@ -23,6 +23,10 @@ scrape_configs:
         regex: "biosmesh-.*"
         action: keep
       - source_labels:
+          - __meta_ec2_tag_Name
+        regex: "biosmesh-telemetry.*"
+        action: drop
+      - source_labels:
           - __meta_ec2_tag_MCP_SD
         regex: true
         action: keep
@@ -36,15 +40,31 @@ scrape_configs:
           - __meta_ec2_tag_Environment
         target_label: environment
     ec2_sd_configs:
-      - region: '${region}'
-        profile: arn:aws:iam::774723060820:role/biomesh-observability-production-us-east-1
-        port: 9100
-      - region: '${region}'
-        profile: arn:aws:iam::774723060820:role/biomesh-observability-production-us-east-1
-        port: 8080
-      - region: '${region}'
-        profile: arn:aws:iam::774723060820:role/biomesh-observability-production-us-east-1
-        port: 9113
+      - port: 4040
+        region: us-east-1
+      - port: 8080
+        region: us-east-1
+      - port: 9100
+        region: us-east-1
+      - port: 9113
+        region: us-east-1
+
+  - job_name: observability_and_telemetry_stack
+    scheme: http
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels:
+          - __meta_ec2_instance_id
+        target_label: instance
+    static_configs:
+      - labels:
+          application: biosmesh-platform-telemetry
+          environment: production
+        targets:
+          - cadvisor:8080
+          - pyroscope:4040
+          - node_exporter:9100
+          - nginx_exporter:9113
 
   - job_name: Jenkins
     scheme: https

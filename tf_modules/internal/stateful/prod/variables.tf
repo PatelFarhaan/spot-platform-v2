@@ -4,9 +4,9 @@ variable "tags" {}
 variable "name" {}
 variable "kms_id" {}
 variable "region" {}
+variable "routing" {}
 variable "key_name" {}
 variable "zone_name" {}
-variable "dns_names" {}
 variable "policy_list" {}
 variable "telemetry_sg" {}
 variable "regional_name" {}
