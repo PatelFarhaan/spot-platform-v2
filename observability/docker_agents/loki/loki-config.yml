@@ -12,8 +12,8 @@ querier:
   max_concurrent: 2048
 
 frontend:
-  max_outstanding_per_tenant: 4096
   compress_responses: true
+  max_outstanding_per_tenant: 4096
 
 query_range:
   split_queries_by_interval: 0
@@ -23,8 +23,8 @@ common:
   path_prefix: /tmp/loki
   storage:
     filesystem:
-      chunks_directory: /tmp/loki/chunks
       rules_directory: /tmp/loki/rules
+      chunks_directory: /tmp/loki/chunks
   replication_factor: 1
   ring:
     instance_addr: 127.0.0.1
@@ -40,8 +40,8 @@ ingester:
       replication_factor: 1
     final_sleep: 0s
   chunk_idle_period: 5m
-  chunk_retain_period: 30s
   max_transfer_retries: 0
+  chunk_retain_period: 30s
 
 schema_config:
   configs:

@@ -28,9 +28,9 @@ spot_config:
   auto_scaling_group:
     min_instances: 0
     max_instances: 1
-    desired_instances: 0
+    desired_instances: 1
 
-dns_names:
+routing:
   - name: loki
     internal_port: 80
     external_port: 80
@@ -64,8 +64,7 @@ iam_policies: >
       "Effect": "Allow",
       "Action": [
         "ec2:Describe*",
-        "ec2:AttachVolume",
-        "ec2:DescribeVolumes"
+        "ec2:AttachVolume"
       ]
     },
     {

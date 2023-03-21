@@ -1,7 +1,6 @@
 // Target Groups
 resource "aws_lb_target_group" "target_group_ports" {
-  #  count = length(var.dns_names)
-  for_each = {for dns in var.dns_names : dns["name"] => dns}
+  for_each = {for dns in var.routing : dns["name"] => dns}
 
   deregistration_delay          = 100
   protocol                      = "HTTP"
@@ -13,9 +12,9 @@ resource "aws_lb_target_group" "target_group_ports" {
 
   health_check {
     healthy_threshold   = 3
-    unhealthy_threshold = 5
-    timeout             = 10
-    interval            = 15
+    unhealthy_threshold = 10
+    timeout             = 70
+    interval            = 120
     enabled             = true
     matcher             = "200"
     protocol            = "HTTP"

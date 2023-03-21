@@ -1,6 +1,6 @@
 // Forwarding port 443 traffic to Target Group port 80 (Instance port)
 resource "aws_alb_listener_rule" "port_443_rule" {
-  for_each = {for dns in var.dns_names : dns["name"] => dns}
+  for_each = {for dns in var.routing : dns["name"] => dns}
 
   listener_arn = data.aws_lb_listener.global_mcp_lb_443_listener.arn
 

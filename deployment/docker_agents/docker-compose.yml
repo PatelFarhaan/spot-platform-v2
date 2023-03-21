@@ -10,7 +10,7 @@ x-logging:
   options:
     keep-file: "false"
     loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
-    loki-external-labels: "instance=mcp_platform,application=mcp_platform-deployment,environment=production,container_name={{.Name}}"
+    loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
 
 
 services:
@@ -25,14 +25,27 @@ services:
       -config.expand-env=true
       -config.file=/etc/promtail/promtail-config.yml
     environment:
-      - "HOSTNAME=mcp_platform"
-      - "ENVIRONMENT=production"
-      - "APPLICATION=mcp_platform-deployment"
-      - "LOKI_URL=https://mcp_platform.observability.***REMOVED***/loki/api/v1/push"
+      - "HOSTNAME=${HOSTNAME}"
+      - "ENVIRONMENT=${ENVIRONMENT}"
+      - "APPLICATION=${APPLICATION}"
+      - "LOKI_URL=https://internal.loki.***REMOVED***/loki/api/v1/push"
     deploy:
       resources:
         limits:
           memory: 30M
+
+  nginx_exporter:
+    image: nginx/nginx-prometheus-exporter:0.10.0
+    container_name: nginx_exporter
+    restart: always
+    depends_on:
+      - nginx
+    command:
+      -nginx.scrape-uri=http://nginx:8080/stub_status
+    ports:
+      - "9113:9113"
+    networks:
+      - spotops_deployment
 
   node_exporter:
     pid: "host"
@@ -56,6 +69,19 @@ services:
       resources:
         limits:
           memory: 20M
+
+  pyroscope:
+    container_name: pyroscope
+    image: pyroscope/pyroscope:latest
+    ports:
+      - "4040:4040"
+    command:
+      - server
+    environment:
+      - PYROSCOPE_LOG_LEVEL=info
+      - PYROSCOPE_WAIT_AFTER_STOP=true
+    networks:
+      - spotops_deployment
 
   cadvisor:
     restart: always
