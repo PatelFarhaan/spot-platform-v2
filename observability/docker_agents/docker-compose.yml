@@ -9,7 +9,7 @@ x-logging:
   driver: loki
   options:
     keep-file: "false"
-    loki-url: http://loki:3100/loki/api/v1/push
+    loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
     loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
 
 
@@ -26,10 +26,6 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     expose:
       - 9090
-    environment:
-      - "region=${AWS_REGION}"
-      - "application=${APPLICATION}"
-      - "environment=${ENVIRONMENT}"
     command:
       --web.enable-lifecycle
       --storage.tsdb.retention.time=7d

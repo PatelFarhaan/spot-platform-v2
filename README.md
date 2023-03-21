@@ -77,3 +77,8 @@ retry login on aws ecr login -> does not show logs of this in grafana
 add promtail by default to each node to send cloud-init-output.log to loki
 https://github.com/ruanbekker/grafana-observability-primer
 There are only 100 rules per LB: if any app is close to that, create a new lb
+p99, latancy records
+auto instrumentation for traces and metrics using open telemetry
+reduce the no of labels in loki
+reduce the no of labels in prometheus
+aws ssm agents instead of bios key name pem file
