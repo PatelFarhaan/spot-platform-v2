@@ -70,19 +70,6 @@ services:
         limits:
           memory: 20M
 
-  pyroscope:
-    container_name: pyroscope
-    image: pyroscope/pyroscope:latest
-    ports:
-      - "4040:4040"
-    command:
-      - server
-    environment:
-      - PYROSCOPE_LOG_LEVEL=info
-      - PYROSCOPE_WAIT_AFTER_STOP=true
-    networks:
-      - spotops_deployment
-
   cadvisor:
     restart: always
     privileged: true

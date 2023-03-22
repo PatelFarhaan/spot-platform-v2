@@ -39,8 +39,8 @@ services:
     restart: always
     container_name: alertmanager
     image: prom/alertmanager:v0.23.0
-    expose:
-      - 9093
+    ports:
+      - "9093:9093"
     volumes:
       - /mnt/maebs/alertmanager:/data:rw
       - ./alert_manager/alertmanager.yml:/config/alertmanager.yml:ro
@@ -104,19 +104,6 @@ services:
     pid: "host"
     ports:
       - "9100:9100"
-    networks:
-      - spotops_monitoring
-
-  pyroscope:
-    container_name: pyroscope
-    image: pyroscope/pyroscope:latest
-    ports:
-      - "4040:4040"
-    command:
-      - server
-    environment:
-      - PYROSCOPE_LOG_LEVEL=info
-      - PYROSCOPE_WAIT_AFTER_STOP=true
     networks:
       - spotops_monitoring
 

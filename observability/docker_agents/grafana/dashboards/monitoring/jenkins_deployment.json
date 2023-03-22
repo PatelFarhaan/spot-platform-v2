@@ -1658,7 +1658,7 @@
   },
   "timezone": "browser",
   "title": "Jenkins Deployment",
-  "uid": "haryan-jenkins",
+  "uid": "JenkinsDeployment",
   "version": 1,
   "weekStart": ""
 }

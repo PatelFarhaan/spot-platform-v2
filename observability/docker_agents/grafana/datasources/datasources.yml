@@ -27,14 +27,6 @@ datasources:
 #          name: TraceID
 #          url: $${__value.raw}
 
-  - name: Pyroscope
-    type: pyroscope-datasource
-    access: proxy
-    orgId: 1
-    uid: defaultPyroscope
-    jsonData:
-      path: http://pyroscope:4040
-
   - orgId: 1
     editable: true
     isDefault: false

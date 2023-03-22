@@ -18,12 +18,3 @@ providers:
     options:
       foldersFromFilesStructure: true
       path: /etc/grafana/provisioning/dashboards
-
-  - name: 'Pyroscope'
-    type: file
-    editable: true
-    allowUiUpdates: true
-    disableDeletion: true
-    options:
-      foldersFromFilesStructure: true
-      path: /etc/grafana/provisioning/dashboards
