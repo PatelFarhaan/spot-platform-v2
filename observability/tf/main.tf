@@ -25,6 +25,7 @@ module "mcp_observability_stack" {
 
 
   telemetry_sg                 = 0
+  telemetry_sg_ports           = []
   app                          = local.config_data.app
   env                          = local.config_data.env
   tags                         = local.config_data.tags
@@ -34,7 +35,6 @@ module "mcp_observability_stack" {
   policy_list                  = local.config_data.iam_policies
   kms_id                       = local.cluster_config.vault_kms_id
   ebs_volume_size              = local.config_data.ebs_volume_size
-  telemetry_sg_ports           = local.config_data.telemetry_sg_ports
   availability_zones           = local.config_data.availability_zones
   export_config_to_s3          = local.config_data.export_config_to_s3
   dc_config_bucket_name        = local.config_data.dc_config_bucket_name

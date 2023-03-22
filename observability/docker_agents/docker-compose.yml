@@ -50,10 +50,11 @@ services:
       - spotops_monitoring
 
   loki:
-    container_name: loki
+    user: root
     image: grafana/loki
+    container_name: loki
     volumes:
-      - /mnt/maebs/loki:/data/loki:rw
+      - /mnt/maebs/loki:/loki:rw
       - ./loki/loki-config.yml:/etc/loki/loki-config.yml:ro
     expose:
       - 3100
@@ -91,8 +92,8 @@ services:
       - /var/run:/var/run:ro
       - /dev/disk:/dev/disk/:ro
       - /var/lib/docker/:/var/lib/docker:ro
-    expose:
-      - 8080
+    ports:
+      - "8080:8080"
     networks:
       - spotops_monitoring
 
@@ -101,16 +102,16 @@ services:
     container_name: node_exporter
     restart: always
     pid: "host"
-    expose:
-      - 9100
+    ports:
+      - "9100:9100"
     networks:
       - spotops_monitoring
 
   pyroscope:
     container_name: pyroscope
     image: pyroscope/pyroscope:latest
-    expose:
-      - 4040
+    ports:
+      - "4040:4040"
     command:
       - server
     environment:
@@ -143,8 +144,8 @@ services:
       - nginx
     command:
       -nginx.scrape-uri=http://nginx:8080/stub_status
-    expose:
-      - 9113
+    ports:
+      - "9113:9113"
     networks:
       - spotops_monitoring
 

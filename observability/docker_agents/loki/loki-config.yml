@@ -2,36 +2,11 @@ auth_enabled: false
 
 server:
   http_listen_port: 3100
-  grpc_listen_port: 9096
-
-limits_config:
-  ingestion_rate_mb: 70
-  ingestion_burst_size_mb: 90
-
-querier:
-  max_concurrent: 2048
-
-frontend:
-  compress_responses: true
-  max_outstanding_per_tenant: 4096
-
-query_range:
-  split_queries_by_interval: 0
-  parallelise_shardable_queries: false
-
-common:
-  path_prefix: /tmp/loki
-  storage:
-    filesystem:
-      rules_directory: /tmp/loki/rules
-      chunks_directory: /tmp/loki/chunks
-  replication_factor: 1
-  ring:
-    instance_addr: 127.0.0.1
-    kvstore:
-      store: inmemory
 
 ingester:
+  wal:
+    enabled: true
+    dir: /loki/wal
   lifecycler:
     address: 127.0.0.1
     ring:
@@ -39,13 +14,15 @@ ingester:
         store: inmemory
       replication_factor: 1
     final_sleep: 0s
-  chunk_idle_period: 5m
-  max_transfer_retries: 0
+  chunk_idle_period: 1h
+  max_chunk_age: 1h
+  chunk_target_size: 1048576
   chunk_retain_period: 30s
+  max_transfer_retries: 0
 
 schema_config:
   configs:
-    - from: 2018-04-15
+    - from: 2020-10-24
       store: boltdb-shipper
       object_store: filesystem
       schema: v11
@@ -54,14 +31,37 @@ schema_config:
         period: 24h
 
 storage_config:
-  boltdb:
-    directory: /tmp/loki/index
+  boltdb_shipper:
+    cache_ttl: 24h
+    shared_store: filesystem
+    cache_location: /loki/boltdb-cache
+    active_index_directory: /loki/index
   filesystem:
-    directory: /tmp/loki/chunks
+    directory: /loki/chunks
+
+limits_config:
+  ingestion_rate_mb: 80
+  retention_period: 192h
+  reject_old_samples: true
+  enforce_metric_name: false
+  ingestion_burst_size_mb: 100
+  reject_old_samples_max_age: 168h
+
+chunk_store_config:
+  max_look_back_period: 192h
 
 table_manager:
+  retention_period: 192h
   retention_deletes_enabled: true
-  retention_period: 168h
+
+compactor:
+  shared_store: filesystem
+  compaction_interval: 10m
+  retention_enabled: true
+  retention_delete_delay: 2h
+  retention_delete_worker_count: 150
+  working_directory: /loki/retention
 
 ruler:
+  #  rule_path: /etc/loki/rules
   alertmanager_url: http://alertmanager:9093
