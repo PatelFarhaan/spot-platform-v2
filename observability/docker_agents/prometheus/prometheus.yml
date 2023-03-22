@@ -36,14 +36,9 @@ scrape_configs:
           - __meta_ec2_tag_Environment
         target_label: environment
     ec2_sd_configs:
-      - port: 4040
-        region: us-east-1
       - port: 8080
-        region: us-east-1
       - port: 9100
-        region: us-east-1
       - port: 9113
-        region: us-east-1
 
   - job_name: Jenkins
     scheme: https

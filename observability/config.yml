@@ -44,9 +44,13 @@ routing:
     external_port: 80
     dns: "internal.grafana.***REMOVED***"
   - name: prometheus
+    external_port: 80
     internal_port: 9090
-    external_port: 9090
     dns: "internal.prometheus.***REMOVED***"
+  - name: loki
+    internal_port: 9093
+    external_port: 80
+    dns: "internal.alertmanager.***REMOVED***"
 
 tags:
   Owner: Bios

@@ -8,7 +8,6 @@ ebs_multi_attach_volume_size: 20
 dc_config_bucket_name: deployment
 
 telemetry_sg_ports:
-  - 4040
   - 8080
   - 9100
   - 9113
