@@ -18,7 +18,7 @@ resource "aws_security_group" "app_sg" {
       protocol        = "tcp"
       to_port         = ingress.value
       from_port       = ingress.value
-      security_groups = [local.telemetry_sg_id] ? var.telemetry_sg == 0 : [var.telemetry_sg]
+      security_groups = [var.telemetry_sg]
     }
   }
 

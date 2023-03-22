@@ -27,7 +27,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13639,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 11,
   "links": [
     {
       "$$hashKey": "object:59",
@@ -55,7 +55,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${origin}"
+        "uid": "${datasource}"
       },
       "description": "Total  Count of log lines in the specified time range",
       "fieldConfig": {
@@ -119,15 +119,16 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.2",
+      "pluginVersion": "9.4.3",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "sum(count_over_time(({application=~\"$application\", environment=~\"$environment\", container_name=~\"$container\"})[$__interval]))",
-          "hide": false,
+          "queryType": "range",
           "refId": "A"
         }
       ],
@@ -137,7 +138,7 @@
     {
       "datasource": {
         "type": "loki",
-        "uid": "${origin}"
+        "uid": "${datasource}"
       },
       "gridPos": {
         "h": 25,
@@ -161,9 +162,9 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "P8E80F9AEF21F6940"
+            "uid": "${datasource}"
           },
-          "expr": "{application=~\"$application\", environment=~\"$environment\", container_name=~\"$container\"} |~ \"$search\"",
+          "expr": "{application=~\"$application\", environment=~\"$environment\", container_name=~\"$container\"}",
           "queryType": "range",
           "refId": "A"
         }
@@ -174,7 +175,8 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -187,9 +189,9 @@
         },
         "hide": 2,
         "includeAll": false,
-        "label": "Origin",
+        "label": "Datasource",
         "multi": false,
-        "name": "origin",
+        "name": "datasource",
         "options": [],
         "query": "loki",
         "refresh": 1,
@@ -205,7 +207,7 @@
         },
         "datasource": {
           "type": "loki",
-          "uid": "${origin}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(application)",
         "hide": 0,
@@ -232,7 +234,7 @@
         },
         "datasource": {
           "type": "loki",
-          "uid": "${origin}"
+          "uid": "${datasource}"
         },
         "definition": "label_values({application=~\"$application\"}, environment)",
         "hide": 0,
@@ -254,12 +256,12 @@
       {
         "current": {
           "selected": false,
-          "text": [],
-          "value": []
+          "text": "",
+          "value": ""
         },
         "datasource": {
           "type": "loki",
-          "uid": "${origin}"
+          "uid": "${datasource}"
         },
         "definition": "label_values({application=~\"$application\",environment=~\"$environment\"}, container_name)",
         "hide": 0,
@@ -318,6 +320,6 @@
   "timezone": "",
   "title": "Platform Logging",
   "uid": "liz0yRCZz",
-  "version": 8,
+  "version": 5,
   "weekStart": ""
 }

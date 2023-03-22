@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -19,13 +22,17 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 5,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": "Pyroscope",
+      "datasource": {
+        "type": "pyroscope-datasource",
+        "uid": "defaultPyroscope"
+      },
       "gridPos": {
         "h": 6,
         "w": 24,
@@ -33,8 +40,16 @@
         "y": 0
       },
       "id": 2,
+      "options": {
+        "displayOnly": "table",
+        "showToolbar": false
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "pyroscope-datasource",
+            "uid": "defaultPyroscope"
+          },
           "format": "json",
           "from": "now-1h",
           "name": "pyroscope.server.cpu",
@@ -47,7 +62,10 @@
       "type": "pyroscope-panel"
     },
     {
-      "datasource": "Pyroscope",
+      "datasource": {
+        "type": "pyroscope-datasource",
+        "uid": "defaultPyroscope"
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -55,8 +73,16 @@
         "y": 6
       },
       "id": 5,
+      "options": {
+        "displayOnly": "table",
+        "showToolbar": false
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "pyroscope-datasource",
+            "uid": "defaultPyroscope"
+          },
           "format": "json",
           "from": "now-1h",
           "name": "pyroscope.server.alloc_objects",
@@ -69,7 +95,10 @@
       "type": "pyroscope-panel"
     },
     {
-      "datasource": "Pyroscope",
+      "datasource": {
+        "type": "pyroscope-datasource",
+        "uid": "defaultPyroscope"
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -77,8 +106,16 @@
         "y": 13
       },
       "id": 6,
+      "options": {
+        "displayOnly": "table",
+        "showToolbar": false
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "pyroscope-datasource",
+            "uid": "defaultPyroscope"
+          },
           "format": "json",
           "from": "now-1h",
           "name": "pyroscope.server.alloc_space",
@@ -91,7 +128,10 @@
       "type": "pyroscope-panel"
     },
     {
-      "datasource": "Pyroscope",
+      "datasource": {
+        "type": "pyroscope-datasource",
+        "uid": "defaultPyroscope"
+      },
       "gridPos": {
         "h": 7,
         "w": 24,
@@ -99,8 +139,16 @@
         "y": 20
       },
       "id": 3,
+      "options": {
+        "displayOnly": "table",
+        "showToolbar": false
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "pyroscope-datasource",
+            "uid": "defaultPyroscope"
+          },
           "format": "json",
           "from": "now-1h",
           "name": "pyroscope.server.inuse_objects",
@@ -113,7 +161,10 @@
       "type": "pyroscope-panel"
     },
     {
-      "datasource": "Pyroscope",
+      "datasource": {
+        "type": "pyroscope-datasource",
+        "uid": "defaultPyroscope"
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
@@ -121,8 +172,16 @@
         "y": 27
       },
       "id": 4,
+      "options": {
+        "displayOnly": "table",
+        "showToolbar": false
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "pyroscope-datasource",
+            "uid": "defaultPyroscope"
+          },
           "format": "json",
           "from": "now-1h",
           "name": "pyroscope.server.inuse_space",
@@ -135,19 +194,22 @@
       "type": "pyroscope-panel"
     }
   ],
-  "schemaVersion": 30,
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Pyroscope Server (Pyroscope)",
+  "title": "Pyroscope Server",
   "uid": "J5dv1uG7z",
-  "version": 2
+  "version": 3,
+  "weekStart": ""
 }
