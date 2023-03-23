@@ -11,10 +11,11 @@ resource "null_resource" "export_config_to_s3" {
     aws_route53_record.dualstack_alias,
     aws_lb_target_group.target_group_ports,
     aws_route53_record.www_redirect_for_mcp_apps,
-    aws_lb_listener_certificate.alb_certs_attachment,
     aws_lb_listener.global_mcp_lb_additional_listeners,
     aws_route53_record.acm_validation_record_naked_domain,
-    aws_route53_record.acm_validation_record_non_naked_domain
+    aws_route53_record.acm_validation_record_non_naked_domain,
+    aws_lb_listener_certificate.alb_certs_attachment_port_443,
+    aws_lb_listener_certificate.alb_certs_attachment_additional_port
   ]
 
   provisioner "local-exec" {

@@ -23,12 +23,12 @@ locals {
 module "mcp_observability_stack" {
   source = "../../tf_modules/internal/stateful/prod"
 
-
   telemetry_sg                 = 0
   telemetry_sg_ports           = []
   app                          = local.config_data.app
   env                          = local.config_data.env
   tags                         = local.config_data.tags
+  ami_id                       = local.config_data.ami_id
   region                       = local.config_data.region
   routing                      = local.config_data.routing
   key_name                     = local.config_data.key_name

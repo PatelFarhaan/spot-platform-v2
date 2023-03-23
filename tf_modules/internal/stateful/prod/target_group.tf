@@ -21,8 +21,4 @@ resource "aws_lb_target_group" "target_group_ports" {
     port                = "9999"
     path                = "/internal/spotops/health"
   }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
