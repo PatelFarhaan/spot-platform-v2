@@ -10,11 +10,13 @@ metadata:
     optimize_spot: true
 
 routing:
-  name: www.development.biosapplication.com
-  redirectHttpToHttps: false
-  servicePorts:
-    - externalPort: 80
-      internalPort: 8000
+  - name: www.development.biosapplication.com
+    nginxCache: "?"
+    nginxAuth: "?"
+    redirectHttpToHttps: false
+    servicePorts:
+      - externalPort: 80
+        internalPort: 8000
 
 notifications:
   slack:

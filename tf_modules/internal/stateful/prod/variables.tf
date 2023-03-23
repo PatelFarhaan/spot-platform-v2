@@ -3,6 +3,7 @@ variable "env" {}
 variable "tags" {}
 variable "name" {}
 variable "kms_id" {}
+variable "ami_id" {}
 variable "region" {}
 variable "routing" {}
 variable "key_name" {}

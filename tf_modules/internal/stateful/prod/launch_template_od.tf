@@ -1,9 +1,9 @@
 // Creating Launch Template for OD instances
 resource "aws_launch_template" "od_launch_template" {
   update_default_version = true
+  image_id               = var.ami_id
   key_name               = var.key_name
   name_prefix            = "${var.name}-od-"
-  image_id               = data.aws_ami.x86_processor.id
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   user_data              = base64encode(data.template_file.cloud_init_script.rendered)
 
