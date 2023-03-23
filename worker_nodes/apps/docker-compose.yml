@@ -81,10 +81,6 @@ services:
       - "9113:9113"
     networks:
       - spotops_monitoring
-    deploy:
-      resources:
-        limits:
-          memory: 15M
 
   cronjobs:
     image: ""

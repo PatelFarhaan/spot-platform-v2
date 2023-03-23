@@ -3,7 +3,6 @@ version: "3.8"
 networks:
   spotops_deployment:
 
-
 x-logging:
   &default-logging
   driver: loki
@@ -11,7 +10,6 @@ x-logging:
     keep-file: "false"
     loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
     loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
-
 
 services:
   promtail:

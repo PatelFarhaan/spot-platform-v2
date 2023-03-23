@@ -9,12 +9,12 @@ metadata:
     app: backend-apis
     optimize_spot: true
 
-dns:
+routing:
   name: www.development.***REMOVED***
-  redirectHtppToHttps: false
+  redirectHttpToHttps: false
   servicePorts:
-    - port: 80
-      targetPort: 8000
+    - externalPort: 80
+      internalPort: 8000
 
 notifications:
   slack:
@@ -26,9 +26,10 @@ rateLimit:
   nodelay: true
 
 deployment:
+  replicaPerHost: -1
   maxSurge: "?"
-  waitForConnectionDraining: true
   deployOnPushToMaster: true
+  waitForConnectionDraining: true
   ci:
     branch: master
     dockerFilePath: .

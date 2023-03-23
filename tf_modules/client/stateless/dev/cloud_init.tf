@@ -17,15 +17,12 @@ sudo docker plugin install grafana/loki-docker-driver:latest --alias loki --gran
 host_dc_file=$(cat <<- EOIF
 version: "3.8"
 
-networks:
-  spotops_monitoring:
-
 x-logging:
   &default-logging
   driver: loki
   options:
     keep-file: "false"
-    loki-url: https://mcp.observability.***REMOVED***/loki/api/v1/push
+    loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
     loki-external-labels: "instance=$hostname,application=deamon-sidecar,environment=internal,container_name={{.Name}}"
 
 services:
