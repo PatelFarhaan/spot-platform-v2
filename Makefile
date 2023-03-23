@@ -1,3 +1,9 @@
+AWS_PROFILE := bios
+AWS_REGION := us-east-1
+
+export AWS_REGION
+export AWS_PROFILE
+
 #<==================================================================================================>
 #                                            TELEMETRY
 #<==================================================================================================>
@@ -97,12 +103,12 @@ teardown_deployment:
 build_and_deploy_hostsidecar:
 	cd worker_nodes && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 774723060820.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:host-sidecar .
+	docker buildx build --push --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-internal-apps:host-sidecar .
 
 
 # CRONJOBS SIDECAR
 .PHONY: build_and_deploy_cronjobs
 build_and_deploy_cronjobs:
-	cd worker_nodes/custom_images/cron_jobs && \
+	cd sidecar_containers/cron_jobs && \
 	aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 774723060820.dkr.ecr.us-east-1.amazonaws.com && \
-	docker buildx build --push --no-cache --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp:cronjobs .
+	docker buildx build --push --no-cache --platform linux/arm64,linux/x86_64 -t 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-internal-apps:cronjobs .

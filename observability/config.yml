@@ -47,9 +47,9 @@ routing:
     external_port: 80
     internal_port: 9090
     dns: "internal.prometheus.biosapplication.com"
-  - name: loki
-    internal_port: 9093
+  - name: alertmanager
     external_port: 80
+    internal_port: 9093
     dns: "internal.alertmanager.biosapplication.com"
 
 tags:

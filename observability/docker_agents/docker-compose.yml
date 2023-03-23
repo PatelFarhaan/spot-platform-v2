@@ -3,7 +3,6 @@ version: "3.8"
 networks:
   spotops_monitoring:
 
-
 x-logging:
   &default-logging
   driver: loki
@@ -11,7 +10,6 @@ x-logging:
     keep-file: "false"
     loki-url: https://internal.loki.biosapplication.com/loki/api/v1/push
     loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
-
 
 services:
   prometheus:
@@ -39,8 +37,8 @@ services:
     restart: always
     container_name: alertmanager
     image: prom/alertmanager:v0.23.0
-    ports:
-      - "9093:9093"
+    expose:
+      - 9093
     volumes:
       - /mnt/maebs/alertmanager:/data:rw
       - ./alert_manager/alertmanager.yml:/config/alertmanager.yml:ro

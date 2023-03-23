@@ -8,16 +8,16 @@
   "ssh_key_name": "bios-new",
   "internal_platform": "biosmesh",
   "ami_id": "ami-0fbf45d0b1fef0326",
+  "dns_name": "devops.biosapplication.com",
   "cooldown_and_deregistration_metadata": {},
   "internal_zone_name": "biosapplication.com",
-  "internal_lb_algorithm_type": "least_outstanding_requests",
-  "internal_mcp_sg_id": "sg-0ea9f0e82cf6e3617",
-  "dns_name": "devops.biosapplication.com",
+  "internal_mcp_sg_id": "sg-0351d2fc7e8a2d5dc",
   "internal_spot_plane_bucket": "biosmesh-spot-plane",
   "internal_s3_worker_bucket": "biosmesh-apps-config",
   "internal_global_lb_name": "global-dev-apps-us-east-1",
   "internal_s3_spot_plane_bucket": "biosmesh-spot-plane",
-  "internal_ecr_mcp": "774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-mcp",
+  "internal_lb_algorithm_type": "least_outstanding_requests",
+  "internal_ecr_mcp": "774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-internal-apps",
   "internal_global_dev_apps_lb_arn": "arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/10aa052609edd2f3",
   "client_defined_policies": [
     {
@@ -35,7 +35,6 @@
     }
   ],
   "tags": {
-    "Code": "pasx2",
     "MCP_SD": true,
     "Owner": "Bios",
     "Platform": "biosmesh",
