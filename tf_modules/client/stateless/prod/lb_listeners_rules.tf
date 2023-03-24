@@ -7,8 +7,8 @@ resource "aws_alb_listener_rule" "port_80_rule" {
 
     redirect {
       port        = "443"
-      query       = "query"
       protocol    = "HTTPS"
+      query       = "#{query}"
       path        = "/#{path}"
       status_code = "HTTP_301"
       host        = "www.#{host}"
@@ -34,8 +34,8 @@ resource "aws_alb_listener_rule" "port_443_rule" {
 
     redirect {
       port        = "443"
-      query       = "query"
       protocol    = "HTTPS"
+      query       = "#{query}"
       path        = "/#{path}"
       status_code = "HTTP_301"
       host        = "www.#{host}"
