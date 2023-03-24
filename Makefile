@@ -12,6 +12,7 @@ export AWS_PROFILE
 #<==================================================================================================>
 #                                            FUNCTIONS
 #<==================================================================================================>
+
 # TERRAFORM FUNCTIONS
 define terraform_functions
 	cd "$(2)" && \
@@ -19,7 +20,9 @@ define terraform_functions
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json
 
-	if [ "$(1)" = "plan" ] ; then \
+	if [ "$(1)" = "init" ] ; then \
+		cd "$(2)/tf" && terraform init; \
+	elif [ "$(1)" = "plan" ] ; then \
 		cd "$(2)/tf" && terraform plan; \
 	elif [ "$(1)" = "deploy" ] ; then \
 		cd "$(2)/tf" && terraform apply; \
@@ -47,12 +50,12 @@ ecr_login:
 #<==================================================================================================>
 
 # TERRAFORM PLAN
-plan_landscape:
+landscape_plan:
 	cd landscape && \
 	cd ./tf && terraform plan
 
 # TERRAFORM APPLY
-deploy_landscape:
+landscape_deploy:
 	cd landscape && \
 	cd ./tf && terraform apply
 
@@ -62,48 +65,56 @@ deploy_landscape:
 #<==================================================================================================>
 
 # PUBLISH DOCKER COMPOSE FILES TO S3
-publish_telemetry_docker_files:
+telemetry_publish_docker_files:
 	$(call upload_to_s3,observability)
 
+# TERRAFORM INIT
+telemetry_init:
+	$(call terraform_functions,init,observability)
+
 # TERRAFORM PLAN
-plan_telemetry:
+telemetry_plan:
 	$(call terraform_functions,plan,observability)
 
 # TERRAFORM REFRESH
-refresh_telemetry:
+telemetry_refresh:
 	$(call terraform_functions,refresh,observability)
 
 # TERRAFORM APPLY
-deploy_telemetry:
+telemetry_deploy:
 	$(call terraform_functions,deploy,observability)
 
 # TERRAFORM DESTROY
-teardown_telemetry:
+telemetry_teardown:
 	$(call terraform_functions,teardown,observability)
 
 
 #<==================================================================================================>
-#                                            DEPLOYMENTS
+#                                            DEPLOYMENT
 #<==================================================================================================>
 
 # PUBLISH DOCKER COMPOSE FILES TO S3
-publish_deployment_docker_files:
+deployment_publish_docker_files:
 	$(call upload_to_s3,deployment)
 
+# TERRAFORM INIT
+deployment_init:
+	$(call terraform_functions,init,observability)
+
 # TERRAFORM PLAN
-plan_deployment:
+deployment_plan:
 	$(call terraform_functions,plan,deployment)
 
 # TERRAFORM REFRESH
-refresh_deployment:
+deployment_refresh:
 	$(call terraform_functions,refresh,deployment)
 
 # TERRAFORM APPLY
-deploy_deployment:
+deployment_deploy:
 	$(call terraform_functions,deploy,deployment)
 
 # TERRAFORM DESTROY
-teardown_deployment:
+deployment_teardown:
 	$(call terraform_functions,teardown,deployment)
 
 
