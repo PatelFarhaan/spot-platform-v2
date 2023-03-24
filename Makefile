@@ -1,6 +1,7 @@
 #<==================================================================================================>
 #                                            VARIABLES
 #<==================================================================================================>
+FOLDER := platform
 AWS_PROFILE := bios
 AWS_REGION := us-east-1
 ECR_HOST := 774723060820.dkr.ecr.us-east-1.amazonaws.com
@@ -15,27 +16,27 @@ export AWS_PROFILE
 
 # TERRAFORM FUNCTIONS
 define terraform_functions
-	cd "$(2)" && \
+	cd "$(FOLDER)/$(2)" && \
   	aws s3 cp s3://biosmesh-spot-plane/cluster_config.json ./cluster_config.json && \
 	cat ./cluster_config.json | yq . -P > ./cluster_config.yml && \
 	rm -rf ./cluster_config.json
 
 	if [ "$(1)" = "init" ] ; then \
-		cd "$(2)/tf" && terraform init; \
+		cd "$(FOLDER)/$(2)/tf" && terraform init; \
 	elif [ "$(1)" = "plan" ] ; then \
-		cd "$(2)/tf" && terraform plan; \
+		cd "$(FOLDER)/$(2)/tf" && terraform plan; \
 	elif [ "$(1)" = "deploy" ] ; then \
-		cd "$(2)/tf" && terraform apply; \
+		cd "$(FOLDER)/$(2)/tf" && terraform apply; \
 	elif [ "$(1)" = "teardown" ] ; then \
-		cd "$(2)/tf" && terraform destroy; \
+		cd "$(FOLDER)/$(2)/tf" && terraform destroy; \
 	elif [ "$(1)" = "refresh" ] ; then \
-		cd "$(2)/tf" && terraform refresh; \
+		cd "$(FOLDER)/$(2)/tf" && terraform refresh; \
 	fi
 endef
 
 # UPLOAD PLATFORM FILES TO S3
 define upload_to_s3
-	cd "$(1)" && \
+	cd "$(FOLDER)/$(1)" && \
 	aws s3 rm "s3://biosmesh-spot-plane/$(1)/docker_agents" --recursive && \
 	aws s3 cp docker_agents "s3://biosmesh-spot-plane/$(1)/docker_agents" --recursive
 endef

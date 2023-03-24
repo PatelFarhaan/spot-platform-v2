@@ -21,7 +21,7 @@ locals {
 
 // MCP Module
 module "mcp_observability_stack" {
-  source = "../../tf_modules/internal/stateful/prod"
+  source = "../../../tf_modules/internal/stateful/prod"
 
   telemetry_sg                 = 0
   telemetry_sg_ports           = []

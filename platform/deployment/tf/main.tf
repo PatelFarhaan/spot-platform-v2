@@ -21,7 +21,7 @@ locals {
 
 // MCP Module
 module "mcp_deployment_stack" {
-  source = "../../tf_modules/internal/stateful/prod"
+  source = "../../../tf_modules/internal/stateful/prod"
 
   app                          = local.config_data.app
   env                          = local.config_data.env
