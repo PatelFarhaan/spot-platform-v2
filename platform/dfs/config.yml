@@ -1,0 +1,120 @@
+env: production
+region: us-east-1
+app: biosmesh-dfs
+key_name: bios-new
+ebs_volume_size: 8
+export_config_to_s3: false
+ami_id: ami-0172070f66a8ebe63
+
+telemetry_sg_ports:
+  - 8080
+  - 9100
+  - 9113
+
+availability_zones:
+  - us-east-1a
+
+od_config:
+  instance_types:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 0
+
+spot_config:
+  instance_types:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 1
+
+routing:
+  - name: vault
+    external_port: 80
+    internal_port: 9000
+    dns: "internal.dfs.***REMOVED***"
+
+tags:
+  Owner: Bios
+  MCP_SD: true
+  Developer: Farhaan
+  Provisioner: Terraform
+  Environment: production
+  Name: biosmesh-platform-dfs
+  Application: biosmesh-platform-dfs
+
+iam_policies: >
+  [
+    {
+      "Effect": "Allow",
+      "Action": "kms:*",
+      "Resource": "*"
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeTags",
+        "ec2:AttachVolume",
+        "ec2:DescribeVolumes"
+      ]
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:*",
+        "cloudtrail:LookupEvents"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:ListInstanceProfiles"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket/deployment/",
+      ]
+    },
+    {
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::var.mcp_vault_bucket",
+        "arn:aws:s3:::var.mcp_vault_bucket/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": [
+        "arn:aws:s3:::var.mcp_spot_bucket/*"
+      ]
+    }
+  ]
