@@ -14,6 +14,13 @@ resource "aws_iam_policy" "ec2_spotops_policy" {
         "Resource" : "*"
         "Effect" : "Allow",
         "Action" : [
+          "autoscaling:DetachInstances"
+        ],
+      },
+      {
+        "Resource" : "*"
+        "Effect" : "Allow",
+        "Action" : [
           "ec2:Describe*",
           "ec2:ModifyVolume"
         ],
