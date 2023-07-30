@@ -19,7 +19,7 @@ od_config:
   auto_scaling_group:
     min_instances: 0
     max_instances: 1
-    desired_instances: 0
+    desired_instances: 1
 
 spot_config:
   instance_types:

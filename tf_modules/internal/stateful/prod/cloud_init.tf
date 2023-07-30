@@ -52,7 +52,6 @@ if ! file -s /dev/$DEVICE_NAME | grep -q "ext4"; then
     chown -R ubuntu:1000 $MOUNT_POINT
 fi
 
-
 echo "Mounting /dev/$DEVICE_NAME to $MOUNT_POINT"
 mount /dev/$DEVICE_NAME $MOUNT_POINT
 chown -R ubuntu:1000 $MOUNT_POINT

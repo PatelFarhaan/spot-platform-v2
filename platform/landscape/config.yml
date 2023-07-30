@@ -26,6 +26,7 @@ s3_buckets:
   mcp: biosmesh-spot-plane
   tfstate: biosmesh-tf-state
   workers: biosmesh-apps-config
+  static_hosting: biosmesh-static-hosting
 
 subnet_ids:
   - subnet-00559225548afa7d4
