@@ -32,6 +32,7 @@ module "base_tf_module" {
   vault_bucket               = local.config_data.s3_buckets.vault
   workers_bucket             = local.config_data.s3_buckets.workers
   tfstate_bucket             = local.config_data.s3_buckets.tfstate
+  static_hosting_bucket      = local.config_data.s3_buckets.static_hosting
   global_mcp_apps_lb         = local.config_data.load_balancers.global_mcp_apps
   global_dev_apps_lb         = local.config_data.load_balancers.global_dev_apps
   global_dev_apps_lb_ingress = local.config_data.security_groups.global_dev_apps.alb.ingress

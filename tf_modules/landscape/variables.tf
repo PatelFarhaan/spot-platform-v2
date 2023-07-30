@@ -14,5 +14,6 @@ variable "workers_bucket" {}
 variable "tfstate_bucket" {}
 variable "global_mcp_apps_lb" {}
 variable "global_dev_apps_lb" {}
+variable "static_hosting_bucket" {}
 variable "global_dev_apps_lb_ingress" {}
 variable "global_mcp_apps_lb_ingress" {}

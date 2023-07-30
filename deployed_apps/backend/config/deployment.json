@@ -13,6 +13,6 @@
   "VAULT_ADDR": "https://internal.vault.biosapplication.com",
   "AWS_ECR_ID": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
   "LOKI_URL": "https://internal.loki.biosapplication.com/loki/api/v1/push",
-  "CLIENT_APP_IMAGE": "b49fbf4ac68687e9b2911aa2afd2e6907ab157c3",
+  "CLIENT_APP_IMAGE": "development-backend-3fc7b08eeed059a4e318d3b0af388e27309c09a3",
   "SLACK_WEBHOOK": "https://hooks.slack.com/services/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"
 }

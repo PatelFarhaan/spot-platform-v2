@@ -111,7 +111,7 @@ services:
   jenkins:
     build:
       context: jenkins
-      dockerfile: jenkins/Dockerfile
+      dockerfile: Dockerfile
     container_name: jenkins
     restart: always
     privileged: true
@@ -128,7 +128,7 @@ services:
   sidecar:
     build:
       context: sidecar
-      dockerfile: sidecar/Dockerfile
+      dockerfile: Dockerfile
     restart: on-failure
     container_name: sidecar
     logging: *default-logging
@@ -138,7 +138,7 @@ services:
       - ./vault/config:/vault/config
 
   vault-server:
-    image: vault:latest
+    image: vault:1.13.3
     restart: always
     logging: *default-logging
     container_name: vault-server
@@ -161,7 +161,7 @@ services:
   vault-ops:
     build:
       context: vault/unseal_sidecar
-      dockerfile: vault/unseal_sidecar/Dockerfile
+      dockerfile: Dockerfile
     container_name: vault-ops
     logging: *default-logging
     user: root
