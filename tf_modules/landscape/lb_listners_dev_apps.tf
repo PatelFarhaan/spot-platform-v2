@@ -7,8 +7,16 @@ resource "aws_lb_listener" "dev_apps_port_80" {
   depends_on = [aws_lb_target_group.global_dev_apps_target_group]
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.global_dev_apps_target_group.arn
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      query       = "#{query}"
+      path        = "/#{path}"
+      status_code = "HTTP_301"
+      host        = "#{host}"
+    }
   }
 
   tags = var.tags
