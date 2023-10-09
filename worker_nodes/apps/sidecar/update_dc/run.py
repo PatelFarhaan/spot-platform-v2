@@ -9,21 +9,34 @@ class DockerCompose:
 
     @staticmethod
     def get_app_replicas():
+        # if its a tcp application, we need to set the replicas to 1
+        if os.environ.get("TCP_APPLICATION") == 'True':
+            return 1
+
+        try:
+            desired_replicas = int(os.environ.get("DESIRED_REPLICAS"))
+            print("desired_replicas is: ", desired_replicas)
+        except Exception as e:
+            print(e)
+            desired_replicas = float("inf")
+
         cpu_count = int(os.cpu_count())
         replicas = (cpu_count * 2)
-        return replicas
+        return min(replicas, desired_replicas)
 
     @staticmethod
     def get_deployment_metadata():
         deployment_config = json.load(open("/app_path/deployment.json"))
+        deployment_config["ROUTING"] = [f"{route['external_port']}:{route['internal_port']}" for route in
+                                        deployment_config["ROUTING"]]
         return deployment_config
 
     def update_docker_compose(self):
         replicas = self.get_app_replicas()
         deployment_config = self.get_deployment_metadata()
 
+        app_ports = deployment_config["ROUTING"]
         ecr_id = deployment_config["AWS_ECR_ID"]
-        app_port = deployment_config["CLIENT_APP_PORT"]
         app_image = deployment_config["CLIENT_APP_IMAGE"]
         volume_config = deployment_config["VOLUME_CONFIG"]
         mcp_ecr_name = deployment_config["AWS_ECR_MCP_REPO_NAME"]
@@ -43,7 +56,11 @@ class DockerCompose:
         if volume_config:
             data["services"]["main_application"]["volumes"] = volume_config
 
-        data["services"]["main_application"]["expose"] = [app_port]
+        if os.environ.get("TCP_APPLICATION") == 'True':
+            data["services"]["main_application"].pop("expose")
+            data["services"]["main_application"]["ports"] = app_ports
+        else:
+            data["services"]["main_application"]["expose"] = app_ports
         data["services"]["main_application"]["image"] = app_ecr_image
         data["services"]["main_application"]["deploy"]["replicas"] = replicas
 

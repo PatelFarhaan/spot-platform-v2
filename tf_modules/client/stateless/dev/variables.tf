@@ -12,7 +12,7 @@ variable "name" {}
 variable "ami_id" {}
 variable "region" {}
 variable "ecr_mcp" {}
-variable "dns_name" {}
+variable "routing" {}
 variable "key_name" {}
 variable "zone_name" {}
 variable "mcp_sg_id" {}

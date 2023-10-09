@@ -5,8 +5,8 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
   min_size             = var.od_asg_min_instances
   max_size             = var.od_asg_max_instances
   desired_capacity     = var.od_asg_desired_instances
-  target_group_arns    = [aws_lb_target_group.target_group.arn]
   vpc_zone_identifier  = data.aws_lb.global_dev_apps_load_balancer.subnets
+  target_group_arns    = [for target_group in aws_lb_target_group.target_group : target_group.arn]
 
   mixed_instances_policy {
     launch_template {
@@ -45,26 +45,24 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
     }
   }
 
-  tags = concat(
-    [
-      for key, value in var.tags :
-      {
-        key                 = key
-        value               = value
-        propagate_at_launch = true
-      }
-    ],
-    [
-      {
-        propagate_at_launch = true
-        key                 = "Type"
-        value               = "On-Demand"
-      },
-      {
-        propagate_at_launch = true
-        key                 = "Name"
-        value               = "${var.name}-od"
-      }
-    ]
-  )
+  tag {
+    key                 = "Type"
+    value               = "On-Demand"
+    propagate_at_launch = true
+  }
+
+  tag {
+    propagate_at_launch = true
+    key                 = "Name"
+    value               = "${var.name}-od"
+  }
+
+  dynamic "tag" {
+    for_each = var.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
 }

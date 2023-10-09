@@ -1,0 +1,72 @@
+app: redis
+env: development
+volume_type: gp3
+region: us-east-1
+ebs_volume_size: 8
+prefix_name: spot-
+ssh_key_name: bios-new
+internal_platform: biosmesh
+ami_id: ami-0fbf45d0b1fef0326
+internal_zone_name: biosapplication.com
+internal_mcp_sg_id: sg-0351d2fc7e8a2d5dc
+cooldown_and_deregistration_metadata: { }
+internal_spot_plane_bucket: biosmesh-spot-plane
+internal_s3_worker_bucket: biosmesh-apps-config
+internal_global_lb_name: global-dev-apps-us-east-1
+internal_s3_spot_plane_bucket: biosmesh-spot-plane
+internal_lb_algorithm_type: least_outstanding_requests
+internal_ecr_mcp: 774723060820.dkr.ecr.us-east-1.amazonaws.com/biosmesh-internal-apps
+internal_global_dev_apps_lb_arn: arn:aws:elasticloadbalancing:us-east-1:774723060820:loadbalancer/app/global-dev-apps-us-east-1/10aa052609edd2f3
+
+routing:
+  - name: redis
+    internal_port: 6379
+    external_port: 6379
+    dns: "redis.biosapplication.com"
+
+client_defined_policies:
+  - Resource: "*"
+    Effect: Allow
+    Action: ec2:DescribeTags
+    Condition:
+      StringEquals:
+        ec2:ResourceTag/nullKey: Base Client Default Policy
+
+sns_subscriptions:
+  - protocol: email
+    endpoint: alerts-aaaah47nucbqcucr6ihs3drml4@biosdevelopment.slack.com
+
+tags:
+  MCP_SD: true
+  Owner: Bios
+  Platform: biosmesh
+  Developer: Farhaan
+  Application: redis
+  Provisioner: Terraform
+  Environment: development
+  spotops.is_sts: false
+  spotops.app.type: app
+  spotops.delete_ebs: true
+  spotops.optimize_od: true
+  spotops.optimize_spot: true
+  spotops.app.configuration: docker
+
+od_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 1
+
+spot_config:
+  instance_type:
+    - t3.small
+    - t3.medium
+    - t3.large
+  auto_scaling_group:
+    min_instances: 0
+    max_instances: 1
+    desired_instances: 0

@@ -3,7 +3,8 @@
     "./configs:/configs"
   ],
   "SCALE_VOLUME": true,
-  "CLIENT_APP_PORT": 5000,
+  "DESIRED_REPLICA": 10,
+  "TCP_APPLICATION": false,
   "SCALE_UP_PERCENTAGE": 20,
   "SCALEUP_WHEN_GB_REMAINING": 1,
   "STOP_SCALE_WHEN_GB_REACHED": 50,
@@ -13,6 +14,14 @@
   "VAULT_ADDR": "https://internal.vault.biosapplication.com",
   "AWS_ECR_ID": "774723060820.dkr.ecr.us-east-1.amazonaws.com",
   "LOKI_URL": "https://internal.loki.biosapplication.com/loki/api/v1/push",
-  "CLIENT_APP_IMAGE": "development-backend-3fc7b08eeed059a4e318d3b0af388e27309c09a3",
-  "SLACK_WEBHOOK": "https://hooks.slack.com/services/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"
+  "CLIENT_APP_IMAGE": "development-backend-77d71e132ebfde0ad8f437a6522f9d75a7d5f8fc",
+  "SLACK_WEBHOOK": "https://hooks.slack.com/services/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",
+  "ROUTING": [
+    {
+      "name": "backend",
+      "internal_port": 5000,
+      "external_port": 5000,
+      "dns": "development.biosapplication.com"
+    }
+  ]
 }

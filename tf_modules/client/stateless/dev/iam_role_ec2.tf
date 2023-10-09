@@ -21,7 +21,11 @@ resource "aws_iam_role" "iam_role_for_ec2_application" {
     ]
   })
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 }
 
 
@@ -30,5 +34,9 @@ resource "aws_iam_instance_profile" "iam_profile_for_application" {
   name = "${var.global_name}-spotops-instance-profile"
   role = aws_iam_role.iam_role_for_ec2_application.name
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 }

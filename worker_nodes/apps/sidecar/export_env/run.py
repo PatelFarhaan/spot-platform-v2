@@ -3,7 +3,7 @@ import json
 with open("/app_path/deployment.sh", "w") as file_write:
     export_vars = "export HOSTNAME=`hostname`\n"
     data = json.load(open("/app_path/deployment.json"))
-    key_to_ignore = ["VOLUME_CONFIG"]
+    key_to_ignore = ["VOLUME_CONFIG", "ROUTING"]
 
     for key, value in data.items():
         if key in key_to_ignore:
