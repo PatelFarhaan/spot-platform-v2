@@ -12,10 +12,9 @@ terraform {
 }
 
 
-// Reading data variables from app_config.json file
+// Reading data variables from app_config.yml file
 locals {
-  app_data = jsondecode(file("./../config/app_config.json"))
-  #  internal_data = jsondecode(file("./../config/internal_config.json"))
+  app_data = yamldecode(file("./../config/app_config.yml"))
 }
 
 
@@ -27,7 +26,7 @@ module "development-backend-us-east-1" {
   tags                              = local.app_data.tags
   region                            = local.app_data.region
   ami_id                            = local.app_data.ami_id
-  dns_name                          = local.app_data.dns_name
+  routing                           = local.app_data.routing
   volume_type                       = local.app_data.volume_type
   prefix_name                       = local.app_data.prefix_name
   key_name                          = local.app_data.ssh_key_name

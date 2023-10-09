@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
 
   default_cooldown          = 15
   default_instance_warmup   = 500
-  health_check_grace_period = 400
+  health_check_grace_period = 600
   capacity_rebalance        = true
   health_check_type         = "ELB"
 
@@ -54,36 +54,36 @@ resource "aws_autoscaling_group" "spot_autoscaling_group" {
     aws_ebs_volume.ebs_multi_attach
   ]
 
-  tags = concat(
-    [
-      for key, value in var.tags :
-      {
-        key                 = key
-        value               = value
-        propagate_at_launch = true
-      } if key != "Name"
-    ],
-    [
-      {
-        key = "MultiAttachEbsId"
-        propagate_at_launch = true
-        value = aws_ebs_volume.ebs_multi_attach.id
-      },
-      {
-        key = "MultiAttachEbsSize"
-        propagate_at_launch = true
-        value = "${aws_ebs_volume.ebs_multi_attach.size}G"
-      },
-      {
-        propagate_at_launch = true
-        key                 = "Type"
-        value               = "Spot"
-      },
-      {
-        propagate_at_launch = true
-        key                 = "Name"
-        value               = "${var.name}-spot"
-      }
-    ]
-  )
+  tag {
+    key                 = "Type"
+    value               = "Spot"
+    propagate_at_launch = true
+  }
+
+  tag {
+    propagate_at_launch = true
+    key                 = "Name"
+    value               = "${var.name}-spot"
+  }
+
+  tag {
+    key                 = "MultiAttachEbsId"
+    propagate_at_launch = true
+    value               = aws_ebs_volume.ebs_multi_attach.id
+  }
+
+  tag {
+    key                 = "MultiAttachEbsSize"
+    propagate_at_launch = true
+    value               = "${aws_ebs_volume.ebs_multi_attach.size}G"
+  }
+
+  dynamic "tag" {
+    for_each = [for tag in var.tags : tag if tag["key"] != "Name"]
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
 }

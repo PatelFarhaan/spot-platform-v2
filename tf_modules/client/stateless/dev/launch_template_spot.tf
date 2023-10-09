@@ -55,5 +55,9 @@ resource "aws_launch_template" "spot_launch_template" {
     }
   }
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 }

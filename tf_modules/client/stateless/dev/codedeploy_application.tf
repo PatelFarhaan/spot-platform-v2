@@ -1,6 +1,10 @@
-// Defininf application for CodeDeploy
+// Defining application for CodeDeploy
 resource "aws_codedeploy_app" "app_codedeploy" {
   name = var.name
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 }

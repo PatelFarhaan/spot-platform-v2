@@ -1,42 +1,26 @@
-// Forwarding port 80 traffic to application target group
-resource "aws_alb_listener_rule" "port_80_rule" {
-  listener_arn = data.aws_lb_listener.global_lb_80_listener.arn
+// Forwarding Traffic to Secure Port
+resource "aws_alb_listener_rule" "secure_port" {
+  for_each = {for dns in var.routing : dns["name"] => dns}
+
+  listener_arn = each.value["external_port"] == 80 ? data.aws_lb_listener.global_lb_443_listener.arn : aws_lb_listener.global_lb_additional_listeners[each.key].arn
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.target_group[each.key].arn
   }
 
   condition {
     host_header {
       values = [
-        var.dns_name,
-        "www.${var.dns_name}"
+        each.value["dns"],
+        "www.${each.value["dns"]}"
       ]
     }
   }
 
-  tags = var.tags
-}
-
-
-// Forwarding port 443 traffic to application target group
-resource "aws_alb_listener_rule" "port_443_rule" {
-  listener_arn = data.aws_lb_listener.global_lb_443_listener.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
-  }
-
-  condition {
-    host_header {
-      values = [
-        var.dns_name,
-        "www.${var.dns_name}"
-      ]
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
     }
-  }
-
-  tags = var.tags
+  )
 }

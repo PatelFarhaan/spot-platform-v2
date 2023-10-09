@@ -1,22 +1,20 @@
-// creating a Target Group
+// Target Groups
 resource "aws_lb_target_group" "target_group" {
-  port                          = 80
-  deregistration_delay          = 120
-  protocol                      = "HTTP"
-  name                          = var.name
-  target_type                   = "instance"
-  load_balancing_algorithm_type = var.lb_algorithm_type
-  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
+  for_each = {for dns in var.routing : dns["name"] => dns}
 
-  lifecycle {
-    create_before_destroy = true
-  }
+  deregistration_delay          = 100
+  protocol                      = "HTTP"
+  target_type                   = "instance"
+  name                          = "${var.app}-${each.key}"
+  port                          = each.value["internal_port"]
+  load_balancing_algorithm_type = "least_outstanding_requests"
+  vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   health_check {
     healthy_threshold   = 3
-    unhealthy_threshold = 5
-    timeout             = 10
-    interval            = 15
+    unhealthy_threshold = 10
+    timeout             = 70
+    interval            = 120
     enabled             = true
     matcher             = "200"
     protocol            = "HTTP"
@@ -24,5 +22,9 @@ resource "aws_lb_target_group" "target_group" {
     path                = "/internal/spotops/health"
   }
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name"              = var.name
+    }
+  )
 }

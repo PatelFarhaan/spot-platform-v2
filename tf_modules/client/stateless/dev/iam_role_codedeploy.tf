@@ -22,5 +22,9 @@ resource "aws_iam_role" "iam_role_for_codedeploy" {
     ]
   })
 
-  tags = var.tags
+  tags = merge(var.tags,
+    {
+      "Name" = var.name
+    }
+  )
 }

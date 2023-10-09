@@ -82,3 +82,8 @@ auto instrumentation for traces and metrics using open telemetry
 reduce the no of labels in loki
 reduce the no of labels in prometheus
 aws ssm agents instead of bios key name pem file
+
+define no of apps to run (like redis or artifactory or licensed apps)
+define r53 config for ports
+convert to yaml
+tcl service?

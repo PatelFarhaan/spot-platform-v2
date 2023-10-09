@@ -8,7 +8,7 @@ RUN apt update && apt upgrade -y
 
 RUN apt install wget apt-utils python3-pip virtualenv lsb-release awscli jq software-properties-common gnupg software-properties-common curl -y
 
-RUN pip3 install python-dateutil boto3 requests
+RUN pip3 install python-dateutil boto3 requests --break-system-packages
 
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod a+x /usr/local/bin/yq
 
