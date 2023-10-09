@@ -64,7 +64,6 @@ services:
     container_name: nginx
     logging: *default-logging
     ports:
-      - "80:80"
       - "9999:9999"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro

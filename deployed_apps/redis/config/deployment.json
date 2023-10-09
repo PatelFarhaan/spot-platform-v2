@@ -3,6 +3,7 @@
     "./configs:/configs"
   ],
   "SCALE_VOLUME": true,
+  "DESIRED_REPLICA": 1,
   "TCP_APPLICATION": true,
   "SCALE_UP_PERCENTAGE": 20,
   "SCALEUP_WHEN_GB_REMAINING": 1,
