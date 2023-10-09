@@ -5,7 +5,6 @@ resource "aws_lb_target_group" "target_group" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  name                          = "${var.app}-${each.key}"
   port                          = each.value["internal_port"]
   load_balancing_algorithm_type = "least_outstanding_requests"
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
@@ -22,9 +21,13 @@ resource "aws_lb_target_group" "target_group" {
     path                = "/internal/spotops/health"
   }
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = merge(var.tags,
     {
-      "Name"              = var.name
+      "Name" = var.name
     }
   )
 }

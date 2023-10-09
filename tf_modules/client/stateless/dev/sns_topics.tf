@@ -4,7 +4,7 @@ resource "aws_sns_topic" "sns_for_codedeploy" {
 
   tags = merge(var.tags,
     {
-      "Name"              = var.name
+      "Name" = var.name
     }
   )
 }

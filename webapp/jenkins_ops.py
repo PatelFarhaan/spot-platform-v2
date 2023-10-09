@@ -1,5 +1,7 @@
-import jenkins
 import time
+
+import jenkins
+
 # It comes with pip module python-jenkins
 # use pip to install python-jenkins
 
@@ -14,8 +16,8 @@ class DevOpsJenkins:
         self.jenkins_server = jenkins.Jenkins(JENKINS_URL, username=JENKINS_USERNAME, password=JENKINS_PASSWORD)
         user = self.jenkins_server.get_whoami()
         version = self.jenkins_server.get_version()
-        print ("Jenkins Version: {}".format(version))
-        print ("Jenkins User: {}".format(user['id']))
+        print("Jenkins Version: {}".format(version))
+        print("Jenkins User: {}".format(user['id']))
 
     def build_job(self, name, parameters=None, token=None):
         next_build_number = self.jenkins_server.get_job_info(name)['nextBuildNumber']
@@ -32,4 +34,4 @@ if __name__ == "__main__":
     PARAMETERS = {'project': 'devops'}
     jenkins_obj = DevOpsJenkins()
     output = jenkins_obj.build_job(NAME_OF_JOB, PARAMETERS, TOKEN_NAME)
-    print ("Jenkins Build URL: {}".format(output['url']))
+    print("Jenkins Build URL: {}".format(output['url']))

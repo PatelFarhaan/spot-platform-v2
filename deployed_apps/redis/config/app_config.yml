@@ -37,8 +37,8 @@ sns_subscriptions:
     endpoint: alerts-aaaah47nucbqcucr6ihs3drml4@biosdevelopment.slack.com
 
 tags:
-  MCP_SD: true
   Owner: Bios
+  MCP_SD: true
   Platform: biosmesh
   Developer: Farhaan
   Application: redis

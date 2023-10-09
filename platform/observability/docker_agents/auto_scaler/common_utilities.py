@@ -43,8 +43,10 @@ def perform_initial_checks(**kwargs):
         content["scale_up_cool_down_period_mins"] = scale_up_cool_down_period_mins
         content["scale_down_cool_down_period_mins"] = scale_down_cool_down_period_mins
         content["asg_names_update_ts"] = str(datetime.utcnow() + timedelta(minutes=asg_names_update_mins))
-        content["scale_up_cool_down_period_ts"] = str(datetime.utcnow() + timedelta(minutes=scale_up_cool_down_period_mins))
-        content["scale_dowm_cool_down_period_ts"] = str(datetime.utcnow() + timedelta(minutes=scale_down_cool_down_period_mins))
+        content["scale_up_cool_down_period_ts"] = str(
+            datetime.utcnow() + timedelta(minutes=scale_up_cool_down_period_mins))
+        content["scale_dowm_cool_down_period_ts"] = str(
+            datetime.utcnow() + timedelta(minutes=scale_down_cool_down_period_mins))
         save_json_file(filename, content)
 
     asg_names_update_ts = content["asg_names_update_ts"]
@@ -128,4 +130,3 @@ def timestamp_has_expired(timestamp):
     if datetime.utcnow() > asg_timestamp:
         return True
     return False
-

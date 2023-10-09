@@ -1,6 +1,6 @@
 // Creating a IAM Role with all policies
 resource "aws_iam_role" "iam_role_for_ec2_application" {
-  name = "${var.global_name}-ec2"
+  name                = "${var.global_name}-ec2"
   managed_policy_arns = [
     aws_iam_policy.ec2_spotops_policy.arn,
     aws_iam_policy.client_defined_policies.arn
@@ -10,7 +10,7 @@ resource "aws_iam_role" "iam_role_for_ec2_application" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        Effect = "Allow",
+        Effect    = "Allow",
         Principal = {
           Service = [
             "ec2.amazonaws.com"

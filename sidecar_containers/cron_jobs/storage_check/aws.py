@@ -1,11 +1,12 @@
 # <==================================================================================================>
 #                                          IMPORTS
 # <==================================================================================================>
-import sys
 import math
+import sys
 import time
-import requests
 from os import environ
+
+import requests
 from boto3 import client, resource
 
 

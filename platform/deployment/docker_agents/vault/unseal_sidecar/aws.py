@@ -1,10 +1,11 @@
 # <==================================================================================================>
 #                                          IMPORTS
 # <==================================================================================================>
-import os
 import json
-import requests
+import os
 from os import environ
+
+import requests
 from boto3 import client, resource
 
 

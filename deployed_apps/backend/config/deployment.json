@@ -20,7 +20,7 @@
     {
       "name": "backend",
       "internal_port": 5000,
-      "external_port": 5000,
+      "external_port": 80,
       "dns": "development.biosapplication.com"
     }
   ]
