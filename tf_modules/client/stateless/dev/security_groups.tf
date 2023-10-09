@@ -60,7 +60,7 @@ resource "aws_security_group" "app_sg" {
 
   tags = merge(var.tags,
     {
-      "Name"              = "${var.name}-app-sg"
+      "Name" = "${var.name}-app-sg"
     }
   )
 }

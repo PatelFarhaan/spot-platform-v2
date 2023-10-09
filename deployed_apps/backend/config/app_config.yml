@@ -21,7 +21,7 @@ internal_global_dev_apps_lb_arn: arn:aws:elasticloadbalancing:us-east-1:***REMOV
 routing:
   - name: backend
     internal_port: 5000
-    external_port: 5000
+    external_port: 80
     dns: "development.***REMOVED***"
 
 client_defined_policies:

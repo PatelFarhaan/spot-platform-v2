@@ -1,8 +1,9 @@
-import sys
-import hvac
 import json
-import requests
+import sys
 from os import environ
+
+import hvac
+import requests
 
 
 class Vault:

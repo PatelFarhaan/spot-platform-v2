@@ -1,4 +1,3 @@
-
 sudo apt-get install ruby-full ruby-webrick wget -y
 
 cd /tmp

@@ -12,7 +12,7 @@ scrape_configs:
   - job_name: jenkins-runners
     static_configs:
       - targets:
-        - localhost
+          - localhost
         labels:
           job: jenkins-runners
           instance: '${HOSTNAME}'

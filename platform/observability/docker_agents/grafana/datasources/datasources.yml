@@ -20,12 +20,12 @@ datasources:
     isDefault: false
     basicAuth: false
     url: http://loki:3100
-#    jsonData:
-#      derivedFields:
-#        - datasourceUid: tempo
-#          matcherRegex: '(?:traceID|trace_id)=(\w+)'
-#          name: TraceID
-#          url: $${__value.raw}
+  #    jsonData:
+  #      derivedFields:
+  #        - datasourceUid: tempo
+  #          matcherRegex: '(?:traceID|trace_id)=(\w+)'
+  #          name: TraceID
+  #          url: $${__value.raw}
 
   - orgId: 1
     editable: true

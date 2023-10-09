@@ -35,7 +35,7 @@ resource "aws_lb_listener" "global_lb_additional_listeners" {
 
   tags = merge(var.tags,
     {
-      "Name"              = "${var.name}-listener-${each.value["external_port"]}"
+      "Name" = "${var.name}-listener-${each.value["external_port"]}"
     }
   )
 }

@@ -1,11 +1,13 @@
+import json
 import os
 import sys
-import hvac
-import json
 import time
-import requests
-from aws import AWS
 from os import environ
+
+import hvac
+import requests
+
+from aws import AWS
 
 
 class UnsealVault(AWS):

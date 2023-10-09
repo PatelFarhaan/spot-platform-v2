@@ -14,7 +14,7 @@ data "aws_lb_listener" "global_mcp_lb_443_listener" {
 
 // Creating Additional Dynamic Ports
 resource "aws_lb_listener" "global_mcp_lb_additional_listeners" {
-  for_each = { for dns in local.filtered_dns_list: dns["name"] => dns }
+  for_each = {for dns in local.filtered_dns_list : dns["name"] => dns}
 
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"

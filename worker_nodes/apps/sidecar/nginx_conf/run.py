@@ -1,5 +1,6 @@
-import os
 import json
+import os
+
 import nginx
 
 
@@ -16,11 +17,10 @@ def get_data():
 def get_server_block(_route, rle=False):
     s = nginx.Server()
     internal_port = _route["internal_port"]
-    external_port = _route["external_port"]
 
     if rle:
         s.add(
-            nginx.Key('listen', f'{external_port}'),
+            nginx.Key('listen', f'{internal_port}'),
             nginx.Key('server_name', '_'),
             nginx.Location(' /',
                            nginx.Key('send_timeout', 3600),
@@ -38,7 +38,7 @@ def get_server_block(_route, rle=False):
         return s
     else:
         s.add(
-            nginx.Key('listen', f'{external_port}'),
+            nginx.Key('listen', f'{internal_port}'),
             nginx.Key('server_name', '_'),
             nginx.Location(' /',
                            nginx.Key('send_timeout', 3600),

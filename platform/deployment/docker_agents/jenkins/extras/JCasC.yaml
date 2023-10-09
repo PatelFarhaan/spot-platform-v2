@@ -1,20 +1,20 @@
 credentials:
   system:
     domainCredentials:
-    - credentials:
-      - string:
-          id: "client-slack"
-          scope: GLOBAL
-          secret: "***REMOVED***"
-      - usernamePassword:
-          id: "client-git"
-          password: "***REMOVED***"
-          scope: GLOBAL
-          username: "farhaan.patel"
+      - credentials:
+          - string:
+              id: "client-slack"
+              scope: GLOBAL
+              secret: "***REMOVED***"
+          - usernamePassword:
+              id: "client-git"
+              password: "***REMOVED***"
+              scope: GLOBAL
+              username: "farhaan.patel"
 jenkins:
   agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
+    - "JNLP4-connect"
+    - "Ping"
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
@@ -23,16 +23,16 @@ jenkins:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
   disabledAdministrativeMonitors:
-  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+    - "jenkins.diagnostics.ControllerExecutorsNoAgents"
   labelAtoms:
-  - name: "built-in"
+    - name: "built-in"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
   nodeProperties:
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
+    - envVars:
+        env:
+          - key: "MAVEN_OPTS"
   numExecutors: 2
   primaryView:
     all:
@@ -47,55 +47,55 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-      - id: "admin"
-        name: "farhaan"
-        properties:
-        - "myView"
-        - preferredProvider:
-            providerId: "default"
-        - "timezone"
-        - mailer:
-            emailAddress: "patel.farhaaan@gmail.com"
-        - "apiToken"
-        - "slack"
+        - id: "admin"
+          name: "farhaan"
+          properties:
+            - "myView"
+            - preferredProvider:
+                providerId: "default"
+            - "timezone"
+            - mailer:
+                emailAddress: "patel.farhaaan@gmail.com"
+            - "apiToken"
+            - "slack"
   slaveAgentPort: 50000
   updateCenter:
     sites:
-    - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
+      - id: "default"
+        url: "https://updates.jenkins.io/update-center.json"
   views:
-  - list:
-      columns:
-      - "jobName"
-      - "status"
-      - "lastSuccess"
-      - "lastFailure"
-      - "lastDuration"
-      - "buildButton"
-      jobNames:
-      - "backend-cd"
-      name: "CD"
-  - list:
-      columns:
-      - "jobName"
-      - "status"
-      - "lastSuccess"
-      - "lastFailure"
-      - "lastDuration"
-      - "buildButton"
-      jobNames:
-      - "backend"
-      name: "CI"
-  - all:
-      name: "all"
+    - list:
+        columns:
+          - "jobName"
+          - "status"
+          - "lastSuccess"
+          - "lastFailure"
+          - "lastDuration"
+          - "buildButton"
+        jobNames:
+          - "backend-cd"
+        name: "CD"
+    - list:
+        columns:
+          - "jobName"
+          - "status"
+          - "lastSuccess"
+          - "lastFailure"
+          - "lastDuration"
+          - "buildButton"
+        jobNames:
+          - "backend"
+        name: "CI"
+    - all:
+        name: "all"
   viewsTabBar: "standard"
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     restrictions:
-    - includes:
-        provider: "com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider"
-        type: "org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials"
+      - includes:
+          provider: "com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider"
+          type: "org.jenkinsci.plugins.github_branch_source.GitHubAppCredentials"
     typeFilter: "none"
 security:
   apiToken:
@@ -111,11 +111,11 @@ security:
     port: -1
   scriptApproval:
     approvedScriptHashes:
-    - "SHA512:3f205299bef2fe3329258a42f2c60d332cc35ccb41a3ca0512d7869c6aff4561ff708c48123b4f7c3dec33ccca30d54fb8b9b51b5bc7070f96236d11a3f0bdcb"
+      - "SHA512:3f205299bef2fe3329258a42f2c60d332cc35ccb41a3ca0512d7869c6aff4561ff708c48123b4f7c3dec33ccca30d54fb8b9b51b5bc7070f96236d11a3f0bdcb"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
-    - "jobBuildDiscarder"
+      - "jobBuildDiscarder"
   buildStepOperation:
     enabled: false
   email-ext:
@@ -130,7 +130,7 @@ unclassified:
     defaultContentType: "text/plain"
     defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
     defaultTriggerIds:
-    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+      - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
     maxAttachmentSize: -1
     maxAttachmentSizeMb: -1
     precedenceBulk: false
@@ -149,7 +149,7 @@ unclassified:
     hookUrl: "https://mcp.deployment.***REMOVED***/github-webhook/"
   globalTimeOutConfiguration:
     operations:
-    - "abortOperation"
+      - "abortOperation"
     overwriteable: false
   injectionConfig:
     allowUntrusted: false
@@ -206,8 +206,8 @@ unclassified:
 tool:
   git:
     installations:
-    - home: "git"
-      name: "Default"
+      - home: "git"
+        name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"

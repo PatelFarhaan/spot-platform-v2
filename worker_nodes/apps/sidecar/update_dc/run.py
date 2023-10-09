@@ -1,5 +1,6 @@
-import os
 import json
+import os
+
 from ruamel.yaml import YAML
 
 
@@ -27,15 +28,12 @@ class DockerCompose:
     @staticmethod
     def get_deployment_metadata():
         deployment_config = json.load(open("/app_path/deployment.json"))
-        deployment_config["ROUTING"] = [f"{route['external_port']}:{route['internal_port']}" for route in
-                                        deployment_config["ROUTING"]]
         return deployment_config
 
     def update_docker_compose(self):
         replicas = self.get_app_replicas()
         deployment_config = self.get_deployment_metadata()
 
-        app_ports = deployment_config["ROUTING"]
         ecr_id = deployment_config["AWS_ECR_ID"]
         app_image = deployment_config["CLIENT_APP_IMAGE"]
         volume_config = deployment_config["VOLUME_CONFIG"]
@@ -58,8 +56,11 @@ class DockerCompose:
 
         if os.environ.get("TCP_APPLICATION") == 'True':
             data["services"]["main_application"].pop("expose")
+            app_ports = [f"{route['external_port']}:{route['internal_port']}" for route in
+                         deployment_config["ROUTING"]]
             data["services"]["main_application"]["ports"] = app_ports
         else:
+            app_ports = [f"{route['internal_port']}" for route in deployment_config["ROUTING"]]
             data["services"]["main_application"]["expose"] = app_ports
         data["services"]["main_application"]["image"] = app_ecr_image
         data["services"]["main_application"]["deploy"]["replicas"] = replicas

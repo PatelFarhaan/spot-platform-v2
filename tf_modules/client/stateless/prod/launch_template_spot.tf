@@ -44,7 +44,7 @@ resource "aws_launch_template" "spot_launch_template" {
     for_each = toset(local.resources)
     content {
       resource_type = tag_specifications.key
-      tags = merge(
+      tags          = merge(
         var.tags,
         {
           "Name" : "${var.name}-spot"

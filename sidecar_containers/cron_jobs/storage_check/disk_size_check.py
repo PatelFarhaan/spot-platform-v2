@@ -1,13 +1,14 @@
 # <==================================================================================================>
 #                                          IMPORTS
 # <==================================================================================================>
-import sys
 import json
 import shutil
 import subprocess
+import sys
+from datetime import datetime
 from os import environ
 from pprint import pprint
-from datetime import datetime
+
 from notification import Notification
 
 

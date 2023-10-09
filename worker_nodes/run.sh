@@ -25,17 +25,16 @@ if [ "$app_type" == "app" ]; then
 fi
 
 cd /usr/src/app/apps/sidecar &&
-
-python3 export_env/run.py &&
-mv /app_path/deployment.sh /etc/profile.d/ &&
-chmod +x /etc/profile.d/deployment.sh &&
-source /etc/profile.d/deployment.sh && echo "Exported ENV VARS"
+  python3 export_env/run.py &&
+  mv /app_path/deployment.sh /etc/profile.d/ &&
+  chmod +x /etc/profile.d/deployment.sh &&
+  source /etc/profile.d/deployment.sh && echo "Exported ENV VARS"
 
 python3 nginx_conf/run.py &&
-python3 update_dc/run.py &&
-python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
+  python3 update_dc/run.py &&
+  python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
 
 cd /app_path &&
-rm -rf deployment.json
+  rm -rf deployment.json
 
 set +x

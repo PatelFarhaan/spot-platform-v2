@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "static_hosting_bucket" {
 
 // Defining AWS Bucket Policy
 resource "aws_s3_bucket_policy" "static_hosting_bucket_policy" {
-  bucket = aws_s3_bucket.static_hosting_bucket.id
+  bucket     = aws_s3_bucket.static_hosting_bucket.id
   depends_on = [aws_s3_bucket.static_hosting_bucket]
 
   policy = <<POLICY

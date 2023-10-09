@@ -1,9 +1,10 @@
-import sys
-import hvac
 import json
-import requests
-from os import environ
+import sys
 from functools import wraps
+from os import environ
+
+import hvac
+import requests
 
 
 def check_if_service_exists(method):
