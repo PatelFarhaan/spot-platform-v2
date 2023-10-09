@@ -26,6 +26,17 @@ class DockerCompose:
         return min(replicas, desired_replicas)
 
     @staticmethod
+    def get_nginx_port(deployment_config):
+        existing_ports = ["9999:9999"]
+
+        if os.environ.get("TCP_APPLICATION") == 'True':
+            return existing_ports
+
+        for route in deployment_config["ROUTING"]:
+            existing_ports.append(f"{route['internal_port']}:{route['internal_port']}")
+        return list(set(existing_ports))
+
+    @staticmethod
     def get_deployment_metadata():
         deployment_config = json.load(open("/app_path/deployment.json"))
         return deployment_config
@@ -67,6 +78,9 @@ class DockerCompose:
 
         # Patching Cronjobs
         data["services"]["cronjobs"]["image"] = cronjob_ecr_image
+
+        # Patching Nginx
+        data["services"]["nginx"]["ports"] = self.get_nginx_port(deployment_config)
 
         with open(self.docker_compose_file, "w+") as fw:
             yaml.dump(data, fw)
