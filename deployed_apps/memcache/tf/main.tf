@@ -7,7 +7,7 @@ terraform {
     region         = "us-east-1"
     bucket         = "biosmesh-tf-state"
     dynamodb_table = "biosmesh-dynamodb-tflock-state"
-    key            = "development/redis/terraform.tfstate"
+    key            = "development/memcache/terraform.tfstate"
   }
 }
 
@@ -18,7 +18,7 @@ locals {
 }
 
 
-module "development-redis-us-east-1" {
+module "development-backend-us-east-1" {
   source = "../../../tf_modules/client/stateless/dev"
 
   app                               = local.app_data.app
