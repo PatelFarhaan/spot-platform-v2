@@ -23,5 +23,6 @@
       "external_port": 80,
       "dns": "development.biosapplication.com"
     }
-  ]
+  ],
+  "COMMANDS": []
 }
