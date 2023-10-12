@@ -1,21 +1,33 @@
+# <==================================================================================================>
+#                                          IMPORTS
+# <==================================================================================================>
+import os
 import json
 import sys
-from os import environ
 
 import hvac
 import requests
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-class Vault:
+sys.path.append(f"{current_dir}/..")
+from util import Utilities
+
+
+# <==================================================================================================>
+#                                             VAULT CLASS
+# <==================================================================================================>
+class Vault(Utilities):
     def __init__(self):
+        super().__init__()
         self.vault_token = None
         self.username = "app_role"
         self.password = "password"
         self.app_path = "/app_path"
         self.mount_point = {"mount_point": "kv"}
-        self.application = environ["APPLICATION"]
-        self.environment = environ["ENVIRONMENT"]
-        self.vault_address = environ["VAULT_ADDR"]
+        self.application = os.environ["APPLICATION"]
+        self.environment = os.environ["ENVIRONMENT"]
+        self.vault_address = self.deployment_config["VAULT_ADDR"]
         self.path = f"{self.environment}/{self.application}"
 
         self.client = self.init_server()
@@ -74,5 +86,8 @@ class Vault:
         print("ALL SECRETS AND ENV VARS ARE SECURELY INJECTED INTO THE CONTAINER!!!")
 
 
+# <==================================================================================================>
+#                                                MAIN
+# <==================================================================================================>
 if __name__ == '__main__':
     Vault().run()
