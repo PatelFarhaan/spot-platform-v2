@@ -3,38 +3,28 @@
 set -e -x
 cd /app_path/
 
-spot_plane_bucket="biosmesh-spot-plane"
-internal_s3_worker_bucket="biosmesh-apps-config"
+# Define variables
 instance_id=$(curl http://169.254.169.254/latest/meta-data/instance-id)
 region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
 tags=$(aws ec2 describe-tags --region "$region" --filter "Name=resource-id,Values=$instance_id" | jq '.Tags')
 
+# Export variables
 env=$(echo $tags | jq -r '.[] | select (.Key == "Environment") | .Value')
 application=$(echo $tags | jq -r '.[] | select (.Key == "Application") | .Value')
-app_type=$(echo $tags | jq -r '.[] | select (.Key == "spotops.app.type") | .Value')
+export APPLICATION=$application
+export ENVIRONMENT=$env
 
+# Copy config files from S3
 app_config_path="$env/$application"
+internal_s3_worker_bucket="biosmesh-apps-config"
 aws s3 cp "s3://$internal_s3_worker_bucket/$app_config_path/" /app_path/ --recursive
 
-echo $(cat deployment.json | jq --arg newval "$region" '. += { region: $newval }') >deployment.json
-echo $(cat deployment.json | jq --arg newval "$env" '. += { ENVIRONMENT: $newval }') >deployment.json
-echo $(cat deployment.json | jq --arg newval "$application" '. += { APPLICATION: $newval }') >deployment.json
-
-if [ "$app_type" == "app" ]; then
-  cp /usr/src/app/apps/* /app_path/ --recursive
-fi
-
+cp /usr/src/app/apps/* /app_path/ --recursive
 cd /usr/src/app/apps/sidecar &&
-  python3 export_env/run.py &&
-  mv /app_path/deployment.sh /etc/profile.d/ &&
-  chmod +x /etc/profile.d/deployment.sh &&
-  source /etc/profile.d/deployment.sh && echo "Exported ENV VARS"
-
-python3 nginx_conf/run.py &&
+  python3 nginx_conf/run.py &&
   python3 update_dc/run.py &&
   python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
 
-cd /app_path &&
-  rm -rf deployment.json
+cd /app_path && rm -rf deployment.json
 
 set +x

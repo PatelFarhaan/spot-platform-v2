@@ -40,16 +40,10 @@ tags:
   Owner: Bios
   MCP_SD: true
   Platform: biosmesh
-  Developer: Farhaan
   Application: memcache
   Provisioner: Terraform
   Environment: development
-  spotops.is_sts: false
-  spotops.app.type: app
   spotops.delete_ebs: true
-  spotops.optimize_od: true
-  spotops.optimize_spot: true
-  spotops.app.configuration: docker
 
 od_config:
   instance_type:

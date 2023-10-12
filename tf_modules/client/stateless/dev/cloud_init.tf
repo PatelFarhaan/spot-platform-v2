@@ -23,7 +23,7 @@ x-logging:
   options:
     keep-file: "false"
     loki-url: https://internal.loki.biosapplication.com/loki/api/v1/push
-    loki-external-labels: "instance=$hostname,application=deamon-sidecar,environment=internal,container_name={{.Name}}"
+    loki-external-labels: "instance=$hostname,application=cloud-init,environment=internal,container_name={{.Name}}"
 
 services:
   host_sidecar:
@@ -32,6 +32,8 @@ services:
     container_name: $hostname
     logging: *default-logging
     image: $ecr_mcp:host-sidecar
+    environment:
+      - "INSTANCE_HOSTNAME=$hostname"
     volumes:
       - "./:/app_path/"
       - "/etc/profile.d/:/etc/profile.d/"
