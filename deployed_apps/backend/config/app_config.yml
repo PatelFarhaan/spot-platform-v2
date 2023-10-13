@@ -53,7 +53,6 @@ tags:
   Application: backend
   Provisioner: Terraform
   Environment: development
-  spotops.delete_ebs: true
 
 od_config:
   instance_type:
