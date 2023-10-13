@@ -25,18 +25,6 @@ class DockerCompose(Utilities):
     def update_nginx(self):
         self.docker_compose["services"]["nginx"]["ports"] = self.get_nginx_port()
 
-    def update_cronjobs(self):
-        cronjob_ecr_image = f"{self.ecr_id}/{self.mcp_ecr_name}:cronjobs"
-        self.docker_compose["services"]["cronjobs"]["image"] = cronjob_ecr_image
-        self.docker_compose["services"]["cronjobs"]["environment"] = [
-            f"SCALE_VOLUME={self.deployment_config['SCALE_VOLUME']}",
-            f"SLACK_WEBHOOK={self.deployment_config['SLACK_WEBHOOK']}",
-            f"SCALE_UP_PERCENTAGE={self.deployment_config['SCALE_UP_PERCENTAGE']}",
-            f"SCALEUP_WHEN_GB_REMAINING={self.deployment_config['SCALEUP_WHEN_GB_REMAINING']}",
-            f"BLOCK_DEVICE_MAPPING_NAME={self.deployment_config['BLOCK_DEVICE_MAPPING_NAME']}",
-            f"STOP_SCALE_WHEN_GB_REACHED={self.deployment_config['STOP_SCALE_WHEN_GB_REACHED']}",
-        ]
-
     def update_logging(self):
         labels = self.docker_compose["x-logging"]["options"]["loki-external-labels"]
         labels = labels.replace("${APPLICATION}", os.environ["APPLICATION"])
@@ -68,7 +56,6 @@ class DockerCompose(Utilities):
         self.update_app()
         self.update_nginx()
         self.update_logging()
-        self.update_cronjobs()
         self.save_yaml(self.docker_compose_file, self.docker_compose)
 
 

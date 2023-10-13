@@ -10,7 +10,7 @@ x-logging:
   options:
     keep-file: "false"
     loki-url: "${LOKI_URL}"
-    loki-external-labels: "instance=${HOSTNAME},application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
+    loki-external-labels: "application=${APPLICATION},environment=${ENVIRONMENT},container_name={{.Name}}"
 
 
 services:
@@ -82,23 +82,6 @@ services:
       - "9113:9113"
     networks:
       - spotops_monitoring
-
-  cronjobs:
-    image: ""
-    user: root
-    restart: always
-    privileged: true
-    container_name: cronjobs
-    logging: *default-logging
-    environment:
-      - "SCALE_VOLUME=${SCALE_VOLUME}"
-      - "SLACK_WEBHOOK=${SLACK_WEBHOOK}"
-      - "SCALE_UP_PERCENTAGE=${SCALE_UP_PERCENTAGE}"
-      - "SCALEUP_WHEN_GB_REMAINING=${SCALEUP_WHEN_GB_REMAINING}"
-      - "BLOCK_DEVICE_MAPPING_NAME=${BLOCK_DEVICE_MAPPING_NAME}"
-      - "STOP_SCALE_WHEN_GB_REACHED=${STOP_SCALE_WHEN_GB_REACHED}"
-    volumes:
-      - /dev:/dev:rw
 
   main_application:
     image: ""

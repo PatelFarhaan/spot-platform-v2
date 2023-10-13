@@ -19,7 +19,7 @@ locals {
 
 
 module "development-backend-us-east-1" {
-  source = "../../../tf_modules/client/stateless/dev"
+  source = "../../../tf_modules/client"
 
   app                               = local.app_data.app
   env                               = local.app_data.env
