@@ -2,7 +2,7 @@
 resource "aws_alb_listener_rule" "secure_port" {
   for_each = {for dns in var.routing : dns["name"] => dns}
 
-  listener_arn = each.value["external_port"] == 80 ? data.aws_lb_listener.global_lb_443_listener.arn : aws_lb_listener.global_lb_additional_listeners[each.key].arn
+  listener_arn = each.value["servicePorts"]["external"] == 80 ? data.aws_lb_listener.global_lb_443_listener.arn : aws_lb_listener.global_lb_additional_listeners[each.key].arn
 
   action {
     type             = "forward"
@@ -12,13 +12,13 @@ resource "aws_alb_listener_rule" "secure_port" {
   condition {
     host_header {
       values = [
-        each.value["dns"],
-        "www.${each.value["dns"]}"
+        each.value["dnsName"],
+        "www.${each.value["dnsName"]}"
       ]
     }
   }
 
-  tags = merge(var.tags,
+  tags = merge(local.tags,
     {
       "Name" = var.name
     }

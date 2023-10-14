@@ -5,27 +5,27 @@ resource "aws_lb_target_group" "target_group" {
   deregistration_delay          = 100
   protocol                      = "HTTP"
   target_type                   = "instance"
-  port                          = each.value["internal_port"]
   load_balancing_algorithm_type = "least_outstanding_requests"
+  port                          = each.value["servicePorts"]["internal"]
   vpc_id                        = data.aws_lb.global_dev_apps_load_balancer.vpc_id
 
   health_check {
     healthy_threshold   = 3
     unhealthy_threshold = 10
     timeout             = 70
-    interval            = 120
     enabled             = true
     matcher             = "200"
     protocol            = "HTTP"
-    port                = "9999"
-    path                = "/internal/spotops/health"
+    interval            = var.liveness_probe["periodSeconds"]
+    path                = var.liveness_probe["httpGet"]["path"]
+    port                = var.liveness_probe["httpGet"]["port"]
   }
 
   lifecycle {
     create_before_destroy = true
   }
 
-  tags = merge(var.tags,
+  tags = merge(local.tags,
     {
       "Name" = var.name
     }
