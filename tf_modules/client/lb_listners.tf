@@ -18,9 +18,9 @@ resource "aws_lb_listener" "global_lb_additional_listeners" {
 
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  port              = each.value["external_port"]
+  port              = each.value["servicePorts"]["external"]
   load_balancer_arn = data.aws_lb.global_dev_apps_load_balancer.arn
-  certificate_arn   = aws_acm_certificate.application_specific_certs[each.value["dns"]].arn
+  certificate_arn   = aws_acm_certificate.application_specific_certs[each.value["dnsName"]].arn
 
   default_action {
     type             = "forward"
@@ -33,9 +33,9 @@ resource "aws_lb_listener" "global_lb_additional_listeners" {
     aws_acm_certificate_validation.mcp_acm_certificate_validation
   ]
 
-  tags = merge(var.tags,
+  tags = merge(local.tags,
     {
-      "Name" = "${var.name}-listener-${each.value["external_port"]}"
+      "Name" = "${var.name}-listener-${each.value["servicePorts"]["external"]}"
     }
   )
 }

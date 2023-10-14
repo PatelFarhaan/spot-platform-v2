@@ -2,9 +2,9 @@
 resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
   name                 = "${var.name}-od"
   termination_policies = ["OldestInstance"]
-  min_size             = var.od_asg_min_instances
-  max_size             = var.od_asg_max_instances
-  desired_capacity     = var.od_asg_desired_instances
+  min_size             = var.od_config["minInstances"]
+  max_size             = var.od_config["maxInstances"]
+  desired_capacity     = var.od_config["desiredInstances"]
   vpc_zone_identifier  = data.aws_lb.global_dev_apps_load_balancer.subnets
   target_group_arns    = [for target_group in aws_lb_target_group.target_group : target_group.arn]
 
@@ -16,7 +16,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
       }
 
       dynamic "override" {
-        for_each = var.od_instance_type
+        for_each = var.autoscaling["instanceType"]
         content {
           instance_type = override.value
         }
@@ -58,7 +58,7 @@ resource "aws_autoscaling_group" "on_demand_autoscaling_group" {
   }
 
   dynamic "tag" {
-    for_each = var.tags
+    for_each = local.tags
     content {
       key                 = tag.key
       value               = tag.value
