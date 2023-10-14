@@ -58,7 +58,7 @@ resource "aws_security_group" "app_sg" {
     create_before_destroy = true
   }
 
-  tags = merge(var.tags,
+  tags = merge(local.tags,
     {
       "Name" = "${var.name}-app-sg"
     }

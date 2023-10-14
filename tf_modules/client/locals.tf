@@ -8,13 +8,27 @@ locals {
 locals {
   filtered_dns_list = [
     for obj in var.routing : obj
-    if  obj["external_port"] != 80 &&
-    obj["external_port"] != 443
+    if  obj["servicePorts"]["external"] != 80 &&
+    obj["servicePorts"]["external"] != 443
   ]
 }
 
 
 // Unique DNS List
 locals {
-  unique_dns_list = toset(flatten([for dns in var.routing : dns["dns"]]))
+  unique_dns_list = toset(flatten([for dns in var.routing : dns["dnsName"]]))
+}
+
+
+// Merging tags
+locals {
+  tags = merge(
+    {
+      "Application" = var.app
+    },
+    {
+      "Environment" = var.env
+    },
+    var.tags
+  )
 }

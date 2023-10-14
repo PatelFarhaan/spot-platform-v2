@@ -27,9 +27,9 @@ resource "aws_launch_template" "spot_launch_template" {
     ebs {
       throughput            = 125
       iops                  = 3000
-      volume_type           = var.volume_type
+      volume_type           = "gp3"
       volume_size           = var.ebs_volume_size
-      delete_on_termination = var.tags["spotops.delete_ebs"]
+      delete_on_termination = var.statefulset ? false : true
     }
   }
 
@@ -39,7 +39,7 @@ resource "aws_launch_template" "spot_launch_template" {
 
   tag_specifications {
     resource_type = "instance"
-    tags          = var.tags
+    tags          = local.tags
   }
 
   dynamic "tag_specifications" {
@@ -47,7 +47,7 @@ resource "aws_launch_template" "spot_launch_template" {
     content {
       resource_type = tag_specifications.key
       tags          = merge(
-        var.tags,
+        local.tags,
         {
           "Name" : "${var.name}-spot"
         }
@@ -55,7 +55,7 @@ resource "aws_launch_template" "spot_launch_template" {
     }
   }
 
-  tags = merge(var.tags,
+  tags = merge(local.tags,
     {
       "Name" = var.name
     }

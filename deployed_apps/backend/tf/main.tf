@@ -12,45 +12,38 @@ terraform {
 }
 
 
-// Reading data variables from app_config.yml file
+// Reading data variables
 locals {
-  app_data = yamldecode(file("./../config/app_config.yml"))
+  app_config      = yamldecode(file("./../config.yml"))
+  cluster_config  = yamldecode(file("./../config/cluster_config.json"))
+  platform_config = yamldecode(file("./../config/platform_config.yml"))
 }
 
 
 module "development-backend-us-east-1" {
   source = "../../../tf_modules/client"
 
-  app                               = local.app_data.app
-  env                               = local.app_data.env
-  tags                              = local.app_data.tags
-  region                            = local.app_data.region
-  ami_id                            = local.app_data.ami_id
-  routing                           = local.app_data.routing
-  volume_type                       = local.app_data.volume_type
-  prefix_name                       = local.app_data.prefix_name
-  key_name                          = local.app_data.ssh_key_name
-  ebs_volume_size                   = local.app_data.ebs_volume_size
-  ecr_mcp                           = local.app_data.internal_ecr_mcp
-  sns_subscriptions                 = local.app_data.sns_subscriptions
-  zone_name                         = local.app_data.internal_zone_name
-  mcp_sg_id                         = local.app_data.internal_mcp_sg_id
-  client_defined_policies           = local.app_data.client_defined_policies
-  internal_s3_worker_bucket         = local.app_data.internal_s3_worker_bucket
-  lb_algorithm_type                 = local.app_data.internal_lb_algorithm_type
-  spot_plane_bucket                 = local.app_data.internal_spot_plane_bucket
-  internal_s3_spot_plane_bucket     = local.app_data.internal_s3_spot_plane_bucket
-  global_dev_apps_load_balancer_arn = local.app_data.internal_global_dev_apps_lb_arn
-  name                              = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data.app}"
-  global_name                       = "${local.app_data.internal_platform}-${local.app_data.env}-${local.app_data.app}-${local.app_data.region}"
-
-  od_instance_type         = local.app_data.od_config.instance_type
-  od_asg_min_instances     = local.app_data.od_config.auto_scaling_group.min_instances
-  od_asg_max_instances     = local.app_data.od_config.auto_scaling_group.max_instances
-  od_asg_desired_instances = local.app_data.od_config.auto_scaling_group.desired_instances
-
-  spot_instance_type         = local.app_data.spot_config.instance_type
-  spot_asg_min_instances     = local.app_data.spot_config.auto_scaling_group.min_instances
-  spot_asg_max_instances     = local.app_data.spot_config.auto_scaling_group.max_instances
-  spot_asg_desired_instances = local.app_data.spot_config.auto_scaling_group.desired_instances
+  app                               = local.app_config.name
+  tags                              = local.app_config.tags
+  sns_subscriptions                 = local.app_config.alerts
+  region                            = local.app_config.region
+  routing                           = local.app_config.routing
+  ami_id                            = local.platform_config.AMI_ID
+  key_name                          = local.platform_config.SSH_KEY_NAME
+  client_defined_policies           = local.app_config.iam.policy_definition
+  statefulset                       = local.app_config.deployment.statefulset
+  zone_name                         = local.cluster_config.global_zone_name_1
+  env                               = local.app_config.deployment.environment
+  ebs_volume_size                   = local.app_config.deployment.baseDiskSize
+  liveness_probe                    = local.app_config.deployment.livenessProbe
+  mcp_sg_id                         = local.platform_config.OBSERVABILITY_SG_ID
+  global_dev_apps_load_balancer_arn = local.cluster_config.global_dev_apps_lb_arn
+  autoscaling                       = local.app_config.deployment.autoScalingGroup
+  ecr_mcp                           = local.platform_config.INTERNAL_APPS_REGISTRY
+  internal_s3_worker_bucket         = local.cluster_config.s3_mcp_worker_bucket_name
+  od_config                         = local.app_config.deployment.autoScalingGroup.od
+  spot_config                       = local.app_config.deployment.autoScalingGroup.spot
+  internal_s3_spot_plane_bucket     = local.cluster_config.s3_mcp_spot_plane_bucket_name
+  name                              = "biosmesh-${local.app_config.deployment.environment}-${local.app_config.name}"
+  global_name                       = "biosmesh-${local.app_config.deployment.environment}-${local.app_config.name}-${local.app_config.region}"
 }
