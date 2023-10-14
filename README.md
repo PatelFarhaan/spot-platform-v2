@@ -8,17 +8,16 @@
    will store all the logs and metrics of the application service
 5. Once this is completed, then we are good to create/deploy the application using application service in the Jenkins
    server
-   
 
 There are only 100 rules per LB: if any app is close to that, create a new lb
 p99, latancy records
 auto instrumentation for traces and metrics using open telemetry
 configure aws ssm agents
 
-
 latest:
-convert to yaml
+convert to yaml -> Done
+remove prod tf from client -> Done
+update host sidecar to use config.yml and replace deployment.json with config.yml
 add internal LB
 http redirect logic in client tf instead of landscape
-remove prod tf from client
 add sts support

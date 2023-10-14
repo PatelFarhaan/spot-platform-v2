@@ -1,9 +1,0 @@
-
-
-
-{
-  "AWS_ECR_MCP_REPO_NAME": "biosmesh-internal-apps",
-  "VAULT_ADDR": "https://internal.vault.biosapplication.com",
-  "LOKI_URL": "https://internal.loki.biosapplication.com/loki/api/v1/push",
-  "SLACK_WEBHOOK": "https://hooks.slack.com/services/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",
-}
