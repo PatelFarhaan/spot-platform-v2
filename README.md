@@ -17,8 +17,9 @@ configure aws ssm agents
 latest:
 convert to yaml -> Done
 remove prod tf from client -> Done
-update host sidecar to use config.yml and replace deployment.json with config.yml
+update host sidecar to use config.yml and replace deployment.json with config.yml -> Done
 http redirect logic in client tf instead of landscape
 add sts support
 add internal LB
 support for config map
+https://marcospereirajr.com.br/using-nginx-as-api-gateway-7bebb3614e48

@@ -30,7 +30,7 @@ module "development-backend-us-east-1" {
   routing                           = local.app_config.routing
   ami_id                            = local.platform_config.AMI_ID
   key_name                          = local.platform_config.SSH_KEY_NAME
-  client_defined_policies           = local.app_config.iam.policy_definition
+  client_defined_policies           = local.app_config.iam.policyDefinition
   statefulset                       = local.app_config.deployment.statefulset
   zone_name                         = local.cluster_config.global_zone_name_1
   env                               = local.app_config.deployment.environment

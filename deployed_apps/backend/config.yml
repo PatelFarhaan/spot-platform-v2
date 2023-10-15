@@ -22,8 +22,8 @@ routing:
       nodelay: true
 
 iam:
-  policy_arn: [ ]
-  policy_definition:
+  policyArn: [ ]
+  policyDefinition:
     - Resource: "*"
       Effect: Allow
       Action: ec2:DescribeTags
