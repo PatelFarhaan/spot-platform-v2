@@ -3,6 +3,28 @@ data "template_file" "spotops_user_data" {
   template = <<EOF
 #!/bin/bash
 
+max_retries=5
+retry_delay=2
+
+# Function to perform Docker login with retries
+function docker_login_with_retry {
+    local retries=0
+    while [ $retries -lt $max_retries ]; do
+        # Attempt to log in
+        if aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "$ecr_mcp"; then
+            echo "Docker login succeeded."
+            return 0
+        else
+            echo "Docker login failed. Retrying in $retry_delay seconds (attempt $((retries+1)) of $max_retries)..."
+            sleep $retry_delay
+        fi
+        ((retries++))
+    done
+
+    echo "Docker login failed after $max_retries attempts. Exiting."
+    return 1
+}
+
 set -e -x
 sudo mkdir -p /var/opt/spotops/agents
 cd /var/opt/spotops/agents/
@@ -10,7 +32,7 @@ cd /var/opt/spotops/agents/
 hostname=`hostname`
 ecr_mcp=${var.ecr_mcp}
 region=$(curl http://169.254.169.254/latest/meta-data/placement/region)
-aws ecr get-login-password --region "$region" | docker login --username AWS --password-stdin "${var.ecr_mcp}"
+docker_login_with_retry
 
 sudo docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 
@@ -23,7 +45,7 @@ x-logging:
   options:
     keep-file: "false"
     loki-url: https://internal.loki.***REMOVED***/loki/api/v1/push
-    loki-external-labels: "instance=$hostname,application=cloud-init,environment=internal,container_name={{.Name}}"
+    loki-external-labels: "application=cloud-init,environment=internal,container_name={{.Name}}"
 
 services:
   host_sidecar:
@@ -31,9 +53,7 @@ services:
     privileged: true
     container_name: $hostname
     logging: *default-logging
-    image: $ecr_mcp:host-sidecar
-    environment:
-      - "INSTANCE_HOSTNAME=$hostname"
+    image: $ecr_mcp:cloud-init
     volumes:
       - "./:/app_path/"
       - "/etc/profile.d/:/etc/profile.d/"
@@ -51,6 +71,5 @@ echo "Staring docker containers..."
 sudo -E docker-compose -f docker-compose.yml up -d --build --force-recreate --remove-orphans
 sleep 10
 
-echo "SIDECAR SUCCESSFULLY COMPLETED!!!"
 EOF
 }

@@ -14,15 +14,7 @@ resource "aws_iam_policy" "ec2_spotops_policy" {
         "Resource" : "*"
         "Effect" : "Allow",
         "Action" : [
-          "autoscaling:DetachInstances"
-        ],
-      },
-      {
-        "Resource" : "*"
-        "Effect" : "Allow",
-        "Action" : [
           "ec2:Describe*",
-          "ec2:ModifyVolume"
         ],
       },
       {
@@ -41,8 +33,8 @@ resource "aws_iam_policy" "ec2_spotops_policy" {
           "s3:List*"
         ],
         "Resource" : [
-          "arn:aws:s3:::${var.internal_s3_worker_bucket}",
-          "arn:aws:s3:::${var.internal_s3_worker_bucket}/${var.env}/${var.app}/*",
+          "arn:aws:s3:::${var.internal_s3_spot_plane_bucket}",
+          "arn:aws:s3:::${var.internal_s3_spot_plane_bucket}/config/*",
         ]
       },
       {
@@ -52,8 +44,8 @@ resource "aws_iam_policy" "ec2_spotops_policy" {
           "s3:List*"
         ],
         "Resource" : [
-          "arn:aws:s3:::${var.internal_s3_spot_plane_bucket}",
-          "arn:aws:s3:::${var.internal_s3_spot_plane_bucket}/worker_agents/*",
+          "arn:aws:s3:::${var.internal_s3_client_app_bucket}",
+          "arn:aws:s3:::${var.internal_s3_client_app_bucket}/${var.env}/${var.app}/*",
         ]
       }
     ]

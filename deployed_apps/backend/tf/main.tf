@@ -40,10 +40,10 @@ module "development-backend-us-east-1" {
   global_dev_apps_load_balancer_arn = local.cluster_config.global_dev_apps_lb_arn
   autoscaling                       = local.app_config.deployment.autoScalingGroup
   ecr_mcp                           = local.platform_config.INTERNAL_APPS_REGISTRY
-  internal_s3_worker_bucket         = local.cluster_config.s3_mcp_worker_bucket_name
   od_config                         = local.app_config.deployment.autoScalingGroup.od
   spot_config                       = local.app_config.deployment.autoScalingGroup.spot
   internal_s3_spot_plane_bucket     = local.cluster_config.s3_mcp_spot_plane_bucket_name
+  internal_s3_client_app_bucket     = local.cluster_config.s3_mcp_client_apps_bucket_name
   name                              = "biosmesh-${local.app_config.deployment.environment}-${local.app_config.name}"
   global_name                       = "biosmesh-${local.app_config.deployment.environment}-${local.app_config.name}-${local.app_config.region}"
 }

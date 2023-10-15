@@ -17,7 +17,9 @@ export ENVIRONMENT=$env
 # Copy config files from S3
 app_config_path="$env/$application"
 internal_s3_worker_bucket="biosmesh-apps-config"
+internal_s3_spot_plane_bucket="biosmesh-spot-plane"
 aws s3 cp "s3://$internal_s3_worker_bucket/$app_config_path/" /app_path/ --recursive
+aws s3 cp "s3://$internal_s3_spot_plane_bucket/config" /app_path/ --recursive
 
 cp /usr/src/app/apps/* /app_path/ --recursive
 cd /usr/src/app/apps/sidecar &&
@@ -25,6 +27,7 @@ cd /usr/src/app/apps/sidecar &&
   python3 update_dc/run.py &&
   python3 vault/run.py && echo "PATCHED DOCKER COMPOSE"
 
-cd /app_path && rm -rf deployment.json
+cd /app_path && rm -rf cluster_config.json config.yml platform_config.yml
 
 set +x
+echo "CLOUD INIT SUCCESSFULLY COMPLETED!!!"

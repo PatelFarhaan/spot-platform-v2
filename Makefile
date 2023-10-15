@@ -124,9 +124,9 @@ deployment_teardown:
 #<==================================================================================================>
 
 # HOST SIDECAR
-build_and_deploy_hostsidecar: ecr_login
-	cd worker_nodes && \
-	docker buildx build --push --platform linux/x86_64 -t $(ECR_HOST)/biosmesh-internal-apps:host-sidecar .
+build_and_deploy_cloudinit: ecr_login
+	cd cloud_init && \
+	docker buildx build --push --platform linux/x86_64 -t $(ECR_HOST)/biosmesh-internal-apps:cloud-init .
 
 
 # CRONJOB SIDECAR

@@ -16,10 +16,7 @@ from util import Utilities
 class DockerCompose(Utilities):
     def __init__(self):
         super().__init__()
-        self.app_ecr_image = self.get_app_image()
-        self.ecr_id = self.deployment_config["AWS_ECR_ID"]
-        self.volume_config = self.deployment_config["VOLUME_CONFIG"]
-        self.mcp_ecr_name = self.deployment_config["AWS_ECR_MCP_REPO_NAME"]
+        self.app_image = self.get_app_image()
         self.docker_compose = self.read_yaml_file(self.docker_compose_file)
 
     def update_nginx(self):
@@ -29,27 +26,28 @@ class DockerCompose(Utilities):
         labels = self.docker_compose["x-logging"]["options"]["loki-external-labels"]
         labels = labels.replace("${APPLICATION}", os.environ["APPLICATION"])
         labels = labels.replace("${ENVIRONMENT}", os.environ["ENVIRONMENT"])
-        labels = labels.replace("${HOSTNAME}", os.environ["INSTANCE_HOSTNAME"])
         self.docker_compose["x-logging"]["options"]["loki-external-labels"] = labels
-        self.docker_compose["x-logging"]["options"]["loki-url"] = self.deployment_config["LOKI_URL"]
+        self.docker_compose["x-logging"]["options"]["loki-url"] = self.platform_config["LOKI_URL"]
 
     def update_app(self):
-        self.docker_compose["services"]["main_application"]["image"] = self.app_ecr_image
+        self.docker_compose["services"]["main_application"]["image"] = self.app_image
         self.docker_compose["services"]["main_application"]["deploy"]["replicas"] = self.get_app_replicas()
 
-        if self.volume_config:
-            self.docker_compose["services"]["main_application"]["volumes"] = self.volume_config
-
-        if self.deployment_config["COMMANDS"]:
-            self.docker_compose["services"]["main_application"]["command"] = self.deployment_config["COMMANDS"]
+        if self.deployment.get("extraConfig", {}).get("commands"):
+            self.docker_compose["services"]["main_application"]["command"] = self.deployment["extraConfig"]["commands"]
 
         if self.tcp_application:
             self.docker_compose["services"]["main_application"].pop("expose")
-            app_ports = [f"{route['external_port']}:{route['internal_port']}" for route in
-                         self.deployment_config["ROUTING"]]
+            app_ports = [
+                f"{route['servicePorts']['external']}:{route['servicePorts']['internal']}"
+                for route in self.routing
+            ]
             self.docker_compose["services"]["main_application"]["ports"] = app_ports
         else:
-            app_ports = [f"{route['internal_port']}" for route in self.deployment_config["ROUTING"]]
+            app_ports = [
+                f"{route['servicePorts']['internal']}"
+                for route in self.routing
+            ]
             self.docker_compose["services"]["main_application"]["expose"] = app_ports
 
     def run(self):

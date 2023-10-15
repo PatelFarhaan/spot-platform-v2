@@ -11,7 +11,6 @@ export AWS_PROFILE
 #<==================================================================================================>
 #                                            FUNCTIONS
 #<==================================================================================================>
-# UPLOAD PLATFORM FILES TO S3
 define terraform_functions
 	cd "$(2)" && mkdir config && \
 	aws s3 cp s3://biosmesh-spot-plane/config/ ./config/ --recursive
