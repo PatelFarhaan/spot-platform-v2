@@ -17,7 +17,7 @@ routing:
       external: 80
       internal: 5000
     rateLimit:
-      rate: 10/s
+      rate: 10r/s
       burst: 0
       nodelay: true
 
@@ -40,7 +40,6 @@ iam:
       Resource:
         - arn:aws:s3:::bios-3d-models
         - arn:aws:s3:::bios-3d-models/*
-
 
 alerts:
   - protocol: email

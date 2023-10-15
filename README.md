@@ -18,6 +18,7 @@ latest:
 convert to yaml -> Done
 remove prod tf from client -> Done
 update host sidecar to use config.yml and replace deployment.json with config.yml
-add internal LB
 http redirect logic in client tf instead of landscape
 add sts support
+add internal LB
+support for config map

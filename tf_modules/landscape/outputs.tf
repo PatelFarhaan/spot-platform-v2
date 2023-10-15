@@ -14,16 +14,16 @@ output "s3_mcp_vault_bucket_name" {
   value = aws_s3_bucket.vault_bucket.bucket
 }
 
-output "s3_mcp_worker_bucket_name" {
-  value = aws_s3_bucket.worker_bucket.bucket
-}
-
 output "s3_mcp_tfstate_bucket_name" {
   value = aws_s3_bucket.tfstate_bucket.bucket
 }
 
 output "vault_kms_id" {
   value = aws_kms_key.vault_auto_unseal.key_id
+}
+
+output "s3_mcp_client_apps_bucket_name" {
+  value = aws_s3_bucket.client_apps_bucket.bucket
 }
 
 output "tfstate_dynamodb_name" {

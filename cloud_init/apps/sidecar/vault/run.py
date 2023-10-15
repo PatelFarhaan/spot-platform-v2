@@ -27,7 +27,7 @@ class Vault(Utilities):
         self.mount_point = {"mount_point": "kv"}
         self.application = os.environ["APPLICATION"]
         self.environment = os.environ["ENVIRONMENT"]
-        self.vault_address = self.deployment_config["VAULT_ADDR"]
+        self.vault_address = self.platform_config["VAULT_ADDR"]
         self.path = f"{self.environment}/{self.application}"
 
         self.client = self.init_server()
