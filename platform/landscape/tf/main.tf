@@ -30,8 +30,8 @@ module "base_tf_module" {
   dynamodb_name              = local.config_data.dynamodb_name
   mcp_bucket                 = local.config_data.s3_buckets.mcp
   vault_bucket               = local.config_data.s3_buckets.vault
-  workers_bucket             = local.config_data.s3_buckets.workers
   tfstate_bucket             = local.config_data.s3_buckets.tfstate
+  client_apps_bucket         = local.config_data.s3_buckets.client_apps
   static_hosting_bucket      = local.config_data.s3_buckets.static_hosting
   global_mcp_apps_lb         = local.config_data.load_balancers.global_mcp_apps
   global_dev_apps_lb         = local.config_data.load_balancers.global_dev_apps

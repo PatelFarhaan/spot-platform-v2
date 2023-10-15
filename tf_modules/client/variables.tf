@@ -16,7 +16,7 @@ variable "spot_config" {}
 variable "liveness_probe" {}
 variable "ebs_volume_size" {}
 variable "client_defined_policies" {}
-variable "internal_s3_worker_bucket" {}
+variable "internal_s3_client_app_bucket" {}
 variable "internal_s3_spot_plane_bucket" {}
 variable "global_dev_apps_load_balancer_arn" {}
 

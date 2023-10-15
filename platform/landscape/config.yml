@@ -25,7 +25,7 @@ s3_buckets:
   vault: biosmesh-vault
   mcp: biosmesh-spot-plane
   tfstate: biosmesh-tf-state
-  workers: biosmesh-apps-config
+  client_apps: biosmesh-apps-config
   static_hosting: biosmesh-static-hosting
 
 subnet_ids:

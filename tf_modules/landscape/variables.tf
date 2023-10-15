@@ -10,8 +10,8 @@ variable "kms_name" {}
 variable "mcp_bucket" {}
 variable "vault_bucket" {}
 variable "dynamodb_name" {}
-variable "workers_bucket" {}
 variable "tfstate_bucket" {}
+variable "client_apps_bucket" {}
 variable "global_mcp_apps_lb" {}
 variable "global_dev_apps_lb" {}
 variable "static_hosting_bucket" {}
